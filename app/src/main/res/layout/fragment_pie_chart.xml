@@ -7,22 +7,9 @@
     android:layout_height="match_parent"
     android:name=".ui.charts.pie.PieChartFragment">
 
-    <LinearLayout
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/text_view_id"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            tools:layout_editor_absoluteX="105dp"
-            tools:layout_editor_absoluteY="47dp"
-            android:text="hello" />
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
