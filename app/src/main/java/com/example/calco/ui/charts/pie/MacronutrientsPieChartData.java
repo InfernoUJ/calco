@@ -9,13 +9,13 @@ import com.github.mikephil.charting.data.PieEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MacronutrientsPieData {
+public abstract class MacronutrientsPieChartData {
     protected Integer chartLoading;
     protected int[] colors;
     protected String macronutrient;
-//    public void setupPieChart(Integer chartLoading) {
-//        this.chartLoading = chartLoading > 100 ? 100 : chartLoading;
-//    }
+    public void setupPieChart(Integer chartLoading) {
+        this.chartLoading = chartLoading > 100 ? 100 : chartLoading;
+    }
     public PieData getPieData() {
         List<PieEntry> pieEntries = new ArrayList<>();
         pieEntries.add(new PieEntry(chartLoading, ""));

@@ -24,10 +24,10 @@ public class CCFPPieChartGroupFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        setupPieChart(binding.pieChartCalories, new CarbsPieData(50).getPieData());
-        setupPieChart(binding.pieChartCarbs, new CarbsPieData(70).getPieData());
-        setupPieChart(binding.pieChartFats, new CarbsPieData(80).getPieData());
-        setupPieChart(binding.pieChartProteins, new CarbsPieData(30).getPieData());
+        setupPieChart(binding.pieChartCalories, new CaloriesPieChartData(50).getPieData());
+        setupPieChart(binding.pieChartCarbs, new CarbsPieChartData(70).getPieData());
+        setupPieChart(binding.pieChartFats, new FatsPieChartData(80).getPieData());
+        setupPieChart(binding.pieChartProteins, new ProteinsPieChartData(30).getPieData());
 
         return root;
     }
