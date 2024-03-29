@@ -1,11 +1,17 @@
 package com.example.calco.ui.charts.pie;
 
-import android.graphics.Color;
+import android.content.Context;
+
+import androidx.core.content.ContextCompat;
+
+import com.example.calco.R;
 
 public class FatsPieChartData extends MacronutrientsPieChartData {
-    public FatsPieChartData(Integer chartLoading) {
-        this.colors = new int[]{Color.YELLOW, Color.GRAY};
+    public FatsPieChartData(Context context, Integer chartLoading) {
+        super(context);
+        this.colors = new int[] { ContextCompat.getColor(context, R.color.PIE_CHART_FATS),
+                ContextCompat.getColor(context, R.color.PIE_CHART_BG) };
         this.macronutrient = "Carbs";
-        this.chartLoading = chartLoading > 100 ? 100 : chartLoading;
+        setupPieChart(chartLoading);
     }
 }
