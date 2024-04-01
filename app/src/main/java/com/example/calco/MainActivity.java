@@ -3,7 +3,10 @@ package com.example.calco;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ScrollView;
 
+import com.example.calco.ui.products.table.ProductImpactRecordData;
+import com.example.calco.ui.products.table.ProductTableFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -46,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
+
+        ProductTableFragment productTable = (ProductTableFragment) getSupportFragmentManager().findFragmentById(R.id.product_table_fragment);
+        if (productTable != null) {
+            productTable.addProduct(new ProductImpactRecordData("Product 1", 10, 100, R.drawable.question_mark));
+        }
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
