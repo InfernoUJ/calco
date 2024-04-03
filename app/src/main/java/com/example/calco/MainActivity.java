@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         ProductTableFragment productTable = (ProductTableFragment) getSupportFragmentManager().findFragmentById(R.id.product_table_fragment);
         if (productTable != null) {
-            productTable.addProduct(new ProductImpactRecordData("Product 1", 10, 100, R.drawable.question_mark));
+            for (int i = 0; i < 10; i++) {
+                productTable.addProduct(new ProductImpactRecordData("Product " + i, i * 10, i * 100, R.drawable.question_mark));
+            }
         }
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

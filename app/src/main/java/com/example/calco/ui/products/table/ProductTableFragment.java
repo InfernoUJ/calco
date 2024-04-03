@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.example.calco.R;
 import com.example.calco.databinding.FragmentProductTableBinding;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Field;
 
 public class ProductTableFragment extends Fragment {
     private FragmentProductTableBinding binding;
@@ -28,7 +30,8 @@ public class ProductTableFragment extends Fragment {
 
     public void addProduct(ProductImpactRecordData productImpactRecordData) {
         // todo - what does attach to root do?
-        View productRow = LayoutInflater.from(getContext()).inflate(R.layout.product_table_record, binding.productTableLinearLayout, true);
+//        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, true);
+        View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
         ImageView productImage = productRow.findViewById(R.id.product_image);
         TextView productName = productRow.findViewById(R.id.product_name);
         TextView productPercentImpact = productRow.findViewById(R.id.product_percent);
@@ -36,18 +39,30 @@ public class ProductTableFragment extends Fragment {
 
         productImage.setImageResource(productImpactRecordData.getImageId());
         productName.setText(productImpactRecordData.getName());
-        productPercentImpact.setText(productImpactRecordData.getPercentage().toString());
+        productPercentImpact.setText(getPercentageOfRecordAsString(productImpactRecordData));
         productAbsoluteImpact.setText(productImpactRecordData.getAbsoluteValue().toString());
 
+        binding.productTableLinearLayout.addView(productRow);
+
+        System.out.println("Id: " + binding.productTableLinearLayout.getId() + " Child count: " + binding.productTableLinearLayout.getChildCount());
     }
 
     public void addProducts(List<ProductImpactRecordData> productImpactRecordDataList) {
-        // todo
+        for (ProductImpactRecordData productImpactRecordData : productImpactRecordDataList) {
+            addProduct(productImpactRecordData);
+        }
     }
 
     public void replaceProducts(List<ProductImpactRecordData> newProductImpactRecordDataList) {
-        // todo
+        removeAllProductRecords();
+        addProducts(newProductImpactRecordDataList);
     }
 
+    private String getPercentageOfRecordAsString(ProductImpactRecordData productImpactRecordData) {
+        return productImpactRecordData.getPercentage() + "%";
+    }
 
+    private void removeAllProductRecords() {
+        binding.productTableLinearLayout.removeAllViews();
+    }
 }

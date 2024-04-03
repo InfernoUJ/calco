@@ -73,11 +73,12 @@
         android:id="@+id/product_table_fragment"
         android:name="com.example.calco.ui.products.table.ProductTableFragment"
         android:layout_width="404dp"
-        android:layout_height="116dp"
+        android:layout_height="300dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_ccfp_pie_chart_group" />
+        app:layout_constraintTop_toTopOf="@+id/radioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_product_table" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
