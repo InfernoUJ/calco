@@ -13,9 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.calco.R;
 import com.example.calco.databinding.FragmentProductTableBinding;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Field;
 
 public class ProductTableFragment extends Fragment {
     private FragmentProductTableBinding binding;
@@ -29,7 +27,6 @@ public class ProductTableFragment extends Fragment {
     }
 
     public void addProduct(ProductImpactRecordData productImpactRecordData) {
-        // todo - what does attach to root do?
 //        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, true);
         View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
         ImageView productImage = productRow.findViewById(R.id.product_image);
