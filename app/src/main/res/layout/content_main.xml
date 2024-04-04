@@ -27,18 +27,32 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/chooseDateBtn"
         tools:layout="@layout/fragment_ccfp_pie_chart_group" />
+
+    <Button
+        android:id="@+id/chooseDateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        android:text="Pick date"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="385dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseDateBtn"
+        app:layout_constraintBottom_toTopOf="@+id/product_table_fragment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <RadioButton
             android:id="@+id/radioButton5"
@@ -72,12 +86,13 @@
     <fragment
         android:id="@+id/product_table_fragment"
         android:name="com.example.calco.ui.products.table.ProductTableFragment"
-        android:layout_width="404dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_product_table" />
 
