@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/last_product_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+    <TextView
+        android:id="@+id/last_product_name"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/last_product_image"
+        android:layout_toEndOf="@id/last_product_image" />
+
+    <TableLayout
+        android:id="@+id/last_product_ccfp_table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/last_product_name"
+        android:layout_alignBottom="@id/last_product_image">
+        <TableRow>
+            <TextView
+                android:text="Calories"
+                android:gravity="center"/>
+            <TextView
+                android:text="Carbs"
+                android:gravity="center"/>
+            <TextView
+                android:text="Fats"
+                android:gravity="center"/>
+            <TextView
+                android:text="Proteins"
+                android:gravity="center"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/last_product_calories"
+                android:gravity="center"
+                android:text="0g"/>
+            <TextView
+                android:id="@+id/last_product_carbs"
+                android:gravity="center"
+                android:text="0g"/>
+            <TextView
+                android:id="@+id/last_product_fats"
+                android:gravity="center"
+                android:text="0g"/>
+            <TextView
+                android:id="@+id/last_product_proteins"
+                android:gravity="center"
+                android:text="0g"/>
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>
