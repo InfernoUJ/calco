@@ -1,5 +1,6 @@
 package com.example.calco;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        setHandlers();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -78,14 +81,24 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void setDateChoosing() {
+    private void setHandlers() {
+        setDateChoosingHandlers();
+        setAddingProductHandlers();
+    }
+
+    private void setDateChoosingHandlers() {
         View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.chooseDateBtn);
-        chooseDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerFragment newFragment = new DatePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
-            }
+        chooseDateButton.setOnClickListener(view -> {
+            DatePickerFragment newFragment = new DatePickerFragment();
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        });
+    }
+
+    private void setAddingProductHandlers() {
+        View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.addProductBtn);
+        chooseDateButton.setOnClickListener(view -> {
+            Intent addProductactivityIntent = new Intent(this, AddProductActivity.class);
+            startActivity(addProductactivityIntent);
         });
     }
 }
