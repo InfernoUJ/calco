@@ -3,8 +3,10 @@ package com.example.calco;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ScrollView;
 
+import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.ui.products.table.ProductTableFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -74,5 +76,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setDateChoosing() {
+        View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.chooseDateBtn);
+        chooseDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
     }
 }
