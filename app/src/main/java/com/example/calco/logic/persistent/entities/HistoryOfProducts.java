@@ -1,5 +1,6 @@
 package com.example.calco.logic.persistent.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -15,9 +16,11 @@ public class HistoryOfProducts {
     @ColumnInfo(name = "product_id")
     public int productId;
 
+    @NonNull
     @ColumnInfo(name = "date_time")
     public String zonedDateTime;
 
+    @NonNull
     @ColumnInfo(name = "milligrams")
     public int milligrams;
 }

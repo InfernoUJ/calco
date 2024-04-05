@@ -1,5 +1,6 @@
 package com.example.calco.logic.persistent.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -21,6 +22,7 @@ public class ProductsInDishes {
     /**
      * Percent of content productId in dishId
      */
+    @NonNull
     @ColumnInfo(name = "percent_content")
     public int percentContent;
 }
