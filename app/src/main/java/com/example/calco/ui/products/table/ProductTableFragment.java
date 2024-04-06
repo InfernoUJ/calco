@@ -27,7 +27,7 @@ public class ProductTableFragment extends Fragment {
     }
 
     public void addProduct(ProductImpactRecordData productImpactRecordData) {
-//        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, true);
+//        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, false);
         View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
         ImageView productImage = productRow.findViewById(R.id.product_image);
         TextView productName = productRow.findViewById(R.id.product_name);
