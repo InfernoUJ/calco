@@ -7,10 +7,9 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "uid", childColumns = "product_id"),
-                       @ForeignKey(entity = DateTime.class, parentColumns = "uid", childColumns = "date_time_id")},
+@Entity(foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "uid", childColumns = "product_id")},
         indices = {@Index(value = {"product_id"}, unique = true),
-                   @Index(value = {"date_time_id"}, unique = true)})
+                   @Index(value = {"utc_date_time"})})
 public class HistoryOfProducts {
     @PrimaryKey
     public int uid;
@@ -19,8 +18,8 @@ public class HistoryOfProducts {
     public int productId;
 
     @NonNull
-    @ColumnInfo(name = "date_time_id")
-    public int dateTimeId;
+    @ColumnInfo(name = "utc_date_time")
+    public int utcDateTime;
 
     @NonNull
     @ColumnInfo(name = "milligrams")
