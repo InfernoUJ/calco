@@ -10,13 +10,68 @@
 
     <EditText
         android:id="@+id/productName"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:inputType="text"
-        android:text="Enter product name"
+        android:hint="Enter product name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/productCalories" />
+
+    <EditText
+        android:id="@+id/productCalories"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:hint="Enter calories per 100g"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productName"
+        app:layout_constraintBottom_toTopOf="@+id/productCarbs" />
+
+    <EditText
+        android:id="@+id/productCarbs"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:hint="Enter carbs per 100g"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productCalories"
+        app:layout_constraintBottom_toTopOf="@+id/productFats" />
+
+    <EditText
+        android:id="@+id/productFats"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:hint="Enter fats per 100g"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productCarbs"
+        app:layout_constraintBottom_toTopOf="@+id/productProteins" />
+
+    <EditText
+        android:id="@+id/productProteins"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:hint="Enter proteins per 100g"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productFats"
+        app:layout_constraintBottom_toTopOf="@+id/createProductBtn" />
+
+    <Button
+        android:id="@+id/createProductBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create product"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productProteins"
         app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
