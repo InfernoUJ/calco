@@ -1,6 +1,5 @@
 package com.example.calco;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,7 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.ProductLogic;
 
 public class CreateProductActivity extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class CreateProductActivity extends AppCompatActivity {
             Integer fats = Integer.parseInt(((EditText)findViewById(R.id.productFats)).getText().toString());
             Integer proteins = Integer.parseInt(((EditText)findViewById(R.id.productProteins)).getText().toString());
 
-            Product.createNewProduct(name, calories, carbs, fats, proteins);
+            ProductLogic.createNewProduct(name, calories, carbs, fats, proteins);
             System.out.println("finishing activity");
             finish();
         });

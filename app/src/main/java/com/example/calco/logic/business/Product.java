@@ -1,7 +1,6 @@
 package com.example.calco.logic.business;
 
 public class Product {
-    private static final String DEFAULT_IMAGE = "question_mark.png";
     private String name;
     /**
      * Calories per 100g in milligrams
@@ -45,12 +44,4 @@ public class Product {
         this.imageName = imageName;
     }
 
-    public static void createNewProduct(String name, Integer calories, Integer carbs, Integer fats, Integer proteins) {
-        createNewProduct(name, calories, carbs, fats, proteins, DEFAULT_IMAGE);
-    }
-
-    public static void createNewProduct(String name, Integer calories, Integer carbs, Integer fats, Integer proteins, String imageName) {
-        Product product = new Product(name, calories, carbs, fats, proteins, imageName);
-        // Save product to database
-    }
 }
