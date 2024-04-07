@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
-@Entity(foreignKeys = { @ForeignKey(entity = Product.class, parentColumns = "uid", childColumns = "product_id"),
+@Entity(foreignKeys = { @ForeignKey(entity = PProduct.class, parentColumns = "uid", childColumns = "product_id"),
                         @ForeignKey(entity = Image.class, parentColumns = "uid", childColumns = "image_id")},
         indices = {@Index(value = {"product_id"}, unique = true)},
         primaryKeys = {"image_id", "product_id"}

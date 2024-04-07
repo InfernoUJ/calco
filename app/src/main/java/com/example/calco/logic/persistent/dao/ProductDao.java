@@ -5,23 +5,23 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.calco.logic.persistent.entities.Product;
+import com.example.calco.logic.persistent.entities.PProduct;
 
 import java.util.List;
 
 @Dao
 public interface ProductDao {
-    @Query("SELECT * FROM product " +
+    @Query("SELECT * FROM PProduct " +
             "WHERE name LIKE :name ")
-    List<Product> findByName(String name);
+    List<PProduct> findByName(String name);
 
-    @Query("SELECT * FROM product " +
+    @Query("SELECT * FROM PProduct " +
             "WHERE uid LIKE :uid " )
-    Product findById(int uid);
+    PProduct findById(int uid);
 
     @Insert
-    void insertAll(Product... users);
+    void insertAll(PProduct... users);
 
     @Delete
-    void delete(Product user);
+    void delete(PProduct user);
 }

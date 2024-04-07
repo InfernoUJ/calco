@@ -5,23 +5,23 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.calco.logic.persistent.entities.Dish;
+import com.example.calco.logic.persistent.entities.PDish;
 
 import java.util.List;
 
 @Dao
 public interface DishDao {
-    @Query("SELECT * FROM dish " +
+    @Query("SELECT * FROM PDish " +
             "WHERE name LIKE :name ")
-    List<Dish> findByName(String name);
+    List<PDish> findByName(String name);
 
-    @Query("SELECT * FROM dish " +
+    @Query("SELECT * FROM PDish " +
             "WHERE uid LIKE :uid " )
-    Dish findById(int uid);
+    PDish findById(int uid);
 
     @Insert
-    void insertAll(Dish... dishes);
+    void insertAll(PDish... dishes);
 
     @Delete
-    void delete(Dish dish);
+    void delete(PDish dish);
 }

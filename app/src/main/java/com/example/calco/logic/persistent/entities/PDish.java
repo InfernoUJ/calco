@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Dish {
+public class PDish {
     @PrimaryKey
     public int uid;
 

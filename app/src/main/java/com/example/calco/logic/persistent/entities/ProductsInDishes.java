@@ -6,8 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
-@Entity(foreignKeys = { @ForeignKey(entity = Product.class, parentColumns = "uid", childColumns = "product_id"),
-                        @ForeignKey(entity = Dish.class, parentColumns = "uid", childColumns = "dish_id")},
+@Entity(foreignKeys = { @ForeignKey(entity = PProduct.class, parentColumns = "uid", childColumns = "product_id"),
+                        @ForeignKey(entity = PDish.class, parentColumns = "uid", childColumns = "dish_id")},
         indices = { @Index(value = {"product_id"}, unique = true),
                     @Index(value = {"dish_id"}, unique = true)},
         primaryKeys = {"dish_id", "product_id"}

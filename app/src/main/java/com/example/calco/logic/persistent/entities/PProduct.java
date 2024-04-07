@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Product {
+public class PProduct {
     @PrimaryKey
     public int uid;
 
