@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    // TODO maybe create base class, so this method will call all methods annotated with my annotation
     private void setHandlers() {
         setDateChoosingHandlers();
         setAddingProductHandlers();
