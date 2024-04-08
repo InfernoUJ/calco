@@ -8,16 +8,16 @@ import androidx.room.Index;
 
 @Entity(foreignKeys = { @ForeignKey(entity = PProduct.class, parentColumns = "uid", childColumns = "product_id"),
                         @ForeignKey(entity = PDish.class, parentColumns = "uid", childColumns = "dish_id")},
-        indices = { @Index(value = {"product_id"}, unique = true),
-                    @Index(value = {"dish_id"}, unique = true)},
+        indices = { @Index(value = {"product_id"}),
+                    @Index(value = {"dish_id"})},
         primaryKeys = {"dish_id", "product_id"}
 )
 public class ProductsInDishes {
     @ColumnInfo(name = "dish_id")
-    public int dishId;
+    public long dishId;
 
     @ColumnInfo(name = "product_id")
-    public int productId;
+    public long productId;
 
     /**
      * Percent of content productId in dishId

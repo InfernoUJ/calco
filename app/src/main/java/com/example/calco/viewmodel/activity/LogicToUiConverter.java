@@ -23,4 +23,8 @@ public class LogicToUiConverter {
         FoodWithCCFPData foodWithCCFPData = getFoodWithCCFPData(product, resources, packageName);
         return new ProductWithCCFPData(product, foodWithCCFPData);
     }
+
+    public static Product getProduct(ProductWithCCFPData productWithCCFPData) {
+        return productWithCCFPData.getProduct();
+    }
 }

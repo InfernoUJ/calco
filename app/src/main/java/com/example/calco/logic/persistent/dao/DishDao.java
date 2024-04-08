@@ -18,10 +18,10 @@ public interface DishDao {
 
     @Query("SELECT * FROM PDish " +
             "WHERE uid LIKE :uid " )
-    LiveData<PDish> findById(int uid);
+    LiveData<PDish> findById(long uid);
 
     @Insert
-    void insertAll(PDish... dishes);
+    List<Long> insertAll(PDish... dishes);
 
     @Delete
     void delete(PDish dish);

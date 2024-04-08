@@ -18,5 +18,5 @@ public class ProductImages {
 
     @NonNull
     @ColumnInfo(name = "product_id")
-    public int productId;
+    public long productId;
 }

@@ -66,6 +66,7 @@
         </TableRow>
     </TableLayout>
 
+    <!-- Todo refactor units -->
     <EditText
         android:id="@+id/amount_in_g"
         android:layout_width="wrap_content"

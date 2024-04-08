@@ -2,20 +2,21 @@ package com.example.calco.logic.persistent.databases;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.AutoMigrationSpec;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.calco.logic.persistent.dao.*;
 import com.example.calco.logic.persistent.entities.*;
 
 @Database(entities = { PProduct.class, PDish.class, Image.class, ProductImages.class, DishImages.class,
         ProductsInDishes.class, HistoryOfProducts.class, HistoryOfDishes.class },
-          version = 2,
-        autoMigrations = {
-                @AutoMigration(from = 1, to = 2)
-        })
+          version = 1)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase dataBaseInstance;
     private static final String dataBaseName = "calco_db";
@@ -42,4 +43,7 @@ public abstract class AppDataBase extends RoomDatabase {
     public abstract DishDao dishDao();
 
     public abstract HistoryOfProductsDao historyOfProductsDao();
+
+    public abstract ProductsInDishesDao productsInDishesDao();
+
 }

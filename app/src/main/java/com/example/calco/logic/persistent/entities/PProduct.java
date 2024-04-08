@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class PProduct {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public long uid;
 
     @ColumnInfo(name = "name")
     public String name;

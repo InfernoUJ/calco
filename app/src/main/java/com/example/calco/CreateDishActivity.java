@@ -20,7 +20,9 @@ import com.example.calco.viewmodel.activity.CreateProductVM;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CreateDishActivity extends AppCompatActivity {
 
@@ -57,6 +59,8 @@ public class CreateDishActivity extends AppCompatActivity {
     private void setCreateDishButtonHandler() {
         View createDishBtn = findViewById(R.id.createDishBtn);
         createDishBtn.setOnClickListener(view -> {
+            List<Map.Entry<Integer, Integer>> chosenProducts = determineChosenProducts();
+            model.createDish(getDishName(), chosenProducts);
             finish();
         });
     }
@@ -65,16 +69,20 @@ public class CreateDishActivity extends AppCompatActivity {
         model.getProducts().observe(this, this::addProductsToTable);
     }
 
-    private void addProductsToTable(List<ProductWithCCFPData> food) {
+    private String getDishName() {
+        return ((EditText) findViewById(R.id.dishName)).getText().toString();
+    }
+
+    private void addProductsToTable(List<ProductWithCCFPData> product) {
         // todo can make null-termination it in querry method ?
         //  or create my own annotation for query methods
-        if (food == null) {
+        if (product == null) {
             return;
         }
         LinearLayout lastProductsTable = (LinearLayout) findViewById(R.id.dishProductsLayout);
         lastProductsTable.removeAllViews();
-        food.forEach(product -> {
-            View productRow = createFoodRecord(product);
+        product.forEach(p -> {
+            View productRow = createFoodRecord(p);
             lastProductsTable.addView(productRow);
         });
     }
@@ -97,5 +105,24 @@ public class CreateDishActivity extends AppCompatActivity {
         productProteins.setText(product.getProteins());
 
         return productRow;
+    }
+
+    // todo maybe refactor - remove parsing logic from here
+    private List<Map.Entry<Integer, Integer>> determineChosenProducts() {
+        List<Map.Entry<Integer, Integer>> chosenProducts = new ArrayList<>();
+        LinearLayout lastProductsTable = (LinearLayout) findViewById(R.id.dishProductsLayout);
+        for(int i = 0; i < lastProductsTable.getChildCount(); i++) {
+            View productRow = lastProductsTable.getChildAt(i);
+            EditText productAmount = productRow.findViewById(R.id.amount_in_g);
+            if (productAmount.getText().toString().equals("")) {
+                continue;
+            }
+            int amount = Integer.parseInt(productAmount.getText().toString());
+            if (amount == 0) {
+                continue;
+            }
+            chosenProducts.add(Map.entry(i, amount));
+        }
+        return chosenProducts;
     }
 }

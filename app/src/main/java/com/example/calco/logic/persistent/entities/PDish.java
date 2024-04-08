@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class PDish {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public long uid;
 
     @NonNull
     @ColumnInfo(name = "name")

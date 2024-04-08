@@ -18,10 +18,10 @@ public interface ProductDao {
 
     @Query("SELECT * FROM PProduct " +
             "WHERE uid LIKE :uid " )
-    LiveData<PProduct> findById(int uid);
+    LiveData<PProduct> findById(long uid);
 
     @Insert
-    void insertAll(PProduct... users);
+    List<Long> insertAll(PProduct... users);
 
     @Delete
     void delete(PProduct user);

@@ -8,11 +8,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = {@ForeignKey(entity = PDish.class, parentColumns = "uid", childColumns = "dish_id")},
-        indices = {@Index(value = {"dish_id"}, unique = true),
+        indices = {@Index(value = {"dish_id"}),
                    @Index(value = {"utc_date_time"})})
 public class HistoryOfDishes {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public long uid;
 
     @ColumnInfo(name = "dish_id")
     public int dishId;

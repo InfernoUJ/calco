@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 public class ProductLogic {
 
+    // todo add image persistence
     public static void persistNewProduct(Product product) {
         // Save product to database
         PProduct pProduct = getPProduct(product);
