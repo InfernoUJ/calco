@@ -1,6 +1,9 @@
 package com.example.calco.viewmodel.activity.state;
 
+import com.example.calco.logic.business.Product;
+
 public class FoodWithCCFPData {
+    private Product product;
     private String name;
     private Integer imageId;
     private String calories;
@@ -15,6 +18,10 @@ public class FoodWithCCFPData {
         this.carbs = carbs;
         this.fats = fats;
         this.proteins = proteins;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public String getName() {

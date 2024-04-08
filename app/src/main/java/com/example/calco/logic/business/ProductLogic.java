@@ -36,7 +36,7 @@ public class ProductLogic {
     }
 
     public static Product getProduct(PProduct pProduct) {
-        return new Product(pProduct.name, pProduct.calories, pProduct.carbs, pProduct.fats, pProduct.proteins, Product.DEFAULT_IMAGE);
+        return new Product(pProduct.uid, pProduct.name, pProduct.calories, pProduct.carbs, pProduct.fats, pProduct.proteins, Product.DEFAULT_IMAGE);
     }
 
     public static List<Product> getLastUsedProducts() {

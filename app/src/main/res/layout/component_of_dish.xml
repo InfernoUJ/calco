@@ -21,7 +21,7 @@
 
     <TableLayout
         android:id="@+id/component_ccfp_table"
-        android:layout_width="300dp"
+        android:layout_width="270dp"
         android:layout_height="match_parent"
         android:layout_toEndOf="@id/component_name"
         android:layout_alignBottom="@id/component_image">
@@ -72,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/component_ccfp_table"
         android:layout_alignBottom="@id/component_image"
+        android:layout_alignTop="@id/component_image"
         android:hint="0 g"/>
 
 

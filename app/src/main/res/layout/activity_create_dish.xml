@@ -7,13 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".CreateDishActivity">
 
+    <EditText
+        android:id="@+id/dishName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dishProductsScrollView"
+        android:inputType="text"
+        android:hint="Enter dish name" />
+
+
     <ScrollView
         android:id="@+id/dishProductsScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dishName"
         app:layout_constraintBottom_toTopOf="@+id/createDishBtn"
         android:orientation="vertical">
         <LinearLayout

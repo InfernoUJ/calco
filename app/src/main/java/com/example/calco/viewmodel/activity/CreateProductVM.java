@@ -14,11 +14,11 @@ public class CreateProductVM extends ViewModel {
 //    во вью апдейтим дату
 //    тут делаем колбек на апдейт базы
     public LiveData<CreateProductUiState> getUiState() {
-        return null;
+        return uiState;
     }
 
     public void createNewProduct(String name, String calories, String carbs, String fats, String proteins) {
-        Product product = new Product(name, 100*Integer.parseInt(calories), 1000*Integer.parseInt(carbs),
+        Product product = new Product(-1, name, 100*Integer.parseInt(calories), 1000*Integer.parseInt(carbs),
                 1000*Integer.parseInt(fats), 1000*Integer.parseInt(proteins), Product.DEFAULT_IMAGE);
         ProductLogic.persistNewProduct(product);
     }

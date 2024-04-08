@@ -2,6 +2,7 @@ package com.example.calco.logic.business;
 
 public class Product {
     public static final String DEFAULT_IMAGE = "question_mark";
+    private int uid;
     private String name;
     /**
      * Calories per 100g in cal
@@ -39,7 +40,8 @@ public class Product {
     /*
      * image name must be without extension
      */
-    public Product(String name, Integer calories, Integer carbs, Integer fats, Integer proteins, String imageName) {
+    public Product(int uid, String name, Integer calories, Integer carbs, Integer fats, Integer proteins, String imageName) {
+        this.uid = uid;
         this.name = name;
         this.calories = calories;
         this.carbs = carbs;
