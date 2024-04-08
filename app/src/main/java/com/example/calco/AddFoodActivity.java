@@ -51,15 +51,24 @@ public class AddFoodActivity extends AppCompatActivity {
     }
 
     private void setHandlers() {
-        setCreateFoodButtonHandler();
+        setCreateProductButtonHandler();
         setLastUsedFoodHandler();
+        setCreateDishButtonHandler();
     }
 
-    private void setCreateFoodButtonHandler() {
+    private void setCreateProductButtonHandler() {
         View createProductBtn = findViewById(R.id.createProductBtn);
         createProductBtn.setOnClickListener(view -> {
             Intent createProductActivityIntent = new Intent(this, CreateProductActivity.class);
             startActivity(createProductActivityIntent);
+        });
+    }
+
+    private void setCreateDishButtonHandler() {
+        View createDishBtn = findViewById(R.id.createDishBtn);
+        createDishBtn.setOnClickListener(view -> {
+            Intent createDishActivityIntent = new Intent(this, CreateDishActivity.class);
+            startActivity(createDishActivityIntent);
         });
     }
 
