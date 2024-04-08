@@ -1,5 +1,6 @@
 package com.example.calco.logic.persistent.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,15 +14,19 @@ import java.util.List;
 public interface ProductDao {
     @Query("SELECT * FROM PProduct " +
             "WHERE name LIKE :name ")
-    List<PProduct> findByName(String name);
+    LiveData<List<PProduct>> findByName(String name);
 
     @Query("SELECT * FROM PProduct " +
             "WHERE uid LIKE :uid " )
-    PProduct findById(int uid);
+    LiveData<PProduct> findById(int uid);
 
     @Insert
     void insertAll(PProduct... users);
 
     @Delete
     void delete(PProduct user);
+
+    @Query("SELECT * FROM PProduct " +
+            "ORDER BY uid DESC ")
+    List<PProduct> getLastUsedProducts();
 }

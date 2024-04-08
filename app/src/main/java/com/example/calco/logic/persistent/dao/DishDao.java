@@ -1,5 +1,6 @@
 package com.example.calco.logic.persistent.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,11 +14,11 @@ import java.util.List;
 public interface DishDao {
     @Query("SELECT * FROM PDish " +
             "WHERE name LIKE :name ")
-    List<PDish> findByName(String name);
+    LiveData<List<PDish>> findByName(String name);
 
     @Query("SELECT * FROM PDish " +
             "WHERE uid LIKE :uid " )
-    PDish findById(int uid);
+    LiveData<PDish> findById(int uid);
 
     @Insert
     void insertAll(PDish... dishes);

@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_product_main"
+    android:id="@+id/add_food_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddProductActivity">
+    tools:context=".AddFoodActivity">
 
     <LinearLayout
-        android:id="@+id/searchProductLayout"
+        android:id="@+id/searchFoodLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,21 +18,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal" >
         <EditText
-            android:id="@+id/productSearchName"
+            android:id="@+id/foodSearchName"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/searchProductBtn"
+            app:layout_constraintEnd_toStartOf="@+id/searchFoodBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <ImageButton
-            android:id="@+id/searchProductBtn"
+            android:id="@+id/searchFoodBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintStart_toEndOf="@+id/productSearchName"
+            app:layout_constraintStart_toEndOf="@+id/foodSearchName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,12 +46,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchProductLayout"
-        app:layout_constraintBottom_toTopOf="@+id/lastProductTableScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/searchFoodLayout"
+        app:layout_constraintBottom_toTopOf="@+id/lastFoodTableScrollView"
         android:text="Create new product"/>
 
     <ScrollView
-        android:id="@+id/lastProductTableScrollView"
+        android:id="@+id/lastFoodTableScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/lastProductTableLinearLayout"
+            android:id="@+id/lastFoodTableLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />

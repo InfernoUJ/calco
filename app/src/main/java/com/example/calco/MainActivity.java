@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
-import android.widget.Button;
-import android.widget.ScrollView;
 
+import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.ui.products.table.ProductTableFragment;
@@ -30,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppDataBase.createInstance(getApplicationContext());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private void setAddingProductHandlers() {
         View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.addProductBtn);
         chooseDateButton.setOnClickListener(view -> {
-            Intent addProductactivityIntent = new Intent(this, AddProductActivity.class);
+            Intent addProductactivityIntent = new Intent(this, AddFoodActivity.class);
             startActivity(addProductactivityIntent);
         });
     }

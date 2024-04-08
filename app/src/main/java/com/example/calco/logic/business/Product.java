@@ -1,9 +1,10 @@
 package com.example.calco.logic.business;
 
 public class Product {
+    public static final String DEFAULT_IMAGE = "question_mark.png";
     private String name;
     /**
-     * Calories per 100g in milligrams
+     * Calories per 100g in cal
      */
     private Integer calories;
     private Integer carbs;
@@ -43,5 +44,4 @@ public class Product {
         this.proteins = proteins;
         this.imageName = imageName;
     }
-
 }

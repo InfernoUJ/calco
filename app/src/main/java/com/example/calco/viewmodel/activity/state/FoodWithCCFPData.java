@@ -1,6 +1,6 @@
-package com.example.calco.ui.products.lastUsedTable;
+package com.example.calco.viewmodel.activity.state;
 
-public class ProductWithCCFPData {
+public class FoodWithCCFPData {
     private String name;
     private Integer imageId;
     private String calories;
@@ -8,7 +8,7 @@ public class ProductWithCCFPData {
     private String fats;
     private String proteins;
 
-    public ProductWithCCFPData(String name, Integer imageId, String calories, String carbs, String fats, String proteins) {
+    public FoodWithCCFPData(String name, Integer imageId, String calories, String carbs, String fats, String proteins) {
         this.name = name;
         this.imageId = imageId;
         this.calories = calories;

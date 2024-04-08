@@ -6,14 +6,14 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class PProduct {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "name")
     public String name;
 
     /**
-     * Calories per 100g in milligrams
+     * Calories per 100g in cal
      */
     @ColumnInfo(name = "calories")
     public Integer calories;
@@ -35,5 +35,4 @@ public class PProduct {
      */
     @ColumnInfo(name = "proteins")
     public Integer proteins;
-
 }

@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
         indices = {@Index(value = {"dish_id"}, unique = true),
                    @Index(value = {"utc_date_time"})})
 public class HistoryOfDishes {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "dish_id")

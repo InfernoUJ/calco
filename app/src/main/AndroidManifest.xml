@@ -16,7 +16,7 @@
             android:name=".CreateProductActivity"
             android:exported="false" />
         <activity
-            android:name=".AddProductActivity"
+            android:name=".AddFoodActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
