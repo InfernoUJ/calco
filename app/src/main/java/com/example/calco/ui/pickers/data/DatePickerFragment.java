@@ -2,14 +2,40 @@ package com.example.calco.ui.pickers.data;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.calco.ui.dialogs.MassInputDialog;
+
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+
+    public interface DatePickerListener {
+        void onDialogPositiveClick(DialogFragment dialog, int year, int month, int day);
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
+
+    DatePickerFragment.DatePickerListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // Verify that the host activity implements the callback interface.
+        try {
+            // Instantiate the NoticeDialogListener so you can send events to
+            // the host.
+            listener = (DatePickerFragment.DatePickerListener) context;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface. Throw exception.
+            throw new ClassCastException(context
+                    + " must implement DatePickerListener");
+        }
+    }
 
     @NonNull
     @Override
@@ -27,6 +53,7 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         System.out.println("Date set: " + year + "/" + month + "/" + dayOfMonth);
+        listener.onDialogPositiveClick(DatePickerFragment.this, year, month+1, dayOfMonth);
     }
 
 }

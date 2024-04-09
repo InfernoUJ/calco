@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
@@ -12,6 +13,7 @@ import com.example.calco.ui.products.table.ProductTableFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,7 +23,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calco.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
+
+public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener {
+    public static final String dateFormat = "yyyy-MM-dd";
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -63,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         setHandlers();
 
+        setDateToField(LocalDate.now());
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -100,7 +111,29 @@ public class MainActivity extends AppCompatActivity {
         View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.addProductBtn);
         chooseDateButton.setOnClickListener(view -> {
             Intent addProductactivityIntent = new Intent(this, AddFoodActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("date", getDate());
+            addProductactivityIntent.putExtras(bundle);
             startActivity(addProductactivityIntent);
         });
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, int year, int month, int day) {
+        LocalDate chosenDate = LocalDate.of(year, month, day);
+        setDateToField(chosenDate);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
+    private void setDateToField(LocalDate date) {
+        ((TextView)binding.appBarMain.getRoot().findViewById(R.id.dateTextView)).setText(date.format(DateTimeFormatter.ofPattern(dateFormat)));
+    }
+
+    private String getDate() {
+        return ((TextView)binding.appBarMain.getRoot().findViewById(R.id.dateTextView)).getText().toString();
     }
 }

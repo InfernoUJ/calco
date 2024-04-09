@@ -102,8 +102,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, String mass) {
         // User touched the dialog's positive button
-        Bundle bundle = dialog.getArguments();
-        System.out.println("Mass: " + mass);
+        System.out.println("Mass: " + mass + " time form bundle: " + getIntent().getExtras().getString("date"));
     }
 
     @Override

@@ -32,7 +32,7 @@ public class MassInputDialog extends DialogFragment {
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface. Throw exception.
             throw new ClassCastException(context
-                    + " must implement NoticeDialogListener");
+                    + " must implement MassInputDialogListener");
         }
     }
 

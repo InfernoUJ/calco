@@ -38,16 +38,27 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addProductBtn"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView"
         app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         android:text="Pick date"/>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/chooseDateBtn"
+        app:layout_constraintEnd_toStartOf="@+id/addProductBtn"
+        app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        android:text="DD/MM/YYYY"/>
 
     <Button
         android:id="@+id/addProductBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/chooseDateBtn"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
