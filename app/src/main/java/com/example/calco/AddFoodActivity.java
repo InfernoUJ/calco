@@ -12,16 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.ui.dialogs.MassInputDialog;
 import com.example.calco.viewmodel.activity.AddFoodVM;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-public class AddFoodActivity extends AppCompatActivity {
+public class AddFoodActivity extends AppCompatActivity implements MassInputDialog.MassInputDialogListener {
 
     private AddFoodVM model;
 
@@ -86,8 +87,29 @@ public class AddFoodActivity extends AppCompatActivity {
         lastFoodTable.removeAllViews();
         food.forEach(foodRecord -> {
             View foodRow = createFoodRecord(foodRecord);
+            setDialogHandlerForFoodRow(foodRow);
             lastFoodTable.addView(foodRow);
         });
+    }
+
+    private void setDialogHandlerForFoodRow(View view) {
+        view.setOnClickListener(v -> {
+            DialogFragment dialogFragment = new MassInputDialog();
+            dialogFragment.show(getSupportFragmentManager(), "massInputDialog");
+        });
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String mass) {
+        // User touched the dialog's positive button
+        Bundle bundle = dialog.getArguments();
+        System.out.println("Mass: " + mass);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        // do nothing
     }
 
     private View createFoodRecord(FoodWithCCFPData food) {
