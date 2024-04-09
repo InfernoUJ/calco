@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity(foreignKeys = {@ForeignKey(entity = PDish.class, parentColumns = "uid", childColumns = "dish_id")},
         indices = {@Index(value = {"dish_id"}),
                    @Index(value = {"utc_date_time"})})
-public class HistoryOfDishes {
+public class PHistoryOfDishes {
     @PrimaryKey(autoGenerate = true)
     public long uid;
 

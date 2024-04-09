@@ -3,8 +3,9 @@ package com.example.calco.logic.business;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.dao.PDishComponent;
 import com.example.calco.logic.persistent.databases.AppDataBase;
-import com.example.calco.logic.persistent.entities.HistoryOfDishes;
+import com.example.calco.logic.persistent.entities.PHistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
+import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
 
@@ -143,15 +144,35 @@ public class DishLogic {
 
     public static void persistDishHistory(Dish dish, int mass, LocalDate date) {
         AppDataBase db = AppDataBase.getInstance();
-        HistoryOfDishes history = getHistoryOfDish(dish, mass, date);
+        PHistoryOfDishes history = getPHistoryOfDish(dish, mass, date);
         db.historyOfDishesDao().insertAll(history);
     }
 
-    private static HistoryOfDishes getHistoryOfDish(Dish dish, int mass, LocalDate date) {
-        HistoryOfDishes history = new HistoryOfDishes();
+    private static PHistoryOfDishes getPHistoryOfDish(Dish dish, int mass, LocalDate date) {
+        PHistoryOfDishes history = new PHistoryOfDishes();
         history.dishId = dish.getId();
         history.utcDateTime = DateTimeConverter.timeToUtcMillis(date.atStartOfDay());
         history.milligrams = mass;
         return history;
+    }
+
+    public static List<HistoryOfDishes> getDayHistory(LocalDate day) {
+        LocalDate nextDay = day.plusDays(1);
+        long thisDayMillis = DateTimeConverter.timeToUtcMillis(day.atStartOfDay());
+        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay());
+
+        AppDataBase db = AppDataBase.getInstance();
+
+        List<PHistoryOfDishes> pHistory = db.historyOfDishesDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
+        List<HistoryOfDishes> history = pHistory.stream().map(DishLogic::getHistoryOfDish).collect(Collectors.toList());
+        return history;
+    }
+
+    public static HistoryOfDishes getHistoryOfDish(PHistoryOfDishes pHistory) {
+        AppDataBase db = AppDataBase.getInstance();
+        PDish pDish = db.dishDao().findById(pHistory.dishId);
+        Dish dish = getDish(pDish);
+        LocalDate date = DateTimeConverter.timeFromUtcMillis(pHistory.utcDateTime).toLocalDate();
+        return new HistoryOfDishes(pHistory.uid, dish, date, pHistory.milligrams);
     }
 }

@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.calco.logic.business.DishLogic;
+import com.example.calco.logic.business.HistoryOfDishes;
 import com.example.calco.logic.business.HistoryOfProducts;
 import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
@@ -18,7 +20,8 @@ public class MainVM extends ViewModel {
     private MutableLiveData<List<ProductImpactRecordData>> foodRecords = new MutableLiveData<>(new ArrayList<>());
     public void updateFoodTable(LocalDate date, Resources resources, String packageName) {
         List<HistoryOfProducts> historyOfProducts = ProductLogic.getDayHistory(date);
-        List<ProductImpactRecordData> productImpactRecordData = LogicToUiConverter.getProductImpactRecordData(historyOfProducts, resources, packageName);
+        List<HistoryOfDishes> historyOfDishes = DishLogic.getDayHistory(date);
+        List<ProductImpactRecordData> productImpactRecordData = LogicToUiConverter.getProductImpactRecordData(historyOfProducts, historyOfDishes, resources, packageName);
         foodRecords.setValue(productImpactRecordData);
     }
 

@@ -3,6 +3,7 @@ package com.example.calco.viewmodel.activity;
 import android.content.res.Resources;
 
 import com.example.calco.logic.business.Dish;
+import com.example.calco.logic.business.HistoryOfDishes;
 import com.example.calco.logic.business.HistoryOfProducts;
 import com.example.calco.logic.business.Product;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
@@ -37,19 +38,30 @@ public class LogicToUiConverter {
         return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
     }
 
-    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> product, Resources resources, String packageName) {
+    // todo - refactor
+    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
         int mass = 0;
-        for (HistoryOfProducts historyOfProducts : product) {
+        for (HistoryOfProducts historyOfProducts : products) {
             mass += historyOfProducts.getMilligrams();
+        }
+        for (HistoryOfDishes historyOfDishes : dishes) {
+            mass += historyOfDishes.getMilligrams();
         }
         int totalMass = mass;
 
-        return product.stream().map(history -> {
+        List<ProductImpactRecordData> allRecords = products.stream().map(history -> {
             int mmillis = history.getMilligrams();
             int percentage = (int) ((mmillis / (float) totalMass) * 100);
             int resId = resources.getIdentifier(history.getProduct().getImageName() , "drawable", packageName);
             return new ProductImpactRecordData(history.getProduct().getName(), percentage, mmillis/1000, resId);
         }).collect(Collectors.toList());
+        allRecords.addAll(dishes.stream().map(history -> {
+            int mmillis = history.getMilligrams();
+            int percentage = (int) ((mmillis / (float) totalMass) * 100);
+            int resId = resources.getIdentifier(history.getDish().getImageName() , "drawable", packageName);
+            return new ProductImpactRecordData(history.getDish().getName(), percentage, mmillis/1000, resId);
+        }).collect(Collectors.toList()));
+        return allRecords;
     }
 
 }

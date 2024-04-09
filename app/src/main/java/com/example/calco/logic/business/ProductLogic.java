@@ -50,14 +50,13 @@ public class ProductLogic {
         return allProducts;
     }
 
-
     public static void persistProductHistory(Product product, int mass, LocalDate date) {
         AppDataBase db = AppDataBase.getInstance();
-        PHistoryOfProducts history = getHistoryOfProduct(product, mass, date);
+        PHistoryOfProducts history = getPHistoryOfProduct(product, mass, date);
         db.historyOfProductsDao().insertAll(history);
     }
 
-    public static PHistoryOfProducts getHistoryOfProduct(Product product, int mass, LocalDate date) {
+    public static PHistoryOfProducts getPHistoryOfProduct(Product product, int mass, LocalDate date) {
         PHistoryOfProducts history = new PHistoryOfProducts();
         history.productId = product.getId();
         history.utcDateTime = DateTimeConverter.timeToUtcMillis(date.atStartOfDay());
