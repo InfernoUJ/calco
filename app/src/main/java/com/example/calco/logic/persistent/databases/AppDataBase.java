@@ -2,21 +2,17 @@ package com.example.calco.logic.persistent.databases;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.AutoMigrationSpec;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.calco.logic.persistent.dao.*;
 import com.example.calco.logic.persistent.entities.*;
 
 @Database(entities = { PProduct.class, PDish.class, Image.class, ProductImages.class, DishImages.class,
-        ProductsInDishes.class, HistoryOfProducts.class, HistoryOfDishes.class },
-          version = 1)
+        ProductsInDishes.class, PHistoryOfProducts.class, HistoryOfDishes.class },
+          version = 2)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase dataBaseInstance;
     private static final String dataBaseName = "calco_db";
@@ -26,6 +22,7 @@ public abstract class AppDataBase extends RoomDatabase {
             synchronized (AppDataBase.class) {
                 // TODO find way to avoid allowMainThreadQueries
                 dataBaseInstance = Room.databaseBuilder(ctx, AppDataBase.class, dataBaseName)
+//                        .fallbackToDestructiveMigration()
                         .allowMainThreadQueries().build();
             }
         }

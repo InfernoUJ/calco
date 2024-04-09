@@ -2,7 +2,7 @@ package com.example.calco.logic.business;
 
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.databases.AppDataBase;
-import com.example.calco.logic.persistent.entities.HistoryOfProducts;
+import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
 
 import java.time.LocalDate;
@@ -53,15 +53,35 @@ public class ProductLogic {
 
     public static void persistProductHistory(Product product, int mass, LocalDate date) {
         AppDataBase db = AppDataBase.getInstance();
-        HistoryOfProducts history = getHistoryOfProduct(product, mass, date);
+        PHistoryOfProducts history = getHistoryOfProduct(product, mass, date);
         db.historyOfProductsDao().insertAll(history);
     }
 
-    public static HistoryOfProducts getHistoryOfProduct(Product product, int mass, LocalDate date) {
-        HistoryOfProducts history = new HistoryOfProducts();
+    public static PHistoryOfProducts getHistoryOfProduct(Product product, int mass, LocalDate date) {
+        PHistoryOfProducts history = new PHistoryOfProducts();
         history.productId = product.getId();
         history.utcDateTime = DateTimeConverter.timeToUtcMillis(date.atStartOfDay());
         history.milligrams = mass;
         return history;
+    }
+
+    public static List<HistoryOfProducts> getDayHistory(LocalDate day) {
+        LocalDate nextDay = day.plusDays(1);
+        long thisDayMillis = DateTimeConverter.timeToUtcMillis(day.atStartOfDay());
+        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay());
+
+        AppDataBase db = AppDataBase.getInstance();
+
+        List<PHistoryOfProducts> pHistory = db.historyOfProductsDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
+        List<HistoryOfProducts> history = pHistory.stream().map(ProductLogic::getHistoryOfProduct).collect(Collectors.toList());
+        return history;
+    }
+
+    public static HistoryOfProducts getHistoryOfProduct(PHistoryOfProducts pHistory) {
+        AppDataBase db = AppDataBase.getInstance();
+        PProduct pProduct = db.productDao().findById(pHistory.productId);
+        Product product = getProduct(pProduct);
+        LocalDate date = DateTimeConverter.timeFromUtcMillis(pHistory.utcDateTime).toLocalDate();
+        return new HistoryOfProducts(pHistory.uid, product, date, pHistory.milligrams);
     }
 }

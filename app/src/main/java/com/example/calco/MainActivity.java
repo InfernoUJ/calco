@@ -10,10 +10,13 @@ import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.ui.products.table.ProductTableFragment;
+import com.example.calco.viewmodel.activity.AddFoodVM;
+import com.example.calco.viewmodel.activity.MainVM;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,11 +38,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    private MainVM model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         AppDataBase.createInstance(getApplicationContext());
+
+        model = new ViewModelProvider(this).get(MainVM.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,13 +69,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-
-        ProductTableFragment productTable = (ProductTableFragment) getSupportFragmentManager().findFragmentById(R.id.product_table_fragment);
-        if (productTable != null) {
-            for (int i = 0; i < 10; i++) {
-                productTable.addProduct(new ProductImpactRecordData("Product " + i, i * 10, i * 100, R.drawable.question_mark));
-            }
-        }
 
         setHandlers();
 
@@ -93,10 +93,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateFoodTable();
+    }
+
     // TODO maybe create base class, so this method will call all methods annotated with my annotation
     private void setHandlers() {
         setDateChoosingHandlers();
         setAddingProductHandlers();
+        setFoodTableHandler();
     }
 
     private void setDateChoosingHandlers() {
@@ -118,10 +125,22 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         });
     }
 
+    private void setFoodTableHandler() {
+        ProductTableFragment productTable = (ProductTableFragment) getSupportFragmentManager().findFragmentById(R.id.product_table_fragment);
+        model.getFoodRecords().observe(this, productImpactRecordDataList -> {
+            productTable.replaceProducts(productImpactRecordDataList);
+        });
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int year, int month, int day) {
         LocalDate chosenDate = LocalDate.of(year, month, day);
         setDateToField(chosenDate);
+        updateFoodTable();
+    }
+
+    private void updateFoodTable() {
+        model.updateFoodTable(getLocalDate(), getResources(), getPackageName());
     }
 
     @Override
@@ -135,5 +154,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     private String getDate() {
         return ((TextView)binding.appBarMain.getRoot().findViewById(R.id.dateTextView)).getText().toString();
+    }
+
+    private LocalDate getLocalDate() {
+        return LocalDate.parse(getDate(), DateTimeFormatter.ofPattern(MainActivity.dateFormat));
     }
 }

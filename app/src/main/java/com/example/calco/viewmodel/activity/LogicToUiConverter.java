@@ -3,10 +3,15 @@ package com.example.calco.viewmodel.activity;
 import android.content.res.Resources;
 
 import com.example.calco.logic.business.Dish;
+import com.example.calco.logic.business.HistoryOfProducts;
 import com.example.calco.logic.business.Product;
+import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LogicToUiConverter {
     public static FoodWithCCFPData getFoodWithCCFPData(Product product, Resources resources, String packageName) {
@@ -32,14 +37,19 @@ public class LogicToUiConverter {
         return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
     }
 
-//    public static ProductWithCCFPData getProductWithCCFPData(Product product, Resources resources, String packageName) {
-//        FoodWithCCFPData foodWithCCFPData = getFoodWithCCFPData(product, resources, packageName);
-//        return new ProductWithCCFPData(product, foodWithCCFPData);
-//    }
+    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> product, Resources resources, String packageName) {
+        int mass = 0;
+        for (HistoryOfProducts historyOfProducts : product) {
+            mass += historyOfProducts.getMilligrams();
+        }
+        int totalMass = mass;
 
-//    public static Product getProduct(ProductWithCCFPData productWithCCFPData) {
-//        return productWithCCFPData.getProduct();
-//    }
-
+        return product.stream().map(history -> {
+            int mmillis = history.getMilligrams();
+            int percentage = (int) ((mmillis / (float) totalMass) * 100);
+            int resId = resources.getIdentifier(history.getProduct().getImageName() , "drawable", packageName);
+            return new ProductImpactRecordData(history.getProduct().getName(), percentage, mmillis/1000, resId);
+        }).collect(Collectors.toList());
+    }
 
 }

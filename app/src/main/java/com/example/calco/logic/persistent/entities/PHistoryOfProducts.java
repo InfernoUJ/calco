@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity(foreignKeys = {@ForeignKey(entity = PProduct.class, parentColumns = "uid", childColumns = "product_id")},
         indices = {@Index(value = {"product_id"}),
                    @Index(value = {"utc_date_time"})})
-public class HistoryOfProducts {
+public class PHistoryOfProducts {
     @PrimaryKey(autoGenerate = true)
     public long uid;
 
