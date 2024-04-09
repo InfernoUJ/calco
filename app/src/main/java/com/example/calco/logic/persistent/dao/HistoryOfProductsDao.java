@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.calco.logic.persistent.entities.HistoryOfProducts;
+import com.example.calco.logic.persistent.entities.PDish;
 import com.example.calco.logic.persistent.entities.PProduct;
 
 import java.util.List;
@@ -17,5 +18,8 @@ public interface HistoryOfProductsDao {
             "JOIN HistoryOfProducts ON  HistoryOfProducts.product_id = PProduct.uid " +
             "ORDER BY HistoryOfProducts.utc_date_time DESC ")
     List<PProduct> getLastUsedProducts();
+
+    @Insert
+    List<Long> insertAll(HistoryOfProducts... history);
 
 }

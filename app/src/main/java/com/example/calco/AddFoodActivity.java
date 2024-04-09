@@ -85,24 +85,26 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         }
         LinearLayout lastFoodTable = (LinearLayout) findViewById(R.id.lastFoodTableLinearLayout);
         lastFoodTable.removeAllViews();
-        food.forEach(foodRecord -> {
-            View foodRow = createFoodRecord(foodRecord);
-            setDialogHandlerForFoodRow(foodRow);
+        for(int i = 0; i < food.size(); i++) {
+            View foodRow = createFoodRecord(food.get(i));
+            setDialogHandlerForFoodRow(foodRow, i);
             lastFoodTable.addView(foodRow);
-        });
+        }
     }
 
-    private void setDialogHandlerForFoodRow(View view) {
+    private void setDialogHandlerForFoodRow(View view, int foodIndex) {
         view.setOnClickListener(v -> {
-            DialogFragment dialogFragment = new MassInputDialog();
+            DialogFragment dialogFragment = new MassInputDialog(foodIndex);
             dialogFragment.show(getSupportFragmentManager(), "massInputDialog");
         });
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String mass) {
+    public void onDialogPositiveClick(DialogFragment dialog, String mass, int index) {
         // User touched the dialog's positive button
         System.out.println("Mass: " + mass + " time form bundle: " + getIntent().getExtras().getString("date"));
+
+        model.addFoodToHistory(index, mass, getIntent().getExtras().getString("date"));
     }
 
     @Override

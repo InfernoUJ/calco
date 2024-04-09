@@ -1,16 +1,11 @@
 package com.example.calco.logic.business;
 
-import android.content.Context;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
-import androidx.room.Database;
-import androidx.room.Transaction;
-
+import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.logic.persistent.entities.HistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,4 +51,17 @@ public class ProductLogic {
     }
 
 
+    public static void persistProductHistory(Product product, int mass, LocalDate date) {
+        AppDataBase db = AppDataBase.getInstance();
+        HistoryOfProducts history = getHistoryOfProduct(product, mass, date);
+        db.historyOfProductsDao().insertAll(history);
+    }
+
+    public static HistoryOfProducts getHistoryOfProduct(Product product, int mass, LocalDate date) {
+        HistoryOfProducts history = new HistoryOfProducts();
+        history.productId = product.getId();
+        history.utcDateTime = DateTimeConverter.timeToUtcMillis(date.atStartOfDay());
+        history.milligrams = mass;
+        return history;
+    }
 }

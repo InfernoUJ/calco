@@ -17,11 +17,16 @@ import androidx.fragment.app.DialogFragment;
 public class MassInputDialog extends DialogFragment {
 
     public interface MassInputDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, String mass);
+        void onDialogPositiveClick(DialogFragment dialog, String mass, int index);
         void onDialogNegativeClick(DialogFragment dialog);
     }
 
     MassInputDialogListener listener;
+    private int index;
+    public MassInputDialog(int index) {
+        super();
+        this.index = index;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,7 +51,7 @@ public class MassInputDialog extends DialogFragment {
 
         builder.setView(massInput)
         .setPositiveButton("Add", (dialog, which) -> {
-            listener.onDialogPositiveClick(MassInputDialog.this, massInput.getText().toString());
+            listener.onDialogPositiveClick(MassInputDialog.this, massInput.getText().toString(), index);
         })
         .setNegativeButton("Cancel", (dialog, which) -> {
             dialog.cancel();

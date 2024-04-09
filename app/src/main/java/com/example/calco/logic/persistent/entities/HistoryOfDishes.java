@@ -15,7 +15,7 @@ public class HistoryOfDishes {
     public long uid;
 
     @ColumnInfo(name = "dish_id")
-    public int dishId;
+    public long dishId;
 
     @NonNull
     @ColumnInfo(name = "utc_date_time")

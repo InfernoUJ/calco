@@ -1,11 +1,14 @@
 package com.example.calco.logic.business;
 
+import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.dao.PDishComponent;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.logic.persistent.entities.HistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
 import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -136,5 +139,19 @@ public class DishLogic {
                 map(DishLogic::getDish).collect(Collectors.toList());
 
         return allDishes;
+    }
+
+    public static void persistDishHistory(Dish dish, int mass, LocalDate date) {
+        AppDataBase db = AppDataBase.getInstance();
+        HistoryOfDishes history = getHistoryOfDish(dish, mass, date);
+        db.historyOfDishesDao().insertAll(history);
+    }
+
+    private static HistoryOfDishes getHistoryOfDish(Dish dish, int mass, LocalDate date) {
+        HistoryOfDishes history = new HistoryOfDishes();
+        history.dishId = dish.getId();
+        history.utcDateTime = DateTimeConverter.timeToUtcMillis(date.atStartOfDay());
+        history.milligrams = mass;
+        return history;
     }
 }

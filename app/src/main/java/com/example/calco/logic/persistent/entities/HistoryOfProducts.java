@@ -19,7 +19,7 @@ public class HistoryOfProducts {
 
     @NonNull
     @ColumnInfo(name = "utc_date_time")
-    public int utcDateTime;
+    public long utcDateTime;
 
     @NonNull
     @ColumnInfo(name = "milligrams")

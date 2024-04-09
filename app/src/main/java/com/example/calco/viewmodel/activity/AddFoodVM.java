@@ -7,12 +7,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.example.calco.MainActivity;
 import com.example.calco.logic.business.Dish;
 import com.example.calco.logic.business.DishLogic;
 import com.example.calco.logic.business.Product;
 import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +43,20 @@ public class AddFoodVM extends ViewModel {
 
     public LiveData<List<FoodWithCCFPData>> getFood() {
         return products;
+    }
+
+    // todo refactor
+    public void addFoodToHistory(int index, String massStr, String dateStr) {
+        FoodWithCCFPData food = products.getValue().get(index);
+        int mass = Integer.parseInt(massStr)*1000;
+        LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
+
+        if (food.getFood() instanceof Product) {
+            Product product = (Product)food.getFood();
+            ProductLogic.persistProductHistory(product, mass, date);
+        } else {
+            Dish dish = (Dish)food.getFood();
+            DishLogic.persistDishHistory(dish, mass, date);
+        }
     }
 }
