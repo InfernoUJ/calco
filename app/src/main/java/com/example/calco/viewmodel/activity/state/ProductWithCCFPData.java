@@ -4,13 +4,13 @@ public class ProductWithCCFPData extends FoodWithCCFPData {
     private Product product;
     private FoodWithCCFPData foodWithCCFPData;
 
-    public ProductWithCCFPData(Product product, FoodWithCCFPData foodWithCCFPData) {
-        super(foodWithCCFPData.getName(), foodWithCCFPData.getImageId(), foodWithCCFPData.getCalories(), foodWithCCFPData.getCarbs(), foodWithCCFPData.getFats(), foodWithCCFPData.getProteins());
+    public ProductWithCCFPData(Product product, String name, Integer imageId, String calories, String carbs, String fats, String proteins) {
+        super(name, imageId, calories, carbs, fats, proteins);
         this.product = product;
         this.foodWithCCFPData = foodWithCCFPData;
     }
-
-    public Product getProduct() {
+    @Override
+    public Product getFood() {
         return product;
     }
 

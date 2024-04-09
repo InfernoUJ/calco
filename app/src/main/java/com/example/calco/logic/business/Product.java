@@ -1,6 +1,6 @@
 package com.example.calco.logic.business;
 
-public class Product {
+public class Product extends Food {
     public static final String DEFAULT_IMAGE = "question_mark";
     private long id;
     private String name;

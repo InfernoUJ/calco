@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.calco.logic.persistent.entities.PDish;
+import com.example.calco.logic.persistent.entities.PProduct;
 
 import java.util.List;
 
@@ -14,15 +15,19 @@ import java.util.List;
 public interface DishDao {
     @Query("SELECT * FROM PDish " +
             "WHERE name LIKE :name ")
-    LiveData<List<PDish>> findByName(String name);
+    List<PDish> findByName(String name);
 
     @Query("SELECT * FROM PDish " +
-            "WHERE uid LIKE :uid " )
-    LiveData<PDish> findById(long uid);
+            "WHERE uid = :uid " )
+    PDish findById(long uid);
 
     @Insert
     List<Long> insertAll(PDish... dishes);
 
     @Delete
     void delete(PDish dish);
+
+    @Query("SELECT * FROM PDish " +
+            "ORDER BY name ")
+    List<PDish> getDishesAlphabetical();
 }

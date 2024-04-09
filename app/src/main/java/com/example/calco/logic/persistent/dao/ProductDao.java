@@ -14,11 +14,11 @@ import java.util.List;
 public interface ProductDao {
     @Query("SELECT * FROM PProduct " +
             "WHERE name LIKE :name ")
-    LiveData<List<PProduct>> findByName(String name);
+    List<PProduct> findByName(String name);
 
     @Query("SELECT * FROM PProduct " +
-            "WHERE uid LIKE :uid " )
-    LiveData<PProduct> findById(long uid);
+            "WHERE uid = :uid " )
+    PProduct findById(long uid);
 
     @Insert
     List<Long> insertAll(PProduct... users);
@@ -27,6 +27,7 @@ public interface ProductDao {
     void delete(PProduct user);
 
     @Query("SELECT * FROM PProduct " +
-            "ORDER BY uid DESC ")
-    List<PProduct> getLastUsedProducts();
+            "ORDER BY name ")
+    List<PProduct> getProductsAlphabetical();
+
 }

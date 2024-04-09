@@ -1,7 +1,9 @@
 package com.example.calco.logic.business;
 
+import com.example.calco.logic.persistent.dao.PDishComponent;
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PDish;
+import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
 
 import java.util.ArrayList;
@@ -9,12 +11,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class DishLogic {
 
-    public static void persistNewDish(String dishName, List<Map.Entry<Product, Integer>> products) {
+    public static void persistNewDish(String dishName, List<Map.Entry<Food, Integer>> products) {
+        if (products.isEmpty()) {
+            return;
+        }
+        // todo change to factory/strategy pattern
+        if (!(products.get(0).getKey() instanceof Product)) {
+            throw new IllegalArgumentException("Only products can be persisted as dishes' components.");
+        }
+        List<Map.Entry<Product, Integer>> products2 = new ArrayList<>();
+        for (Map.Entry<Food, Integer> entry: products) {
+            products2.add(Map.entry((Product)entry.getKey(), entry.getValue()));
+        }
         long dishId = persistDish(dishName);
-        persistProductsInDish(dishId, getProductsPercentImpact(products));
+        persistProductsInDish(dishId, getProductsPercentImpact(products2));
     }
 
     private static long persistDish(String name) {
@@ -95,5 +109,32 @@ public class DishLogic {
     private static void persistOneProductInDish(ProductsInDishes productInDish) {
         AppDataBase db = AppDataBase.getInstance();
         db.productsInDishesDao().insertAll(productInDish);
+    }
+
+    private static Dish getDish(PDish pDish) {
+        return new Dish(pDish.uid, pDish.name, getDishComponents(pDish.uid), Dish.DEFAULT_IMAGE);
+    }
+
+    private static List<DishComponent> getDishComponents(long dishId) {
+        AppDataBase db = AppDataBase.getInstance();
+        List<PDishComponent> productsInDishes = db.productsInDishesDao().getComponents(dishId);
+        return productsInDishes.stream().map(DishLogic::getDishComponent).collect(Collectors.toList());
+    }
+
+    public static DishComponent getDishComponent(PDishComponent pDishComponent) {
+        AppDataBase db = AppDataBase.getInstance();
+        PProduct pProduct = db.productDao().findById(pDishComponent.productId);
+        return new DishComponent(ProductLogic.getProduct(pProduct), pDishComponent.percentContent);
+    }
+
+    public static List<Dish> getLastUsedDishes() {
+        AppDataBase db = AppDataBase.getInstance();
+        List<PDish> lastDishes = db.historyOfDishesDao().getLastUsedDishes();
+        List<PDish> dishesAlphabetical = db.dishDao().getDishesAlphabetical();
+
+        List<Dish> allDishes = Stream.concat(lastDishes.stream(), dishesAlphabetical.stream()).
+                map(DishLogic::getDish).collect(Collectors.toList());
+
+        return allDishes;
     }
 }

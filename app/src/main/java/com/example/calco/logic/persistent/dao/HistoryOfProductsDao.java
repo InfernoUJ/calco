@@ -13,12 +13,9 @@ import java.util.List;
 
 @Dao
 public interface HistoryOfProductsDao {
-    // todo changed for tests
-//    @Query("SELECT * FROM PProduct " +
-//            "JOIN HistoryOfProducts ON  HistoryOfProducts.product_id = PProduct.uid " +
-//            "ORDER BY HistoryOfProducts.utc_date_time DESC ")
     @Query("SELECT * FROM PProduct " +
-            "ORDER BY uid DESC ")
-    LiveData<List<PProduct>> getLastUsedProducts();
+            "JOIN HistoryOfProducts ON  HistoryOfProducts.product_id = PProduct.uid " +
+            "ORDER BY HistoryOfProducts.utc_date_time DESC ")
+    List<PProduct> getLastUsedProducts();
 
 }

@@ -18,7 +18,7 @@ import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.viewmodel.activity.CreateDishVM;
 import com.example.calco.viewmodel.activity.CreateProductVM;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
-import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
+import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class CreateDishActivity extends AppCompatActivity {
         return ((EditText) findViewById(R.id.dishName)).getText().toString();
     }
 
-    private void addProductsToTable(List<ProductWithCCFPData> product) {
+    private void addProductsToTable(List<FoodWithCCFPData> product) {
         // todo can make null-termination it in querry method ?
         //  or create my own annotation for query methods
         if (product == null) {
@@ -87,7 +87,7 @@ public class CreateDishActivity extends AppCompatActivity {
         });
     }
 
-    private View createFoodRecord(ProductWithCCFPData product) {
+    private View createFoodRecord(FoodWithCCFPData product) {
         View productRow = getLayoutInflater().inflate(R.layout.component_of_dish,null);
 
         ImageView productImage = productRow.findViewById(R.id.component_image);

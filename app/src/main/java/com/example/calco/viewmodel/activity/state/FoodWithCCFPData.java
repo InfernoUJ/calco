@@ -1,15 +1,14 @@
 package com.example.calco.viewmodel.activity.state;
 
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.Food;
 
-public class FoodWithCCFPData {
-    private Product product;
-    private String name;
-    private Integer imageId;
-    private String calories;
-    private String carbs;
-    private String fats;
-    private String proteins;
+public abstract class FoodWithCCFPData {
+    protected String name;
+    protected Integer imageId;
+    protected String calories;
+    protected String carbs;
+    protected String fats;
+    protected String proteins;
 
     public FoodWithCCFPData(String name, Integer imageId, String calories, String carbs, String fats, String proteins) {
         this.name = name;
@@ -20,9 +19,7 @@ public class FoodWithCCFPData {
         this.proteins = proteins;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+    public abstract Food getFood();
 
     public String getName() {
         return name;

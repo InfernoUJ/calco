@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.example.calco.logic.business.Dish;
+import com.example.calco.logic.business.DishLogic;
 import com.example.calco.logic.business.Product;
 import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
@@ -23,11 +25,17 @@ public class AddFoodVM extends ViewModel {
 
     public void updateLastUsedFood(Resources resources, String packageName) {
         List<Product> newProducts = ProductLogic.getLastUsedProducts();
-        List<FoodWithCCFPData> uiProducts = newProducts.stream()
-                .map(product -> LogicToUiConverter.getFoodWithCCFPData(product, resources, packageName))
-                .collect(Collectors.toList());
+        List<Dish> newDishes = DishLogic.getLastUsedDishes();
 
-        products.setValue(uiProducts);
+        Stream<FoodWithCCFPData> uiProducts = newProducts.stream()
+                .map(product -> LogicToUiConverter.getFoodWithCCFPData(product, resources, packageName));
+        Stream<FoodWithCCFPData> uiDishes = newDishes.stream()
+                .map(dish -> LogicToUiConverter.getFoodWithCCFPData(dish, resources, packageName));
+
+        // todo order from history by last used
+        List<FoodWithCCFPData> allFood = Stream.concat(uiProducts, uiDishes).collect(Collectors.toList());
+
+        products.setValue(allFood);
     }
 
     public LiveData<List<FoodWithCCFPData>> getFood() {

@@ -42,16 +42,18 @@ public class ProductLogic {
 
     public static List<Product> getLastUsedProducts() {
         AppDataBase db = AppDataBase.getInstance();
-        LiveData<List<PProduct>> pproducts = db.historyOfProductsDao().getLastUsedProducts();
-        List<PProduct> pproduct2 = db.productDao().getLastUsedProducts();
+        List<PProduct> lastProducts = db.historyOfProductsDao().getLastUsedProducts();
+        List<PProduct> productsAlphabetical = db.productDao().getProductsAlphabetical();
 
         // todo can make null-termination it in querry method ?
         //  or create my own annotation for query methods
 
-        LiveData<Stream<Product>> products = Transformations.map(pproducts,
-                pproductList -> pproductList.stream().map(ProductLogic::getProduct));
+        // todo maybe remove duplicates
+        List<Product> allProducts = Stream.concat(lastProducts.stream(), productsAlphabetical.stream()).
+                map(ProductLogic::getProduct).collect(Collectors.toList());
 
-        List<Product> products2 = pproduct2.stream().map(ProductLogic::getProduct).collect(Collectors.toList());
-        return products2;
+        return allProducts;
     }
+
+
 }
