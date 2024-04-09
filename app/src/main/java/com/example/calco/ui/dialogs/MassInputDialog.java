@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -63,7 +65,7 @@ public class MassInputDialog extends DialogFragment {
         params.setMargins(16, 16, 16, 16); // Example margin values
         massInput.setLayoutParams(params);
         massInput.setHint("Enter food mass");
-
+        massInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         return massInput;
     }
 }
