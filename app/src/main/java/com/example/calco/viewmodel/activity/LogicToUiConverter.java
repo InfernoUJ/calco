@@ -42,7 +42,7 @@ public class LogicToUiConverter {
         return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
     }
 
-    public static List<ProductImpactRecordData> getProd/*test*/uctImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
+    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
         List<HistoryOfFood> food = new ArrayList<>(products);
         food.addAll(dishes);
         List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food, HistoryOfFood::getMilligrams);

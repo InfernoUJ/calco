@@ -27,7 +27,7 @@ public class PercentConvertor {
                 currMassDifference += 1;
             }
             else {
-                if (currMassDifference >= 0) {
+                if (currMassDifference > 0) {
                     entitiesPercents.add((int)Math.floor(percent));
                     currMassDifference -= 1;
                 }
