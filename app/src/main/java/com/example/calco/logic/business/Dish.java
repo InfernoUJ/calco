@@ -4,35 +4,18 @@ import java.util.List;
 
 public class Dish extends Food {
     public static final String DEFAULT_IMAGE = "question_mark";
-    private long id;
-    private String name;
-    private String imageName;
     private List<DishComponent> components;
 
     public Dish(long id, String name, List<DishComponent> components, String imageName) {
-        this.id = id;
-        this.name = name;
+        super(id, name, getCalories(components), getCarbs(components), getFats(components), getProteins(components), imageName);
         this.components = components;
-        this.imageName = imageName;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImageName() {
-        return imageName;
     }
 
     public List<DishComponent> getComponents() {
         return components;
     }
 
-    public Integer getCalories() {
+    protected static Integer getCalories(List<DishComponent> components) {
         int calories = 0;
         for (DishComponent component : components) {
             calories += component.getProduct().getCalories() * component.getPercent() / 100;
@@ -40,7 +23,7 @@ public class Dish extends Food {
         return calories;
     }
 
-    public Integer getCarbs() {
+    protected static Integer getCarbs(List<DishComponent> components) {
         int carbs = 0;
         for (DishComponent component : components) {
             carbs += component.getProduct().getCarbs() * component.getPercent() / 100;
@@ -48,7 +31,7 @@ public class Dish extends Food {
         return carbs;
     }
 
-    public Integer getFats() {
+    protected static Integer getFats(List<DishComponent> components) {
         int fats = 0;
         for (DishComponent component : components) {
             fats += component.getProduct().getFats() * component.getPercent() / 100;
@@ -56,7 +39,7 @@ public class Dish extends Food {
         return fats;
     }
 
-    public Integer getProteins() {
+    protected static Integer getProteins(List<DishComponent> components) {
         int proteins = 0;
         for (DishComponent component : components) {
             proteins += component.getProduct().getProteins() * component.getPercent() / 100;

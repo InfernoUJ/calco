@@ -4,14 +4,18 @@ import android.content.res.Resources;
 
 import com.example.calco.logic.business.Dish;
 import com.example.calco.logic.business.HistoryOfDishes;
+import com.example.calco.logic.business.HistoryOfFood;
 import com.example.calco.logic.business.HistoryOfProducts;
 import com.example.calco.logic.business.Product;
+import com.example.calco.logic.utils.PercentConvertor;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LogicToUiConverter {
@@ -38,29 +42,19 @@ public class LogicToUiConverter {
         return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
     }
 
-    // todo - refactor
-    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
-        int mass = 0;
-        for (HistoryOfProducts historyOfProducts : products) {
-            mass += historyOfProducts.getMilligrams();
-        }
-        for (HistoryOfDishes historyOfDishes : dishes) {
-            mass += historyOfDishes.getMilligrams();
-        }
-        int totalMass = mass;
+    public static List<ProductImpactRecordData> getProd/*test*/uctImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
+        List<HistoryOfFood> food = new ArrayList<>(products);
+        food.addAll(dishes);
+        List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food, HistoryOfFood::getMilligrams);
 
-        List<ProductImpactRecordData> allRecords = products.stream().map(history -> {
+        List<ProductImpactRecordData> allRecords = foodWithPercents.stream().map(entry -> {
+            HistoryOfFood history = entry.getKey();
             int mmillis = history.getMilligrams();
-            int percentage = (int) ((mmillis / (float) totalMass) * 100);
-            int resId = resources.getIdentifier(history.getProduct().getImageName() , "drawable", packageName);
-            return new ProductImpactRecordData(history.getProduct().getName(), percentage, mmillis/1000, resId);
+            int percentage = entry.getValue();
+            int resId = resources.getIdentifier(history.getFood().getImageName() , "drawable", packageName);
+            return new ProductImpactRecordData(history.getFood().getName(), percentage, mmillis/1000, resId);
         }).collect(Collectors.toList());
-        allRecords.addAll(dishes.stream().map(history -> {
-            int mmillis = history.getMilligrams();
-            int percentage = (int) ((mmillis / (float) totalMass) * 100);
-            int resId = resources.getIdentifier(history.getDish().getImageName() , "drawable", packageName);
-            return new ProductImpactRecordData(history.getDish().getName(), percentage, mmillis/1000, resId);
-        }).collect(Collectors.toList()));
+
         return allRecords;
     }
 

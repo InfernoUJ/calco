@@ -3,7 +3,7 @@ package com.example.calco.logic.business;
 import java.time.LocalDate;
 
 public abstract class HistoryOfFood {
-    private long id;
+    protected long id;
 
     public long getId() {
         return id;
@@ -21,9 +21,9 @@ public abstract class HistoryOfFood {
         return milligrams;
     }
 
-    private Food food;
-    private LocalDate date;
-    private int milligrams;
+    protected Food food;
+    protected LocalDate date;
+    protected int milligrams;
 
     public HistoryOfFood(long id, Food food, LocalDate date, int milligrams) {
         this.id = id;

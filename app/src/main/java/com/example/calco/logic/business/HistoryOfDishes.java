@@ -5,10 +5,8 @@ import java.time.LocalDate;
 public class HistoryOfDishes extends HistoryOfFood {
 
     public Dish getDish() {
-        return dish;
+        return (Dish)food;
     }
-
-    private Dish dish;
 
     public HistoryOfDishes(long id, Dish dish, LocalDate date, int milligrams) {
         super(id, dish, date, milligrams);

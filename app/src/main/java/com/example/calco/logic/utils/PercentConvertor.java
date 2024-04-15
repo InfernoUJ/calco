@@ -5,6 +5,7 @@ import com.example.calco.logic.business.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -55,5 +56,10 @@ public class PercentConvertor {
         }
 
         return entitiesWithPercents;
+    }
+
+    public static <T> List<Map.Entry<T, Integer>> getPercentImpact(List<T> entities, Function<T, Integer> absoluteImpactResolver) {
+        List<Map.Entry<T, Integer>> absoluteImpacts = entities.stream().map(entity -> Map.entry(entity, absoluteImpactResolver.apply(entity))).toList();
+        return getPercentImpact(absoluteImpacts);
     }
 }
