@@ -71,7 +71,7 @@
         android:layout_marginStart="4dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/chooseDateBtn"
-        app:layout_constraintBottom_toTopOf="@+id/product_table_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/food_table_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" >
 
@@ -105,8 +105,8 @@
     </RadioGroup>
 
     <fragment
-        android:id="@+id/product_table_fragment"
-        android:name="com.example.calco.ui.products.table.ProductTableFragment"
+        android:id="@+id/food_table_fragment"
+        android:name="com.example.calco.ui.products.table.FoodTableFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -115,6 +115,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_product_table" />
+        tools:layout="@layout/fragment_food_table" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

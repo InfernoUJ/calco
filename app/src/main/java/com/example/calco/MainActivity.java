@@ -8,9 +8,7 @@ import android.widget.TextView;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
-import com.example.calco.ui.products.table.ProductImpactRecordData;
-import com.example.calco.ui.products.table.ProductTableFragment;
-import com.example.calco.viewmodel.activity.AddFoodVM;
+import com.example.calco.ui.products.table.FoodTableFragment;
 import com.example.calco.viewmodel.activity.MainVM;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -27,10 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.calco.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
 
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener {
     public static final String dateFormat = "yyyy-MM-dd";
@@ -104,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setDateChoosingHandlers();
         setAddingProductHandlers();
         setFoodTableHandler();
+        setPieChartsHandler();
     }
 
     private void setDateChoosingHandlers() {
@@ -115,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void setAddingProductHandlers() {
-        View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.addProductBtn);
-        chooseDateButton.setOnClickListener(view -> {
+        View addProductBtn = binding.appBarMain.getRoot().findViewById(R.id.addProductBtn);
+        addProductBtn.setOnClickListener(view -> {
             Intent addProductactivityIntent = new Intent(this, AddFoodActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("date", getDate());
@@ -126,10 +122,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void setFoodTableHandler() {
-        ProductTableFragment productTable = (ProductTableFragment) getSupportFragmentManager().findFragmentById(R.id.product_table_fragment);
+        FoodTableFragment productTable = (FoodTableFragment) getSupportFragmentManager().findFragmentById(R.id.food_table_fragment);
         model.getFoodRecords().observe(this, productImpactRecordDataList -> {
             productTable.replaceProducts(productImpactRecordDataList);
         });
+    }
+
+    private void setPieChartsHandler() {
+
     }
 
     @Override

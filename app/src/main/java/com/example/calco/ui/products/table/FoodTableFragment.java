@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.calco.R;
-import com.example.calco.databinding.FragmentProductTableBinding;
+import com.example.calco.databinding.FragmentFoodTableBinding;
 
 import java.util.List;
 
-public class ProductTableFragment extends Fragment {
-    private FragmentProductTableBinding binding;
+public class FoodTableFragment extends Fragment {
+    private FragmentFoodTableBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentProductTableBinding.inflate(inflater, container, false);
+        binding = FragmentFoodTableBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;
@@ -39,9 +39,9 @@ public class ProductTableFragment extends Fragment {
         productPercentImpact.setText(getPercentageOfRecordAsString(productImpactRecordData));
         productAbsoluteImpact.setText(productImpactRecordData.getAbsoluteValue().toString());
 
-        binding.productTableLinearLayout.addView(productRow);
+        binding.foodTableLinearLayout.addView(productRow);
 
-        System.out.println("Id: " + binding.productTableLinearLayout.getId() + " Child count: " + binding.productTableLinearLayout.getChildCount());
+        System.out.println("Id: " + binding.foodTableLinearLayout.getId() + " Child count: " + binding.foodTableLinearLayout.getChildCount());
     }
 
     public void addProducts(List<ProductImpactRecordData> productImpactRecordDataList) {
@@ -60,6 +60,6 @@ public class ProductTableFragment extends Fragment {
     }
 
     private void removeAllProductRecords() {
-        binding.productTableLinearLayout.removeAllViews();
+        binding.foodTableLinearLayout.removeAllViews();
     }
 }
