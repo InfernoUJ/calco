@@ -7,9 +7,11 @@ import android.view.Menu;
 import android.widget.TextView;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.FoodTableFragment;
-import com.example.calco.viewmodel.activity.MainVM;
+import com.example.calco.viewmodel.activity.FoodTableVM;
+import com.example.calco.viewmodel.activity.PieChartsVM;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    private MainVM model;
+    private FoodTableVM foodTableModel;
+    private PieChartsVM pieChartsModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         AppDataBase.createInstance(getApplicationContext());
 
-        model = new ViewModelProvider(this).get(MainVM.class);
+        foodTableModel = new ViewModelProvider(this).get(FoodTableVM.class);
+        pieChartsModel = new ViewModelProvider(this).get(PieChartsVM.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     protected void onStart() {
         super.onStart();
         updateFoodTable();
+        updatePieCharts();
     }
 
     // TODO maybe create base class, so this method will call all methods annotated with my annotation
@@ -123,13 +128,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     private void setFoodTableHandler() {
         FoodTableFragment productTable = (FoodTableFragment) getSupportFragmentManager().findFragmentById(R.id.food_table_fragment);
-        model.getFoodRecords().observe(this, productImpactRecordDataList -> {
+        foodTableModel.getFoodRecords().observe(this, productImpactRecordDataList -> {
             productTable.replaceProducts(productImpactRecordDataList);
         });
     }
 
     private void setPieChartsHandler() {
-
+        CCFPPieChartGroupFragment pieChartGroup = (CCFPPieChartGroupFragment) getSupportFragmentManager().findFragmentById(R.id.ccfp_pie_chart_group_fragment);
+        pieChartsModel.getPercents().observe(this, pieChartsPercents -> {
+            pieChartGroup.updateLoadings(pieChartsPercents);
+        });
     }
 
     @Override
@@ -137,10 +145,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         LocalDate chosenDate = LocalDate.of(year, month, day);
         setDateToField(chosenDate);
         updateFoodTable();
+        updatePieCharts();
     }
 
     private void updateFoodTable() {
-        model.updateFoodTable(getLocalDate(), getResources(), getPackageName());
+        foodTableModel.updateFoodTable(getLocalDate(), getResources(), getPackageName());
+    }
+
+    private void updatePieCharts() {
+        pieChartsModel.updatePercents(getLocalDate());
     }
 
     @Override

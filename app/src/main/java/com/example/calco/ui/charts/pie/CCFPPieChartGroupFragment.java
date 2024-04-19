@@ -24,12 +24,25 @@ public class CCFPPieChartGroupFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        setupPieChart(binding.pieChartCalories, new CaloriesPieChartData(getContext(), 50).getPieData());
-        setupPieChart(binding.pieChartCarbs, new CarbsPieChartData(getContext(), 70).getPieData());
-        setupPieChart(binding.pieChartFats, new FatsPieChartData(getContext(), 80).getPieData());
-        setupPieChart(binding.pieChartProteins, new ProteinsPieChartData(getContext(), 30).getPieData());
+        updateLoadings(10, 10, 10, 10);
 
         return root;
+    }
+
+    public void updateLoadings(int caloriesLoading, int carbsLoading, int fatsLoading, int proteinsLoading) {
+        binding.pieChartCalories.clear();
+        binding.pieChartCarbs.clear();
+        binding.pieChartFats.clear();
+        binding.pieChartProteins.clear();
+
+        setupPieChart(binding.pieChartCalories, new CaloriesPieChartData(getContext(), caloriesLoading).getPieData());
+        setupPieChart(binding.pieChartCarbs, new CarbsPieChartData(getContext(), carbsLoading).getPieData());
+        setupPieChart(binding.pieChartFats, new FatsPieChartData(getContext(), fatsLoading).getPieData());
+        setupPieChart(binding.pieChartProteins, new ProteinsPieChartData(getContext(), proteinsLoading).getPieData());
+    }
+
+    public void updateLoadings(PieChartsPercents percents) {
+        updateLoadings(percents.caloriesPercent, percents.carbsPercent, percents.fatsPercent, percents.proteinsPercent);
     }
 
     private void setupPieChart(PieChart pieChart, PieData pieData) {
@@ -41,6 +54,6 @@ public class CCFPPieChartGroupFragment extends Fragment {
         pieChart.getDescription().setEnabled(false);
         // this is for legend below chart
         pieChart.getLegend().setEnabled(false);
-        pieChart.animate();
+//        pieChart.animate();
     }
 }

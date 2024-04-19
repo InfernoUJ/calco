@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainVM extends ViewModel {
+public class FoodTableVM extends ViewModel {
     private MutableLiveData<List<ProductImpactRecordData>> foodRecords = new MutableLiveData<>(new ArrayList<>());
     public void updateFoodTable(LocalDate date, Resources resources, String packageName) {
         List<HistoryOfProducts> historyOfProducts = ProductLogic.getDayHistory(date);
