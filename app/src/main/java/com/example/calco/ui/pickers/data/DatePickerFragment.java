@@ -10,14 +10,12 @@ import android.widget.DatePicker;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.calco.ui.dialogs.MassInputDialog;
-
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     public interface DatePickerListener {
-        void onDialogPositiveClick(DialogFragment dialog, int year, int month, int day);
-        void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day);
+        void onDialogNegativeClick(DatePickerFragment dialog);
     }
 
     DatePickerFragment.DatePickerListener listener;

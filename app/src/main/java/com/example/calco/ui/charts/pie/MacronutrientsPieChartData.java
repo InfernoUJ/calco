@@ -6,6 +6,7 @@ import android.graphics.Color;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,13 @@ public abstract class MacronutrientsPieChartData {
         PieDataSet pieDataSet = new PieDataSet(pieEntries, macronutrient);
         pieDataSet.setColors(colors);
         pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(20f);
-
+        pieDataSet.setValueTextSize(16f);
+        pieDataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.valueOf((int)value)+"%";
+            }
+        });
         return new PieData(pieDataSet);
     }
 }
