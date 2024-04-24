@@ -1,4 +1,4 @@
-package com.example.calco.logic.business;
+package com.example.calco.logic.business.entities;
 
 /*
  * In project all info about mass in bd is stored int milligrams, so this enum also contains conversion multiplier

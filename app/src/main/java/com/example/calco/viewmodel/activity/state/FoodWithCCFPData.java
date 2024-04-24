@@ -1,6 +1,6 @@
 package com.example.calco.viewmodel.activity.state;
 
-import com.example.calco.logic.business.Food;
+import com.example.calco.logic.business.entities.Food;
 
 public abstract class FoodWithCCFPData {
     protected String name;

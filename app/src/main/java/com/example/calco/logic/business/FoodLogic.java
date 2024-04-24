@@ -1,5 +1,11 @@
 package com.example.calco.logic.business;
 
+import com.example.calco.logic.business.entities.Food;
+import com.example.calco.logic.business.entities.HistoryOfDishes;
+import com.example.calco.logic.business.entities.HistoryOfProducts;
+import com.example.calco.logic.business.entities.Limit;
+import com.example.calco.logic.business.entities.LimitType;
+import com.example.calco.logic.business.entities.LimitsLogic;
 import com.example.calco.ui.charts.pie.PieChartsPercents;
 
 import java.time.LocalDate;
@@ -11,11 +17,9 @@ public class FoodLogic {
         List<Food> food = ProductLogic.getDayHistory(date).stream().map(HistoryOfProducts::getProduct).collect(Collectors.toList());
         food.addAll(DishLogic.getDayHistory(date).stream().map(HistoryOfDishes::getDish).collect(Collectors.toList()));
         // todo add limits to DB
-        int caloriesLimit = 500_000;
-        int carbsLimit = 500_000;
-        int fatsLimit = 500_000;
-        int proteinsLimit = 500_000;
-        return new PieChartsPercents(calculateCalories(food)*100/caloriesLimit, calculateCarbs(food)*100/carbsLimit, calculateFats(food)*100/fatsLimit, calculateProteins(food)*100/proteinsLimit);
+        Limit limit = LimitsLogic.getLimit(LimitType.DAILY);
+
+        return new PieChartsPercents(calculateCalories(food), calculateCarbs(food), calculateFats(food), calculateProteins(food), limit);
     }
 
     private static int calculateCalories(List<Food> food) {

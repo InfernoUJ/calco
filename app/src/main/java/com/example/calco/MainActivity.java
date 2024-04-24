@@ -6,12 +6,20 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.calco.logic.business.entities.Limit;
+import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
+import com.example.calco.ui.dialogs.SetLimitsDialog;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.FoodTableFragment;
 import com.example.calco.viewmodel.activity.FoodTableVM;
+import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -29,7 +37,7 @@ import com.example.calco.databinding.ActivityMainBinding;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener {
+public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener, SetLimitsDialog.SetLimitsDialogListener {
     public static final String dateFormat = "yyyy-MM-dd";
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -37,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     private FoodTableVM foodTableModel;
     private PieChartsVM pieChartsModel;
+    private LimitsVM limitsModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         foodTableModel = new ViewModelProvider(this).get(FoodTableVM.class);
         pieChartsModel = new ViewModelProvider(this).get(PieChartsVM.class);
+        limitsModel = new ViewModelProvider(this).get(LimitsVM.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -105,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setAddingProductHandlers();
         setFoodTableHandler();
         setPieChartsHandler();
+        setCaloriesLimitHandler();
     }
 
     private void setDateChoosingHandlers() {
@@ -140,8 +151,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         });
     }
 
+    private void setCaloriesLimitHandler() {
+        PieChart caloriesChart = (PieChart) findViewById(R.id.pieChartCalories);
+        caloriesChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                SetLimitsDialog dialog = new SetLimitsDialog(LimitType.DAILY);
+                dialog.show(getSupportFragmentManager(), "setLimitsDialog");
+            }
+
+            @Override
+            public void onNothingSelected() {
+                System.out.println("onNothingSelected");
+            }
+        });
+    }
+
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, int year, int month, int day) {
+    public void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day) {
         LocalDate chosenDate = LocalDate.of(year, month, day);
         setDateToField(chosenDate);
         updateFoodTable();
@@ -157,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void onDialogNegativeClick(DatePickerFragment dialog) {
 
     }
 
@@ -171,5 +198,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     private LocalDate getLocalDate() {
         return LocalDate.parse(getDate(), DateTimeFormatter.ofPattern(MainActivity.dateFormat));
+    }
+
+    @Override
+    public void onSetLimitsDialogPositiveClick(DialogFragment dialog, LimitType type, String calories, String carbs, String fats, String proteins) {
+        System.out.println("Calories: " + calories + " Carbs: " + carbs + " Fats: " + fats + " Proteins: " + proteins);
+        limitsModel.setLimit(type, calories, carbs, fats, proteins);
+        updatePieCharts();
+    }
+
+    @Override
+    public void onSetLimitsDialogNegativeClick(DialogFragment dialog) {
+
     }
 }

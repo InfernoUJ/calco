@@ -1,5 +1,7 @@
 package com.example.calco.logic.business;
 
+import com.example.calco.logic.business.entities.HistoryOfProducts;
+import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PHistoryOfProducts;

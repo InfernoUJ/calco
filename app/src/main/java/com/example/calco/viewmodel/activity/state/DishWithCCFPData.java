@@ -1,6 +1,5 @@
 package com.example.calco.viewmodel.activity.state;
-import com.example.calco.logic.business.Dish;
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.entities.Dish;
 
 public class DishWithCCFPData extends FoodWithCCFPData {
     private Dish dish;

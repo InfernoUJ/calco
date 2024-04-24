@@ -1,4 +1,4 @@
-package com.example.calco.logic.business;
+package com.example.calco.logic.business.entities;
 
 public abstract class Food {
     protected long id;

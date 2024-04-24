@@ -2,11 +2,11 @@ package com.example.calco.viewmodel.activity;
 
 import android.content.res.Resources;
 
-import com.example.calco.logic.business.Dish;
-import com.example.calco.logic.business.HistoryOfDishes;
-import com.example.calco.logic.business.HistoryOfFood;
-import com.example.calco.logic.business.HistoryOfProducts;
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.entities.Dish;
+import com.example.calco.logic.business.entities.HistoryOfDishes;
+import com.example.calco.logic.business.entities.HistoryOfFood;
+import com.example.calco.logic.business.entities.HistoryOfProducts;
+import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.utils.PercentConvertor;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;

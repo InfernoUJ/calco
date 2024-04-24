@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.logic.business.DishLogic;
-import com.example.calco.logic.business.HistoryOfDishes;
-import com.example.calco.logic.business.HistoryOfProducts;
+import com.example.calco.logic.business.entities.HistoryOfDishes;
+import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 

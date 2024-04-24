@@ -1,4 +1,4 @@
-package com.example.calco.logic.business;
+package com.example.calco.logic.business.entities;
 
 public class Product extends Food {
     public static final String DEFAULT_IMAGE = "question_mark";

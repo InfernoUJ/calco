@@ -10,7 +10,8 @@ import com.example.calco.logic.persistent.dao.*;
 import com.example.calco.logic.persistent.entities.*;
 
 @Database(entities = { PProduct.class, PDish.class, Image.class, ProductImages.class, DishImages.class,
-        ProductsInDishes.class, PHistoryOfProducts.class, PHistoryOfDishes.class },
+        ProductsInDishes.class, PHistoryOfProducts.class, PHistoryOfDishes.class,
+        PLimit.class },
           version = 1)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase dataBaseInstance;
@@ -43,5 +44,7 @@ public abstract class AppDataBase extends RoomDatabase {
     public abstract HistoryOfDishesDao historyOfDishesDao();
 
     public abstract ProductsInDishesDao productsInDishesDao();
+
+    public abstract LimitDao limitDao();
 
 }

@@ -1,5 +1,5 @@
 package com.example.calco.viewmodel.activity.state;
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.entities.Product;
 public class ProductWithCCFPData extends FoodWithCCFPData {
     private Product product;
     private FoodWithCCFPData foodWithCCFPData;

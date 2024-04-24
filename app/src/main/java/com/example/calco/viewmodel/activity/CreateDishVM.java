@@ -7,11 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.logic.business.DishLogic;
-import com.example.calco.logic.business.Food;
-import com.example.calco.logic.business.Product;
+import com.example.calco.logic.business.entities.Food;
+import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.business.ProductLogic;
-import com.example.calco.viewmodel.activity.state.CreateProductUiState;
-import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.util.List;
