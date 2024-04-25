@@ -23,7 +23,7 @@ public class LogicToUiConverter {
         int resId = resources.getIdentifier(product.getImageName() , "drawable", packageName);
 
         // todo refactor units short name - add units to settings
-        String caloriesString = String.valueOf(product.getCalories()/100f) + " kcal";
+        String caloriesString = String.valueOf(product.getCalories()/1000f) + " kcal";
         String carbsString = String.valueOf(product.getCarbs()/1000f) + " g";
         String fatsString = String.valueOf(product.getFats()/1000f) + " g";
         String proteinsString = String.valueOf(product.getProteins()/1000f) + " g";
@@ -34,7 +34,7 @@ public class LogicToUiConverter {
     public static FoodWithCCFPData getFoodWithCCFPData(Dish dish, Resources resources, String packageName) {
         int resId = resources.getIdentifier(dish.getImageName() , "drawable", packageName);
 
-        String caloriesString = String.valueOf(dish.getCalories()/100f) + " kcal";
+        String caloriesString = String.valueOf(dish.getCalories()/1000f) + " kcal";
         String carbsString = String.valueOf(dish.getCarbs()/1000f) + " g";
         String fatsString = String.valueOf(dish.getFats()/1000f) + " g";
         String proteinsString = String.valueOf(dish.getProteins()/1000f) + " g";
