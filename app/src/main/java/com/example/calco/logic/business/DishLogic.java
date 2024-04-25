@@ -98,7 +98,7 @@ public class DishLogic {
         List<PDish> dishesAlphabetical = db.dishDao().getDishesAlphabetical();
 
         List<Dish> allDishes = Stream.concat(lastDishes.stream(), dishesAlphabetical.stream()).
-                map(DishLogic::getDish).collect(Collectors.toList());
+                distinct().map(DishLogic::getDish).collect(Collectors.toList());
 
         return allDishes;
     }

@@ -45,9 +45,8 @@ public class ProductLogic {
         // todo can make null-termination it in querry method ?
         //  or create my own annotation for query methods
 
-        // todo maybe remove duplicates
         List<Product> allProducts = Stream.concat(lastProducts.stream(), productsAlphabetical.stream()).
-                map(ProductLogic::getProduct).collect(Collectors.toList());
+                distinct().map(ProductLogic::getProduct).collect(Collectors.toList());
 
         return allProducts;
     }

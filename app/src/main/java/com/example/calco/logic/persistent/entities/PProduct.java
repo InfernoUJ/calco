@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity
 public class PProduct {
     @PrimaryKey(autoGenerate = true)
@@ -35,4 +37,17 @@ public class PProduct {
      */
     @ColumnInfo(name = "proteins")
     public Integer proteins;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PProduct pProduct = (PProduct) o;
+        return uid == pProduct.uid;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid);
+    }
 }
