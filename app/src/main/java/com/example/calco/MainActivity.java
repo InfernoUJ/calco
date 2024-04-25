@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.example.calco.logic.business.entities.Limit;
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.network.WebServiceFactory;
+import com.example.calco.network.entities.WebDishes;
+import com.example.calco.network.service.ProductService;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
 import com.example.calco.ui.dialogs.SetLimitsDialog;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
@@ -36,6 +39,10 @@ import com.example.calco.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener, SetLimitsDialog.SetLimitsDialogListener {
     public static final String dateFormat = "yyyy-MM-dd";
@@ -86,6 +93,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        ProductService productService = WebServiceFactory.createService(ProductService.class);
+        Call<WebDishes> productList = productService.getDishes("kasza", "pl");
+        productList.enqueue(new Callback<WebDishes>() {
+            @Override
+            public void onResponse(Call<WebDishes> call, Response<WebDishes> response) {
+                System.out.println(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<WebDishes> call, Throwable throwable) {
+                System.out.println("Error: " + throwable.getMessage());
+            }
+        });
+
     }
 
     @Override
