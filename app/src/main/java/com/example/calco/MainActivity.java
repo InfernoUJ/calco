@@ -94,20 +94,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        ProductService productService = WebServiceFactory.createService(ProductService.class);
-        Call<WebDishes> productList = productService.getDishes("kasza", "pl");
-        productList.enqueue(new Callback<WebDishes>() {
-            @Override
-            public void onResponse(Call<WebDishes> call, Response<WebDishes> response) {
-                System.out.println(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<WebDishes> call, Throwable throwable) {
-                System.out.println("Error: " + throwable.getMessage());
-            }
-        });
-
     }
 
     @Override

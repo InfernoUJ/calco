@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,17 +15,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.ui.dialogs.MassInputDialog;
 import com.example.calco.viewmodel.activity.AddFoodVM;
+import com.example.calco.viewmodel.activity.SearchVM;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.util.List;
 
-public class AddFoodActivity extends AppCompatActivity implements MassInputDialog.MassInputDialogListener {
+public class AddFoodActivity extends AppCompatActivity implements MassInputDialog.MassInputDialogListener,
+        SearchView.OnQueryTextListener {
 
     private AddFoodVM model;
+    private SearchVM searchModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +44,16 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         });
 
         model = new ViewModelProvider(this).get(AddFoodVM.class);
+        searchModel = new ViewModelProvider(this).get(SearchVM.class);
 
         setHandlers();
 
+        SearchView searchView = findViewById(R.id.foodSearchView);
+        searchView.setOnQueryTextListener(this);
+
+        RecyclerView recyclerView = findViewById(R.id.searchingFoodResults);
+        recyclerView.setAdapter(searchModel.getAdapter());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     // why onResume wasn't being called? - idk
@@ -131,5 +144,19 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         productProteins.setText(food.getProteins());
 
         return productRow;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        System.out.println("onQueryTextSubmit: " + query);
+        searchModel.searchFood(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        System.out.println("onQueryTextChange: " + newText);
+        searchModel.searchFood(newText);
+        return false;
     }
 }

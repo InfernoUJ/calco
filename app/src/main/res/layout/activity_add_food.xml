@@ -8,37 +8,26 @@
     android:layout_height="match_parent"
     tools:context=".AddFoodActivity">
 
-    <LinearLayout
-        android:id="@+id/searchFoodLayout"
+    <SearchView
+        android:id="@+id/foodSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/searchingFoodResults"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchingFoodResults"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodSearchView"
         app:layout_constraintBottom_toTopOf="@+id/createProductBtn"
-        android:orientation="horizontal" >
-        <EditText
-            android:id="@+id/foodSearchName"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/searchFoodBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <ImageButton
-            android:id="@+id/searchFoodBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toEndOf="@+id/foodSearchName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/magnifying_glass"
-            />
-    </LinearLayout>
+        />
 
     <Button
         android:id="@+id/createProductBtn"
@@ -46,7 +35,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/createDishBtn"
-        app:layout_constraintTop_toBottomOf="@+id/searchFoodLayout"
+        app:layout_constraintTop_toBottomOf="@+id/searchingFoodResults"
         app:layout_constraintBottom_toTopOf="@+id/lastFoodTableScrollView"
         android:text="Create new product"/>
 
@@ -56,7 +45,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/createProductBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchFoodLayout"
+        app:layout_constraintTop_toBottomOf="@+id/searchingFoodResults"
         app:layout_constraintBottom_toTopOf="@+id/lastFoodTableScrollView"
         android:text="Create new dish"/>
 

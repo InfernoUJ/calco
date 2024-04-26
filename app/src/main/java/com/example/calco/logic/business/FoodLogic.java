@@ -16,7 +16,6 @@ public class FoodLogic {
     public static PieChartsPercents calculateGoalCompletion(LocalDate date) {
         List<Food> food = ProductLogic.getDayHistory(date).stream().map(HistoryOfProducts::getProduct).collect(Collectors.toList());
         food.addAll(DishLogic.getDayHistory(date).stream().map(HistoryOfDishes::getDish).collect(Collectors.toList()));
-        // todo add limits to DB
         Limit limit = LimitsLogic.getLimit(LimitType.DAILY);
 
         return new PieChartsPercents(calculateCalories(food), calculateCarbs(food), calculateFats(food), calculateProteins(food), limit);
