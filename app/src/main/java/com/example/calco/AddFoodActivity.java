@@ -48,13 +48,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         searchModel = new ViewModelProvider(this).get(SearchVM.class);
 
         setHandlers();
-
-        SearchView searchView = findViewById(R.id.foodSearchView);
-        searchView.setOnQueryTextListener(this);
-
-        RecyclerView recyclerView = findViewById(R.id.searchingFoodResults);
-        recyclerView.setAdapter(searchModel.getAdapter(this::setDialogHandlerForSearchingRow));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        setUp();
     }
 
     // why onResume wasn't being called? - idk
@@ -69,6 +63,10 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         setCreateProductButtonHandler();
         setLastUsedFoodHandler();
         setCreateDishButtonHandler();
+    }
+
+    private void setUp() {
+        setUpSearching();
     }
 
     private void setCreateProductButtonHandler() {
@@ -89,6 +87,22 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
 
     private void setLastUsedFoodHandler() {
         model.getFood().observe(this, this::addFoodToTable);
+    }
+
+    private void setUpSearching() {
+        setUpSearchingBar();
+        setUpSearchingResults();
+    }
+
+    private void setUpSearchingBar() {
+        SearchView searchView = findViewById(R.id.foodSearchView);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    private void setUpSearchingResults() {
+        RecyclerView recyclerView = findViewById(R.id.searchingFoodResults);
+        recyclerView.setAdapter(searchModel.getAdapter(this::setDialogHandlerForSearchingRow));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void addFoodToTable(List<FoodWithCCFPData> food) {
