@@ -14,18 +14,41 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.calco.network.entities.WebProduct;
+
 public class MassInputDialog extends DialogFragment {
 
     public interface MassInputDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, String mass, int index);
+        void onDialogPositiveClick(MassInputDialog dialog);
         void onDialogNegativeClick(DialogFragment dialog);
     }
 
     MassInputDialogListener listener;
     private int index;
+    private WebProduct product;
+
+    private String mass;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public WebProduct getProduct() {
+        return product;
+    }
+
+    public String getMass() {
+        return mass;
+    }
+
     public MassInputDialog(int index) {
         super();
         this.index = index;
+    }
+
+    public MassInputDialog(WebProduct product) {
+        super();
+        this.product = product;
     }
 
     @Override
@@ -51,7 +74,8 @@ public class MassInputDialog extends DialogFragment {
 
         builder.setView(massInput)
         .setPositiveButton("Add", (dialog, which) -> {
-            listener.onDialogPositiveClick(MassInputDialog.this, massInput.getText().toString(), index);
+            mass = massInput.getText().toString();
+            listener.onDialogPositiveClick(MassInputDialog.this);
         })
         .setNegativeButton("Cancel", (dialog, which) -> {
             dialog.cancel();

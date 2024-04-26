@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.network.entities.WebProduct;
 import com.example.calco.ui.dialogs.MassInputDialog;
 import com.example.calco.viewmodel.activity.AddFoodVM;
 import com.example.calco.viewmodel.activity.SearchVM;
@@ -52,7 +53,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         searchView.setOnQueryTextListener(this);
 
         RecyclerView recyclerView = findViewById(R.id.searchingFoodResults);
-        recyclerView.setAdapter(searchModel.getAdapter());
+        recyclerView.setAdapter(searchModel.getAdapter(this::setDialogHandlerForSearchingRow));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -112,12 +113,19 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         });
     }
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String mass, int index) {
-        // User touched the dialog's positive button
-        System.out.println("Mass: " + mass + " time form bundle: " + getIntent().getExtras().getString("date"));
+    private void setDialogHandlerForSearchingRow(View view, WebProduct product) {
+        view.setOnClickListener(v -> {
+            DialogFragment dialogFragment = new MassInputDialog(product);
+            dialogFragment.show(getSupportFragmentManager(), "massInputDialog");
+        });
+    }
 
-        model.addFoodToHistory(index, mass, getIntent().getExtras().getString("date"));
+    @Override
+    public void onDialogPositiveClick(MassInputDialog dialog) {
+        // User touched the dialog's positive button
+        System.out.println("Mass: " + dialog.getMass() + " time form bundle: " + getIntent().getExtras().getString("date"));
+
+        model.addFoodToHistory(dialog.getIndex(), dialog.getMass(), dialog.getProduct(), getIntent().getExtras().getString("date"));
     }
 
     @Override

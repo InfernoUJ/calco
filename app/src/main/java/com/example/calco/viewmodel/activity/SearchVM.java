@@ -1,12 +1,16 @@
 package com.example.calco.viewmodel.activity;
 
+import android.view.View;
+
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.network.WebServiceFactory;
 import com.example.calco.network.entities.WebDishes;
+import com.example.calco.network.entities.WebProduct;
 import com.example.calco.network.service.ProductService;
 
 import java.util.Collections;
+import java.util.function.BiConsumer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +41,8 @@ public class SearchVM extends ViewModel {
         }
     }
 
-    public SearchingResultsAdapter getAdapter() {
+    public SearchingResultsAdapter getAdapter(BiConsumer<View, WebProduct> handler) {
+        adapter.setDialogHandlerForSearchingRow(handler);
         return adapter;
     }
 

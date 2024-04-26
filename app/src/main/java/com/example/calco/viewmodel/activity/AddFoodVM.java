@@ -11,6 +11,7 @@ import com.example.calco.logic.business.entities.Dish;
 import com.example.calco.logic.business.DishLogic;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.business.ProductLogic;
+import com.example.calco.network.entities.WebProduct;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.time.LocalDate;
@@ -43,17 +44,22 @@ public class AddFoodVM extends ViewModel {
     }
 
     // todo refactor
-    public void addFoodToHistory(int index, String massStr, String dateStr) {
-        FoodWithCCFPData food = products.getValue().get(index);
-        int mass = Integer.parseInt(massStr)*1000;
-        LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
+    public void addFoodToHistory(int index, String massStr, WebProduct webProduct, String dateStr) {
+        if (webProduct == null) {
+            FoodWithCCFPData food = products.getValue().get(index);
+            int mass = Integer.parseInt(massStr) * 1000;
+            LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
 
-        if (food.getFood() instanceof Product) {
-            Product product = (Product)food.getFood();
-            ProductLogic.persistProductHistory(product, mass, date);
-        } else {
-            Dish dish = (Dish)food.getFood();
-            DishLogic.persistDishHistory(dish, mass, date);
+            if (food.getFood() instanceof Product) {
+                Product product = (Product) food.getFood();
+                ProductLogic.persistProductHistory(product, mass, date);
+            } else {
+                Dish dish = (Dish) food.getFood();
+                DishLogic.persistDishHistory(dish, mass, date);
+            }
+        }
+        else {
+            System.out.println("Add food to history: " + webProduct.getName() + " " + massStr + " " + dateStr);
         }
     }
 }

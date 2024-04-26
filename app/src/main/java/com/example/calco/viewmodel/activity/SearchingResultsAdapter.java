@@ -13,16 +13,20 @@ import com.example.calco.network.entities.WebProduct;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResultsAdapter.SearchingResultRecord> {
     private final List<WebProduct> products;
-    public static class SearchingResultRecord extends RecyclerView.ViewHolder {
+    private BiConsumer<View, WebProduct> dialogHandlerForSearchingRow;
+    public class SearchingResultRecord extends RecyclerView.ViewHolder {
         private final TextView name;
         private final TextView calories;
         private final TextView carbs;
         private final TextView fats;
         private final TextView proteins;
         private final View view;
+        private WebProduct productInfo;
         public SearchingResultRecord(View itemView) {
             super(itemView);
             this.view = itemView;
@@ -34,6 +38,9 @@ public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResul
         }
 
         public void setData(WebProduct productInfo) {
+            this.productInfo = productInfo;
+            // VERY IMPORTANT
+            dialogHandlerForSearchingRow.accept(view, productInfo);
             name.setText(productInfo.getName());
             calories.setText(String.valueOf(productInfo.getCalories()));
             carbs.setText(String.valueOf(productInfo.getCarbs()));
@@ -69,5 +76,9 @@ public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResul
         products.clear();
         products.addAll(newProducts);
         notifyDataSetChanged();
+    }
+
+    public void setDialogHandlerForSearchingRow(BiConsumer<View, WebProduct> handler) {
+        dialogHandlerForSearchingRow = handler;
     }
 }
