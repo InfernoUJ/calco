@@ -6,6 +6,7 @@ import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
+import com.example.calco.network.entities.WebProduct;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,12 +16,13 @@ import java.util.stream.Stream;
 public class ProductLogic {
 
     // todo add image persistence
-    public static void persistNewProduct(Product product) {
+    public static long persistNewProduct(Product product) {
         // Save product to database
         PProduct pProduct = getPProduct(product);
         AppDataBase db = AppDataBase.getInstance();
-        db.productDao().insertAll(pProduct);
+        long uid = db.productDao().insertAll(pProduct).get(0);
         System.out.println("Product persisted: " + product.getName());
+        return uid;
     }
 
     public static PProduct getPProduct(Product product) {
@@ -83,5 +85,19 @@ public class ProductLogic {
         Product product = getProduct(pProduct);
         LocalDate date = DateTimeConverter.timeFromUtcMillis(pHistory.utcDateTime).toLocalDate();
         return new HistoryOfProducts(pHistory.uid, product, date, pHistory.milligrams);
+    }
+
+    public static void persistWebProductInHistory(Product product, int mass, LocalDate date) {
+        long productId = isProductExist(product);
+        if (productId == -1) {
+            productId = persistNewProduct(product);
+        }
+        persistProductHistory(new Product(productId, product), mass, date);
+    }
+
+    private static long isProductExist(Product product) {
+        AppDataBase db = AppDataBase.getInstance();
+        List<PProduct> products = db.productDao().findByAll(product.getName(), product.getCalories(), product.getCarbs(), product.getFats(), product.getProteins());
+        return products.size() > 0 ? products.get(0).uid : -1;
     }
 }

@@ -8,6 +8,7 @@ import com.example.calco.logic.business.entities.HistoryOfFood;
 import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.utils.PercentConvertor;
+import com.example.calco.network.entities.WebProduct;
 import com.example.calco.ui.products.table.ProductImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
@@ -58,4 +59,11 @@ public class LogicToUiConverter {
         return allRecords;
     }
 
+    public static Product getProduct(WebProduct webProduct) {
+        int calories = (int)(webProduct.getCalories()*1000);
+        int carbs = (int)(webProduct.getCarbs()*1000);
+        int fats = (int)(webProduct.getFats()*1000);
+        int proteins = (int)(webProduct.getProteins()*1000);
+        return new Product(0, webProduct.getName(), calories, carbs, fats, proteins, Product.DEFAULT_IMAGE);
+    }
 }

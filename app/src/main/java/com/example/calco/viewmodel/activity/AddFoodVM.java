@@ -45,11 +45,10 @@ public class AddFoodVM extends ViewModel {
 
     // todo refactor
     public void addFoodToHistory(int index, String massStr, WebProduct webProduct, String dateStr) {
+        int mass = Integer.parseInt(massStr) * 1000;
+        LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
         if (webProduct == null) {
             FoodWithCCFPData food = products.getValue().get(index);
-            int mass = Integer.parseInt(massStr) * 1000;
-            LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
-
             if (food.getFood() instanceof Product) {
                 Product product = (Product) food.getFood();
                 ProductLogic.persistProductHistory(product, mass, date);
@@ -59,7 +58,8 @@ public class AddFoodVM extends ViewModel {
             }
         }
         else {
-            System.out.println("Add food to history: " + webProduct.getName() + " " + massStr + " " + dateStr);
+            Product product = LogicToUiConverter.getProduct(webProduct);
+            ProductLogic.persistWebProductInHistory(product, mass, date);
         }
     }
 }

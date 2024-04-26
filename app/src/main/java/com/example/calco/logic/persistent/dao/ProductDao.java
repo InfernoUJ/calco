@@ -20,6 +20,14 @@ public interface ProductDao {
             "WHERE uid = :uid " )
     PProduct findById(long uid);
 
+    @Query("SELECT * FROM PProduct " +
+            "WHERE name = :name " +
+            "AND calories = :calories " +
+            "AND carbs = :carbs " +
+            "AND fats = :fats " +
+            "AND proteins = :proteins ")
+    List<PProduct> findByAll(String name, int calories, int carbs, int fats, int proteins);
+
     @Insert
     List<Long> insertAll(PProduct... users);
 
