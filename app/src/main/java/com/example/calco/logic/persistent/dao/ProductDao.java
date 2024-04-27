@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.calco.logic.persistent.entities.PProduct;
 
@@ -37,5 +38,8 @@ public interface ProductDao {
     @Query("SELECT * FROM PProduct " +
             "ORDER BY name ")
     List<PProduct> getProductsAlphabetical();
+
+    @Update
+    int updateProduct(PProduct product);
 
 }

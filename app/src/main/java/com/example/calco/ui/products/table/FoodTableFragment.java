@@ -1,5 +1,7 @@
 package com.example.calco.ui.products.table;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.calco.R;
+import com.example.calco.TakingPictureActivity;
 import com.example.calco.databinding.FragmentFoodTableBinding;
 
 import java.util.List;
@@ -20,23 +23,31 @@ import java.util.List;
 public class FoodTableFragment extends Fragment {
     private FragmentFoodTableBinding binding;
     private ImageView image;
-
-    private final View.OnClickListener imageClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            System.out.println("Image clicked");
-            mGetPictureProvider.launch(null);
-        }
-    };
+    private Bitmap bitmap;
 
     private final ActivityResultLauncher<Void> mGetPictureProvider =
             registerForActivityResult(
                 new ActivityResultContracts.TakePicturePreview(),
                 bitmap -> {
-                    if (getImage() != null) {
-                        getImage().setImageBitmap(bitmap);
-                    }
+                    getImage().setImageBitmap(bitmap);
+                    System.out.println("Bitmap set");
                 });
+
+    public FoodTableFragment() {
+    }
+
+    class ImageClickListener implements View.OnClickListener {
+        private final FoodImpactRecordData food;
+
+        ImageClickListener(FoodImpactRecordData food) {
+            this.food = food;
+        }
+        @Override
+        public void onClick(View view) {
+            System.out.println("Image clicked");
+            mGetPictureProvider.launch(null);
+        }
+    }
 
     private ImageView getImage() {
         return image;
@@ -52,9 +63,14 @@ public class FoodTableFragment extends Fragment {
     public void addProduct(FoodImpactRecordData foodImpactRecordData) {
 //        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, false);
         View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
+
         ImageView productImage = productRow.findViewById(R.id.product_image);
-        image = productImage;
-        productImage.setOnClickListener(imageClickListener);
+        productImage.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), TakingPictureActivity.class);
+            intent.putExtra("food", foodImpactRecordData);
+            startActivity(intent);
+        });
+
         TextView productName = productRow.findViewById(R.id.product_name);
         TextView productPercentImpact = productRow.findViewById(R.id.product_percent);
         TextView productAbsoluteImpact = productRow.findViewById(R.id.product_absolute);

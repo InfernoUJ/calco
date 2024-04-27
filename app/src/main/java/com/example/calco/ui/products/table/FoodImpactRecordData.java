@@ -1,12 +1,18 @@
 package com.example.calco.ui.products.table;
 
-public class FoodImpactRecordData {
+import com.example.calco.logic.business.entities.Food;
+
+import java.io.Serializable;
+
+public class FoodImpactRecordData implements Serializable {
+    private Food food;
     private String name;
     private Integer percentage;
     private Integer absoluteValue;
     private Integer imageId;
 
-    public FoodImpactRecordData(String name, Integer percentage, Integer absoluteValue, Integer imageId) {
+    public FoodImpactRecordData(Food food, String name, Integer percentage, Integer absoluteValue, Integer imageId) {
+        this.food = food;
         this.name = name;
         this.percentage = percentage;
         this.absoluteValue = absoluteValue;
@@ -28,4 +34,6 @@ public class FoodImpactRecordData {
     public Integer getImageId() {
         return imageId;
     }
+
+    public Food getFood() { return food; }
 }

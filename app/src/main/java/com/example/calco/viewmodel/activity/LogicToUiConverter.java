@@ -53,7 +53,7 @@ public class LogicToUiConverter {
             int mmillis = history.getMilligrams();
             int percentage = entry.getValue();
             int resId = resources.getIdentifier(history.getFood().getImageName() , "drawable", packageName);
-            return new FoodImpactRecordData(history.getFood().getName(), percentage, mmillis/1000, resId);
+            return new FoodImpactRecordData(history.getFood(), history.getFood().getName(), percentage, mmillis/1000, resId);
         }).collect(Collectors.toList());
 
         return allRecords;
