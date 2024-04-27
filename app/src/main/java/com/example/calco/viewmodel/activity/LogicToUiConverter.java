@@ -9,7 +9,7 @@ import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.utils.PercentConvertor;
 import com.example.calco.network.entities.WebProduct;
-import com.example.calco.ui.products.table.ProductImpactRecordData;
+import com.example.calco.ui.products.table.FoodImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
@@ -43,17 +43,17 @@ public class LogicToUiConverter {
         return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
     }
 
-    public static List<ProductImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
+    public static List<FoodImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
         List<HistoryOfFood> food = new ArrayList<>(products);
         food.addAll(dishes);
         List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food, HistoryOfFood::getMilligrams);
 
-        List<ProductImpactRecordData> allRecords = foodWithPercents.stream().map(entry -> {
+        List<FoodImpactRecordData> allRecords = foodWithPercents.stream().map(entry -> {
             HistoryOfFood history = entry.getKey();
             int mmillis = history.getMilligrams();
             int percentage = entry.getValue();
             int resId = resources.getIdentifier(history.getFood().getImageName() , "drawable", packageName);
-            return new ProductImpactRecordData(history.getFood().getName(), percentage, mmillis/1000, resId);
+            return new FoodImpactRecordData(history.getFood().getName(), percentage, mmillis/1000, resId);
         }).collect(Collectors.toList());
 
         return allRecords;

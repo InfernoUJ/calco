@@ -1,7 +1,5 @@
 package com.example.calco.ui.products.table;
 
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -19,7 +16,6 @@ import com.example.calco.R;
 import com.example.calco.databinding.FragmentFoodTableBinding;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class FoodTableFragment extends Fragment {
     private FragmentFoodTableBinding binding;
@@ -53,7 +49,7 @@ public class FoodTableFragment extends Fragment {
         return root;
     }
 
-    public void addProduct(ProductImpactRecordData productImpactRecordData) {
+    public void addProduct(FoodImpactRecordData foodImpactRecordData) {
 //        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, false);
         View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
         ImageView productImage = productRow.findViewById(R.id.product_image);
@@ -63,29 +59,29 @@ public class FoodTableFragment extends Fragment {
         TextView productPercentImpact = productRow.findViewById(R.id.product_percent);
         TextView productAbsoluteImpact = productRow.findViewById(R.id.product_absolute);
 
-        productImage.setImageResource(productImpactRecordData.getImageId());
-        productName.setText(productImpactRecordData.getName());
-        productPercentImpact.setText(getPercentageOfRecordAsString(productImpactRecordData));
-        productAbsoluteImpact.setText(productImpactRecordData.getAbsoluteValue().toString());
+        productImage.setImageResource(foodImpactRecordData.getImageId());
+        productName.setText(foodImpactRecordData.getName());
+        productPercentImpact.setText(getPercentageOfRecordAsString(foodImpactRecordData));
+        productAbsoluteImpact.setText(foodImpactRecordData.getAbsoluteValue().toString());
 
         binding.foodTableLinearLayout.addView(productRow);
 
         System.out.println("Id: " + binding.foodTableLinearLayout.getId() + " Child count: " + binding.foodTableLinearLayout.getChildCount());
     }
 
-    public void addProducts(List<ProductImpactRecordData> productImpactRecordDataList) {
-        for (ProductImpactRecordData productImpactRecordData : productImpactRecordDataList) {
-            addProduct(productImpactRecordData);
+    public void addProducts(List<FoodImpactRecordData> foodImpactRecordDataList) {
+        for (FoodImpactRecordData foodImpactRecordData : foodImpactRecordDataList) {
+            addProduct(foodImpactRecordData);
         }
     }
 
-    public void replaceProducts(List<ProductImpactRecordData> newProductImpactRecordDataList) {
+    public void replaceProducts(List<FoodImpactRecordData> newFoodImpactRecordDataList) {
         removeAllProductRecords();
-        addProducts(newProductImpactRecordDataList);
+        addProducts(newFoodImpactRecordDataList);
     }
 
-    private String getPercentageOfRecordAsString(ProductImpactRecordData productImpactRecordData) {
-        return productImpactRecordData.getPercentage() + "%";
+    private String getPercentageOfRecordAsString(FoodImpactRecordData foodImpactRecordData) {
+        return foodImpactRecordData.getPercentage() + "%";
     }
 
     private void removeAllProductRecords() {

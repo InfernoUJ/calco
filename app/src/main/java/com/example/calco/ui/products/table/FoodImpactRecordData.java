@@ -1,12 +1,12 @@
 package com.example.calco.ui.products.table;
 
-public class ProductImpactRecordData {
+public class FoodImpactRecordData {
     private String name;
     private Integer percentage;
     private Integer absoluteValue;
     private Integer imageId;
 
-    public ProductImpactRecordData(String name, Integer percentage, Integer absoluteValue, Integer imageId) {
+    public FoodImpactRecordData(String name, Integer percentage, Integer absoluteValue, Integer imageId) {
         this.name = name;
         this.percentage = percentage;
         this.absoluteValue = absoluteValue;
