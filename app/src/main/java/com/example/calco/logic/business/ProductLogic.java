@@ -124,7 +124,7 @@ public class ProductLogic {
         if (currentProductImage == null) {
             AppDataBase.getInstance().productImagesDao().insertAll(newProductImage);
         } else {
-            AppDataBase.getInstance().productImagesDao().update(newProductImage);
+            AppDataBase.getInstance().productImagesDao().update(newProductImage.imageId, newProductImage.productId);
         }
     }
 

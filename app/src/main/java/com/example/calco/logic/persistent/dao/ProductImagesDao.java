@@ -1,6 +1,7 @@
 package com.example.calco.logic.persistent.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -20,6 +21,8 @@ public interface ProductImagesDao {
             "WHERE product_id = :productId")
     ProductImages getProductImages(long productId);
 
-    @Update
-    int update(ProductImages productImages);
+    @Query("UPDATE ProductImages " +
+            "SET image_id = :imageId " +
+            "WHERE product_id = :productId")
+    int update(long imageId, long productId);
 }

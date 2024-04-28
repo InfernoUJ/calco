@@ -21,7 +21,9 @@ public interface DishImagesDao {
             "WHERE dish_id = :dish_id")
     DishImages getDishImages(long dish_id);
 
-    @Update
-    int update(DishImages dishImages);
+    @Query("UPDATE DishImages " +
+            "SET image_id = :imageId " +
+            "WHERE dish_id = :dishId")
+    int update(long imageId, long dishId);
 
 }

@@ -161,7 +161,7 @@ public class DishLogic {
         if (currentDishImage == null) {
             AppDataBase.getInstance().dishImagesDao().insertAll(newDishImage);
         } else {
-            AppDataBase.getInstance().dishImagesDao().update(newDishImage);
+            AppDataBase.getInstance().dishImagesDao().update(newDishImage.imageId, newDishImage.dishId);
         }
     }
 
