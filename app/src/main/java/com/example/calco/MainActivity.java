@@ -1,5 +1,7 @@
 package com.example.calco;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.example.calco.ui.dialogs.SetLimitsDialog;
 import com.example.calco.ui.dialogs.WayToChooseImageDialog;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.FoodTableFragment;
+import com.example.calco.ui.widget.PieChartsWidget;
 import com.example.calco.viewmodel.activity.FoodTableVM;
 import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
@@ -183,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     private void updatePieCharts() {
         pieChartsModel.updatePercents(getLocalDate());
+        updateHomeWidget();
     }
 
     @Override
@@ -231,5 +235,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         Intent intent = new Intent(this, SelectPictureActivity.class);
         intent.putExtra("food", dialog.getFood());
         startActivity(intent);
+    }
+
+    private void updateHomeWidget() {
+        Intent intent = new Intent(this, PieChartsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), PieChartsWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        intent.putIntegerArrayListExtra("percents", pieChartsModel.getPercents().getValue().toList());
+        sendBroadcast(intent);
     }
 }

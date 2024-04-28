@@ -2,7 +2,12 @@ package com.example.calco.ui.charts.pie;
 
 import com.example.calco.logic.business.entities.Limit;
 
-public class PieChartsPercents {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class PieChartsPercents implements Serializable {
     public int caloriesPercent;
     public int carbsPercent;
     public int fatsPercent;
@@ -22,5 +27,9 @@ public class PieChartsPercents {
 
     public PieChartsPercents() {
         this(0,0,0,0);
+    }
+
+    public ArrayList<Integer> toList() {
+        return new ArrayList<>(Arrays.asList(caloriesPercent, carbsPercent, fatsPercent, proteinsPercent));
     }
 }
