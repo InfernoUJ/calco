@@ -1,20 +1,16 @@
 package com.example.calco;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.calco.logic.business.entities.Limit;
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.databases.AppDataBase;
-import com.example.calco.network.WebServiceFactory;
-import com.example.calco.network.entities.WebDishes;
-import com.example.calco.network.service.ProductService;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
 import com.example.calco.ui.dialogs.SetLimitsDialog;
+import com.example.calco.ui.dialogs.WayToChooseImageDialog;
 import com.example.calco.ui.pickers.data.DatePickerFragment;
 import com.example.calco.ui.products.table.FoodTableFragment;
 import com.example.calco.viewmodel.activity.FoodTableVM;
@@ -27,9 +23,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -44,11 +37,8 @@ import com.example.calco.databinding.ActivityMainBinding;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener, SetLimitsDialog.SetLimitsDialogListener {
+public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener,
+        SetLimitsDialog.SetLimitsDialogListener, WayToChooseImageDialog.WayToChooseImageDialogListener{
     public static final String dateFormat = "yyyy-MM-dd";
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -222,5 +212,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     @Override
     public void onSetLimitsDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    @Override
+    public void onDialogPositiveClick(WayToChooseImageDialog dialog) {
+        Intent intent = new Intent(this, TakingPictureActivity.class);
+        intent.putExtra("food", dialog.getFood());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeClick(WayToChooseImageDialog dialog) {
+
+    }
+
+    @Override
+    public void onDialogNeutralClick(WayToChooseImageDialog dialog) {
+        Intent intent = new Intent(this, SelectPictureActivity.class);
+        intent.putExtra("food", dialog.getFood());
+        startActivity(intent);
     }
 }

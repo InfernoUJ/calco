@@ -12,46 +12,18 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.calco.R;
 import com.example.calco.TakingPictureActivity;
 import com.example.calco.databinding.FragmentFoodTableBinding;
+import com.example.calco.ui.dialogs.WayToChooseImageDialog;
 
 import java.util.List;
 
 public class FoodTableFragment extends Fragment {
     private FragmentFoodTableBinding binding;
-    private ImageView image;
-    private Bitmap bitmap;
-
-    private final ActivityResultLauncher<Void> mGetPictureProvider =
-            registerForActivityResult(
-                new ActivityResultContracts.TakePicturePreview(),
-                bitmap -> {
-                    getImage().setImageBitmap(bitmap);
-                    System.out.println("Bitmap set");
-                });
-
-    public FoodTableFragment() {
-    }
-
-    class ImageClickListener implements View.OnClickListener {
-        private final FoodImpactRecordData food;
-
-        ImageClickListener(FoodImpactRecordData food) {
-            this.food = food;
-        }
-        @Override
-        public void onClick(View view) {
-            System.out.println("Image clicked");
-            mGetPictureProvider.launch(null);
-        }
-    }
-
-    private ImageView getImage() {
-        return image;
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,9 +38,8 @@ public class FoodTableFragment extends Fragment {
 
         ImageView productImage = productRow.findViewById(R.id.product_image);
         productImage.setOnClickListener(view -> {
-            Intent intent = new Intent(getContext(), TakingPictureActivity.class);
-            intent.putExtra("food", foodImpactRecordData);
-            startActivity(intent);
+            DialogFragment wayChooseImage = new WayToChooseImageDialog(foodImpactRecordData);
+            wayChooseImage.show(getParentFragmentManager(), "wayChooseImage");
         });
 
         TextView productName = productRow.findViewById(R.id.product_name);
