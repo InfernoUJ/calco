@@ -47,4 +47,10 @@ public abstract class AppDataBase extends RoomDatabase {
 
     public abstract LimitDao limitDao();
 
+    public abstract ImageDao imageDao();
+
+    public abstract ProductImagesDao productImagesDao();
+
+    public abstract DishImagesDao dishImagesDao();
+
 }

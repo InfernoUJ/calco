@@ -4,8 +4,10 @@ import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
+import com.example.calco.logic.persistent.entities.ProductImages;
 import com.example.calco.network.entities.WebProduct;
 
 import java.time.LocalDate;
@@ -99,5 +101,33 @@ public class ProductLogic {
         AppDataBase db = AppDataBase.getInstance();
         List<PProduct> products = db.productDao().findByAll(product.getName(), product.getCalories(), product.getCarbs(), product.getFats(), product.getProteins());
         return products.size() > 0 ? products.get(0).uid : -1;
+    }
+
+    public static void setImage(long productId, String path) {
+        List<Image> images = AppDataBase.getInstance().imageDao().getImageByPath(path);
+        long imageId = 0;
+        if (images.isEmpty()) {
+            Image image = new Image();
+            image.name = path;
+            imageId = AppDataBase.getInstance().imageDao().insertAll(image).get(0);
+        }
+        else {
+            imageId = images.get(0).uid;
+        }
+
+        ProductImages currentProductImage = AppDataBase.getInstance().productImagesDao().getProductImages(productId);
+        ProductImages newProductImage = getProductImage(productId, imageId);
+        if (currentProductImage == null) {
+            AppDataBase.getInstance().productImagesDao().insertAll(newProductImage);
+        } else {
+            AppDataBase.getInstance().productImagesDao().update(newProductImage);
+        }
+    }
+
+    public static ProductImages getProductImage(long productId, long imageId) {
+        ProductImages productImage = new ProductImages();
+        productImage.productId = productId;
+        productImage.imageId = imageId;
+        return productImage;
     }
 }

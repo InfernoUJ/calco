@@ -8,6 +8,8 @@ import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.dao.PDishComponent;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.logic.persistent.entities.DishImages;
+import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
 import com.example.calco.logic.persistent.entities.PProduct;
@@ -135,5 +137,33 @@ public class DishLogic {
         Dish dish = getDish(pDish);
         LocalDate date = DateTimeConverter.timeFromUtcMillis(pHistory.utcDateTime).toLocalDate();
         return new HistoryOfDishes(pHistory.uid, dish, date, pHistory.milligrams);
+    }
+
+    public static void setImage(long dishId, String path) {
+        List<Image> images = AppDataBase.getInstance().imageDao().getImageByPath(path);
+        long imageId = 0;
+        if (images.isEmpty()) {
+            Image image = new Image();
+            image.name = path;
+            imageId = AppDataBase.getInstance().imageDao().insertAll(image).get(0);
+        }
+        else {
+            imageId = images.get(0).uid;
+        }
+
+        DishImages currentDishImage = AppDataBase.getInstance().dishImagesDao().getDishImages(dishId);
+        DishImages newDishImage = getDishImage(dishId, imageId);
+        if (currentDishImage == null) {
+            AppDataBase.getInstance().dishImagesDao().insertAll(newDishImage);
+        } else {
+            AppDataBase.getInstance().dishImagesDao().update(newDishImage);
+        }
+    }
+
+    public static DishImages getDishImage(long dishId, long imageId) {
+        DishImages dishImage = new DishImages();
+        dishImage.dishId = dishId;
+        dishImage.imageId = imageId;
+        return dishImage;
     }
 }

@@ -14,7 +14,7 @@ import androidx.room.Index;
 public class ProductImages {
     @NonNull
     @ColumnInfo(name = "image_id")
-    public String imageId;
+    public long imageId;
 
     @NonNull
     @ColumnInfo(name = "product_id")

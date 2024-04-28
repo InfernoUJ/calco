@@ -1,6 +1,8 @@
 package com.example.calco.logic.business.entities;
 
-public class DishComponent {
+import java.io.Serializable;
+
+public class DishComponent implements Serializable {
     private Product product;
     private int percent;
 

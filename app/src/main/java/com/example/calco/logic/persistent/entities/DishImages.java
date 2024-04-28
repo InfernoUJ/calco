@@ -14,9 +14,9 @@ import androidx.room.Index;
 public class DishImages {
     @NonNull
     @ColumnInfo(name = "image_id")
-    public String imageId;
+    public long imageId;
 
     @NonNull
     @ColumnInfo(name = "dish_id")
-    public int dishId;
+    public long dishId;
 }
