@@ -1,18 +1,20 @@
 package com.example.calco.viewmodel.activity.state;
 
+import android.graphics.Bitmap;
+
 import com.example.calco.logic.business.entities.Food;
 
-public abstract class FoodWithCCFPData {
+public abstract class FoodWithCCFPData extends ImageTwoTypesImpl {
     protected String name;
-    protected Integer imageId;
     protected String calories;
     protected String carbs;
     protected String fats;
     protected String proteins;
+    protected String imageName;
 
-    public FoodWithCCFPData(String name, Integer imageId, String calories, String carbs, String fats, String proteins) {
+    public FoodWithCCFPData(String name, String imageName, String calories, String carbs, String fats, String proteins) {
         this.name = name;
-        this.imageId = imageId;
+        this.imageName = imageName;
         this.calories = calories;
         this.carbs = carbs;
         this.fats = fats;
@@ -23,10 +25,6 @@ public abstract class FoodWithCCFPData {
 
     public String getName() {
         return name;
-    }
-
-    public Integer getImageId() {
-        return imageId;
     }
 
     public String getCalories() {
@@ -43,5 +41,9 @@ public abstract class FoodWithCCFPData {
 
     public String getProteins() {
         return proteins;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 }

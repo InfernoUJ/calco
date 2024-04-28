@@ -1,7 +1,12 @@
 package com.example.calco.viewmodel.activity;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import androidx.annotation.Nullable;
+
+import com.example.calco.logic.business.ImageLogic;
 import com.example.calco.logic.business.entities.Dish;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
 import com.example.calco.logic.business.entities.HistoryOfFood;
@@ -12,8 +17,13 @@ import com.example.calco.network.entities.WebProduct;
 import com.example.calco.ui.products.table.FoodImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
+import com.example.calco.viewmodel.activity.state.ImageTwoTypesFactory;
+import com.example.calco.viewmodel.activity.state.ImageTwoTypesImpl;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +39,7 @@ public class LogicToUiConverter {
         String fatsString = String.valueOf(product.getFats()/1000f) + " g";
         String proteinsString = String.valueOf(product.getProteins()/1000f) + " g";
 
-        return new ProductWithCCFPData(product, product.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
+        return ImageTwoTypesFactory.createImageTwoTypes(ProductWithCCFPData.class, resources, packageName, product, product.getName(), caloriesString, carbsString, fatsString, proteinsString);
     }
 
     public static FoodWithCCFPData getFoodWithCCFPData(Dish dish, Resources resources, String packageName) {
@@ -40,7 +50,8 @@ public class LogicToUiConverter {
         String fatsString = String.valueOf(dish.getFats()/1000f) + " g";
         String proteinsString = String.valueOf(dish.getProteins()/1000f) + " g";
 
-        return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
+//        return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
+        return ImageTwoTypesFactory.createImageTwoTypes(DishWithCCFPData.class, resources, packageName, dish, dish.getName(), caloriesString, carbsString, fatsString, proteinsString);
     }
 
     public static List<FoodImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
@@ -52,8 +63,8 @@ public class LogicToUiConverter {
             HistoryOfFood history = entry.getKey();
             int mmillis = history.getMilligrams();
             int percentage = entry.getValue();
-            int resId = resources.getIdentifier(history.getFood().getImageName() , "drawable", packageName);
-            return new FoodImpactRecordData(history.getFood(), history.getFood().getName(), percentage, mmillis/1000, resId);
+
+            return ImageTwoTypesFactory.createImageTwoTypes(FoodImpactRecordData.class, resources, packageName,history.getFood(), history.getFood().getName(), percentage, mmillis/1000);
         }).collect(Collectors.toList());
 
         return allRecords;
@@ -64,6 +75,6 @@ public class LogicToUiConverter {
         int carbs = (int)(webProduct.getCarbs()*1000);
         int fats = (int)(webProduct.getFats()*1000);
         int proteins = (int)(webProduct.getProteins()*1000);
-        return new Product(0, webProduct.getName(), calories, carbs, fats, proteins, Product.DEFAULT_IMAGE);
+        return new Product(0, webProduct.getName(), calories, carbs, fats, proteins, ImageLogic.DEFAULT_IMAGE);
     }
 }

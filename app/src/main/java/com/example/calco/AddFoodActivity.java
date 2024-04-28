@@ -158,7 +158,11 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         TextView productFats = productRow.findViewById(R.id.last_food_fats);
         TextView productProteins = productRow.findViewById(R.id.last_food_proteins);
 
-        productImage.setImageResource(food.getImageId());
+        if (food.getImage() != null) {
+            productImage.setImageBitmap(food.getImage());
+        } else {
+            productImage.setImageResource(food.getDefaultImageId());
+        }
         productName.setText(food.getName());
         productCalories.setText(food.getCalories());
         productCarbs.setText(food.getCarbs());

@@ -75,7 +75,11 @@ public class FoodTableFragment extends Fragment {
         TextView productPercentImpact = productRow.findViewById(R.id.product_percent);
         TextView productAbsoluteImpact = productRow.findViewById(R.id.product_absolute);
 
-        productImage.setImageResource(foodImpactRecordData.getImageId());
+        if (foodImpactRecordData.getImage() != null) {
+            productImage.setImageBitmap(foodImpactRecordData.getImage());
+        } else {
+            productImage.setImageResource(foodImpactRecordData.getDefaultImageId());
+        }
         productName.setText(foodImpactRecordData.getName());
         productPercentImpact.setText(getPercentageOfRecordAsString(foodImpactRecordData));
         productAbsoluteImpact.setText(foodImpactRecordData.getAbsoluteValue().toString());

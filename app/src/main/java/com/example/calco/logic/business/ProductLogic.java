@@ -38,7 +38,11 @@ public class ProductLogic {
     }
 
     public static Product getProduct(PProduct pProduct) {
-        return new Product(pProduct.uid, pProduct.name, pProduct.calories, pProduct.carbs, pProduct.fats, pProduct.proteins, Product.DEFAULT_IMAGE);
+        Image image = getImageForProduct(pProduct);
+        if (image != null) {
+            return new Product(pProduct.uid, pProduct.name, pProduct.calories, pProduct.carbs, pProduct.fats, pProduct.proteins, image.name);
+        }
+        return new Product(pProduct.uid, pProduct.name, pProduct.calories, pProduct.carbs, pProduct.fats, pProduct.proteins, ImageLogic.DEFAULT_IMAGE);
     }
 
     public static List<Product> getLastUsedProducts() {
@@ -129,5 +133,14 @@ public class ProductLogic {
         productImage.productId = productId;
         productImage.imageId = imageId;
         return productImage;
+    }
+
+    public static Image getImageForProduct(PProduct pProduct) {
+        ProductImages productImages = AppDataBase.getInstance().productImagesDao().getProductImages(pProduct.uid);
+        if (productImages == null) {
+            return null;
+        }
+        Image image = AppDataBase.getInstance().imageDao().findById(productImages.imageId);
+        return image;
     }
 }

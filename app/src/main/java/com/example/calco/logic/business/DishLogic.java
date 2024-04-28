@@ -13,6 +13,7 @@ import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
 import com.example.calco.logic.persistent.entities.PProduct;
+import com.example.calco.logic.persistent.entities.ProductImages;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
 import com.example.calco.logic.utils.PercentConvertor;
 
@@ -79,7 +80,11 @@ public class DishLogic {
     }
 
     private static Dish getDish(PDish pDish) {
-        return new Dish(pDish.uid, pDish.name, getDishComponents(pDish.uid), Dish.DEFAULT_IMAGE);
+        Image image = getImageForDish(pDish);
+        if (image != null) {
+            return new Dish(pDish.uid, pDish.name, getDishComponents(pDish.uid), image.name);
+        }
+        return new Dish(pDish.uid, pDish.name, getDishComponents(pDish.uid), ImageLogic.DEFAULT_IMAGE);
     }
 
     private static List<DishComponent> getDishComponents(long dishId) {
@@ -165,5 +170,14 @@ public class DishLogic {
         dishImage.dishId = dishId;
         dishImage.imageId = imageId;
         return dishImage;
+    }
+
+    public static Image getImageForDish(PDish pDish) {
+        DishImages dishImage = AppDataBase.getInstance().dishImagesDao().getDishImages(pDish.uid);
+        if (dishImage == null) {
+            return null;
+        }
+        Image image = AppDataBase.getInstance().imageDao().findById(dishImage.imageId);
+        return image;
     }
 }

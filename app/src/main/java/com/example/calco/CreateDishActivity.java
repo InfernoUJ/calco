@@ -97,7 +97,11 @@ public class CreateDishActivity extends AppCompatActivity {
         TextView productFats = productRow.findViewById(R.id.component_fats);
         TextView productProteins = productRow.findViewById(R.id.component_proteins);
 
-        productImage.setImageResource(product.getImageId());
+        if (product.getImage() != null) {
+            productImage.setImageBitmap(product.getImage());
+        } else {
+            productImage.setImageResource(product.getDefaultImageId());
+        }
         productName.setText(product.getName());
         productCalories.setText(product.getCalories());
         productCarbs.setText(product.getCarbs());
