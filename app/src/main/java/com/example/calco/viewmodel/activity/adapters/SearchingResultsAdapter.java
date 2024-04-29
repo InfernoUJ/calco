@@ -1,4 +1,4 @@
-package com.example.calco.viewmodel.activity;
+package com.example.calco.viewmodel.activity.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.example.calco.network.entities.WebProduct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResultsAdapter.SearchingResultRecord> {
     private final List<WebProduct> products;

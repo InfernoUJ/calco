@@ -1,70 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/last_food_table_record"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:orientation="horizontal"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <ImageView
-        android:id="@+id/last_food_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
-
-    <TextView
-        android:id="@+id/last_food_name"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="10dp"
-        android:layout_alignBottom="@id/last_food_image"
-        android:layout_toEndOf="@id/last_food_image" />
+    android:orientation="horizontal" >
 
     <TableLayout
         android:id="@+id/last_food_ccfp_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/last_food_name"
-        android:layout_alignBottom="@id/last_food_image">
-        <TableRow>
+        android:layout_gravity="center">
+
+        <TableRow
+            android:background="@drawable/table_record_odd_bg">
+            <ImageView
+                android:id="@+id/last_food_image"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="60dp" />
             <TextView
                 android:text="Calories"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Carbs"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Fats"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Proteins"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
         </TableRow>
-        <TableRow>
+
+        <TableRow
+            android:background="@drawable/table_record_even_bg"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/last_food_name"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
             <TextView
                 android:id="@+id/last_food_calories"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/last_food_carbs"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/last_food_fats"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/last_food_proteins"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0g"/>
         </TableRow>
     </TableLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

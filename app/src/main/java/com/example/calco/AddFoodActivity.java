@@ -60,8 +60,8 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     }
 
     private void setHandlers() {
-        setCreateProductButtonHandler();
         setLastUsedFoodHandler();
+        setCreateProductButtonHandler();
         setCreateDishButtonHandler();
     }
 
@@ -86,7 +86,9 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     }
 
     private void setLastUsedFoodHandler() {
-        model.getFood().observe(this, this::addFoodToTable);
+        RecyclerView recyclerView = findViewById(R.id.lastFoodTableScrollView);
+        recyclerView.setAdapter(model.getAdapter(this::setDialogHandlerForFoodRow));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setUpSearching() {
@@ -103,21 +105,6 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         RecyclerView recyclerView = findViewById(R.id.searchingFoodResults);
         recyclerView.setAdapter(searchModel.getAdapter(this::setDialogHandlerForSearchingRow));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void addFoodToTable(List<FoodWithCCFPData> food) {
-        // todo can make null-termination it in querry method ?
-        //  or create my own annotation for query methods
-        if (food == null) {
-            return;
-        }
-        LinearLayout lastFoodTable = (LinearLayout) findViewById(R.id.lastFoodTableLinearLayout);
-        lastFoodTable.removeAllViews();
-        for(int i = 0; i < food.size(); i++) {
-            View foodRow = createFoodRecord(food.get(i));
-            setDialogHandlerForFoodRow(foodRow, i);
-            lastFoodTable.addView(foodRow);
-        }
     }
 
     private void setDialogHandlerForFoodRow(View view, int foodIndex) {

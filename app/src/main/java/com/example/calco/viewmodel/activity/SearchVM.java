@@ -8,8 +8,8 @@ import com.example.calco.network.WebServiceFactory;
 import com.example.calco.network.entities.WebDishes;
 import com.example.calco.network.entities.WebProduct;
 import com.example.calco.network.service.ProductService;
+import com.example.calco.viewmodel.activity.adapters.SearchingResultsAdapter;
 
-import java.util.Collections;
 import java.util.function.BiConsumer;
 
 import retrofit2.Call;

@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
-        <TableRow>
+        <TableRow
+            android:background="@drawable/table_record_odd_bg">
             <TextView
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -44,7 +45,8 @@
 
         <TableRow
             android:id="@+id/searching_result_record_data"
-            android:background="@drawable/searching_record_bg">
+            android:background="@drawable/table_record_even_bg"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:id="@+id/searching_result_record_name"
                 android:layout_weight="1"

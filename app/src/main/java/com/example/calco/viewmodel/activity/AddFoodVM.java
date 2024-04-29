@@ -1,8 +1,8 @@
 package com.example.calco.viewmodel.activity;
 
 import android.content.res.Resources;
+import android.view.View;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,17 +12,20 @@ import com.example.calco.logic.business.DishLogic;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.network.entities.WebProduct;
+import com.example.calco.viewmodel.activity.adapters.HistoryFoodAdapter;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AddFoodVM extends ViewModel {
-    MutableLiveData<List<FoodWithCCFPData>> products = new MutableLiveData<>(new ArrayList<>());
+    List<FoodWithCCFPData> products = new ArrayList<>();
+    private final HistoryFoodAdapter adapter = new HistoryFoodAdapter();
 
     public void updateLastUsedFood(Resources resources, String packageName) {
         List<Product> newProducts = ProductLogic.getLastUsedProducts();
@@ -34,13 +37,14 @@ public class AddFoodVM extends ViewModel {
                 .map(dish -> LogicToUiConverter.getFoodWithCCFPData(dish, resources, packageName));
 
         // todo order from history by last used
-        List<FoodWithCCFPData> allFood = Stream.concat(uiProducts, uiDishes).collect(Collectors.toList());
+        products = Stream.concat(uiProducts, uiDishes).collect(Collectors.toList());
 
-        products.setValue(allFood);
+        adapter.replaceFoodList(products);
     }
 
-    public LiveData<List<FoodWithCCFPData>> getFood() {
-        return products;
+    public HistoryFoodAdapter getAdapter(BiConsumer<View, Integer> handler) {
+        adapter.setDialogHandlerForMassInput(handler);
+        return adapter;
     }
 
     // todo refactor
@@ -48,7 +52,7 @@ public class AddFoodVM extends ViewModel {
         int mass = Integer.parseInt(massStr) * 1000;
         LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(MainActivity.dateFormat));
         if (webProduct == null) {
-            FoodWithCCFPData food = products.getValue().get(index);
+            FoodWithCCFPData food = products.get(index);
             if (food.getFood() instanceof Product) {
                 Product product = (Product) food.getFood();
                 ProductLogic.persistProductHistory(product, mass, date);
