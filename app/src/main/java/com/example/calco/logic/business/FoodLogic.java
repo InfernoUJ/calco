@@ -1,6 +1,7 @@
 package com.example.calco.logic.business;
 
 import com.example.calco.logic.business.entities.Food;
+import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
 import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Limit;
@@ -35,5 +36,20 @@ public class FoodLogic {
 
     private static int calculateProteins(List<Food> food) {
         return food.stream().mapToInt(Food::getProteins).sum();
+    }
+
+    public static float getComponentPercentage(Food food, FoodComponent component) {
+        switch (component) {
+            case CALORIES:
+                return food.getCalories()/100_000f;
+            case CARBS:
+                return food.getCarbs()/100_000f;
+            case FATS:
+                return food.getFats()/100_000f;
+            case PROTEINS:
+                return food.getProteins()/100_000f;
+            default:
+                throw new IllegalArgumentException("Unknown component: " + component);
+        }
     }
 }

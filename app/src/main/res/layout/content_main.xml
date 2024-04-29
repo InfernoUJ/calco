@@ -76,28 +76,28 @@
         app:layout_constraintEnd_toEndOf="parent" >
 
         <RadioButton
-            android:id="@+id/radioButton5"
+            android:id="@+id/calories_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Calories" />
 
         <RadioButton
-            android:id="@+id/radioButton6"
+            android:id="@+id/carbs_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Carbs" />
 
         <RadioButton
-            android:id="@+id/radioButton7"
+            android:id="@+id/fats_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Fats" />
 
         <RadioButton
-            android:id="@+id/radioButton8"
+            android:id="@+id/proteins_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

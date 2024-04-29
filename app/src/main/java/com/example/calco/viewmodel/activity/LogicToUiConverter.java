@@ -1,13 +1,11 @@
 package com.example.calco.viewmodel.activity;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import androidx.annotation.Nullable;
-
+import com.example.calco.logic.business.FoodLogic;
 import com.example.calco.logic.business.ImageLogic;
 import com.example.calco.logic.business.entities.Dish;
+import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
 import com.example.calco.logic.business.entities.HistoryOfFood;
 import com.example.calco.logic.business.entities.HistoryOfProducts;
@@ -18,12 +16,8 @@ import com.example.calco.ui.products.table.FoodImpactRecordData;
 import com.example.calco.viewmodel.activity.state.DishWithCCFPData;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 import com.example.calco.viewmodel.activity.state.ImageTwoTypesFactory;
-import com.example.calco.viewmodel.activity.state.ImageTwoTypesImpl;
 import com.example.calco.viewmodel.activity.state.ProductWithCCFPData;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +48,11 @@ public class LogicToUiConverter {
         return ImageTwoTypesFactory.createImageTwoTypes(DishWithCCFPData.class, resources, packageName, dish, dish.getName(), caloriesString, carbsString, fatsString, proteinsString);
     }
 
-    public static List<FoodImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName) {
+    public static List<FoodImpactRecordData> getProductImpactRecordData(List<HistoryOfProducts> products, List<HistoryOfDishes> dishes, Resources resources, String packageName, FoodComponent sortComponent) {
         List<HistoryOfFood> food = new ArrayList<>(products);
         food.addAll(dishes);
-        List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food, HistoryOfFood::getMilligrams);
+        List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food,
+                foodHistory -> (int)(foodHistory.getMilligrams()*FoodLogic.getComponentPercentage(foodHistory.getFood(), sortComponent)));
 
         List<FoodImpactRecordData> allRecords = foodWithPercents.stream().map(entry -> {
             HistoryOfFood history = entry.getKey();

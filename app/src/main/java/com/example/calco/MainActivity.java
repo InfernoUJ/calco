@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.calco.logic.business.entities.LimitType;
@@ -19,6 +20,7 @@ import com.example.calco.ui.widget.PieChartsWidget;
 import com.example.calco.viewmodel.activity.FoodTableVM;
 import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
+import com.example.calco.logic.business.entities.FoodComponent;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -39,6 +41,7 @@ import com.example.calco.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener,
         SetLimitsDialog.SetLimitsDialogListener, WayToChooseImageDialog.WayToChooseImageDialogListener{
@@ -121,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setFoodTableHandler();
         setPieChartsHandler();
         setCaloriesLimitHandler();
+        setRadioButtonsFilters();
     }
 
     private void setDateChoosingHandlers() {
@@ -170,6 +174,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
                 System.out.println("onNothingSelected");
             }
         });
+    }
+
+    private void setRadioButtonsFilters() {
+        List<Integer> radioButtonsIds = List.of(R.id.calories_radio_button, R.id.carbs_radio_button, R.id.fats_radio_button, R.id.proteins_radio_button);
+        for (int id : radioButtonsIds) {
+            ((RadioButton)findViewById(id)).setOnCheckedChangeListener((view, isChecked) -> {
+                if (isChecked) {
+                    FoodComponent component = FoodComponent.values()[radioButtonsIds.indexOf(id)];
+                    foodTableModel.sortFoodBy(component, getLocalDate(), getResources(), getPackageName());
+                }
+            });
+        }
     }
 
     @Override

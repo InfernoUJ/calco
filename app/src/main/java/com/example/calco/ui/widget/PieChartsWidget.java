@@ -47,7 +47,9 @@ public class PieChartsWidget extends AppWidgetProvider {
                 if (percents == null) {
                     percents = Collections.nCopies(colors.size(), 0);
                 }
-                updatePercents.accept(percents);
+                if (updatePercents != null) {
+                    updatePercents.accept(percents);
+                }
             }
         }
     }

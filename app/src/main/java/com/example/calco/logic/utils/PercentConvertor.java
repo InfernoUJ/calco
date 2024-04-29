@@ -27,11 +27,15 @@ public class PercentConvertor {
             else {
                 if (currMassDifference > 0) {
                     entitiesPercents.add((int)Math.floor(percent));
-                    currMassDifference -= 1;
+                    if((int)Math.ceil(percent) != (int)percent) {
+                        currMassDifference -= 1;
+                    }
                 }
                 else {
                     entitiesPercents.add((int)Math.ceil(percent));
-                    currMassDifference += 1;
+                    if((int)Math.ceil(percent) != (int)percent) {
+                        currMassDifference += 1;
+                    }
                 }
             }
         }
