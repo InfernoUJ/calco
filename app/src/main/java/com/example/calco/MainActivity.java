@@ -161,18 +161,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void setCaloriesLimitHandler() {
-        PieChart caloriesChart = (PieChart) findViewById(R.id.pieChartCalories);
-        caloriesChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                SetLimitsDialog dialog = new SetLimitsDialog(LimitType.DAILY);
-                dialog.show(getSupportFragmentManager(), "setLimitsDialog");
-            }
-
-            @Override
-            public void onNothingSelected() {
-                System.out.println("onNothingSelected");
-            }
+        View caloriesChart = findViewById(R.id.pieChartGroup);
+        caloriesChart.setOnClickListener(view -> {
+            SetLimitsDialog dialog = new SetLimitsDialog(LimitType.DAILY);
+            dialog.show(getSupportFragmentManager(), "setLimitsDialog");
         });
     }
 

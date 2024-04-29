@@ -55,6 +55,7 @@ public class CCFPPieChartGroupFragment extends Fragment {
         // this is for legend below chart
         pieChart.getLegend().setEnabled(false);
         pieChart.setRotationEnabled(false);
+        pieChart.setTouchEnabled(false);
 //        pieChart.animate();
     }
 }
