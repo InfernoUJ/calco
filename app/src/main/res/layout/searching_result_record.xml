@@ -42,7 +42,9 @@
                 android:gravity="center"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/searching_result_record_data"
+            android:background="@drawable/searching_record_bg">
             <TextView
                 android:id="@+id/searching_result_record_name"
                 android:layout_weight="1"
