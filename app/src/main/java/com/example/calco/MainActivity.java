@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     private PieChartsVM pieChartsModel;
     private LimitsVM limitsModel;
 
+    private FoodTableFragment productTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        productTable = (FoodTableFragment) getSupportFragmentManager().findFragmentById(R.id.food_table_fragment);
+
         // this is mail icon action
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     private void setHandlers() {
         setDateChoosingHandlers();
         setAddingProductHandlers();
-        setFoodTableHandler();
         setPieChartsHandler();
         setCaloriesLimitHandler();
         setRadioButtonsFilters();
@@ -143,13 +147,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             bundle.putString("date", getDate());
             addProductactivityIntent.putExtras(bundle);
             startActivity(addProductactivityIntent);
-        });
-    }
-
-    private void setFoodTableHandler() {
-        FoodTableFragment productTable = (FoodTableFragment) getSupportFragmentManager().findFragmentById(R.id.food_table_fragment);
-        foodTableModel.getFoodRecords().observe(this, productImpactRecordDataList -> {
-            productTable.replaceProducts(productImpactRecordDataList);
         });
     }
 
@@ -189,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void updateFoodTable() {
-        foodTableModel.updateFoodTable(getLocalDate(), getResources(), getPackageName());
+        productTable.replaceProducts(getLocalDate(), getResources(), getPackageName());
     }
 
     private void updatePieCharts() {
