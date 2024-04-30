@@ -82,7 +82,8 @@ public class ProductLogic {
 
         List<PHistoryOfProducts> pHistory = db.historyOfProductsDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
         List<HistoryOfProducts> history = pHistory.stream().map(ProductLogic::getHistoryOfProduct).collect(Collectors.toList());
-        return history;
+        List<HistoryOfProducts> unitedHistory = FoodLogic.uniteSameFood(history);
+        return unitedHistory;
     }
 
     public static HistoryOfProducts getHistoryOfProduct(PHistoryOfProducts pHistory) {

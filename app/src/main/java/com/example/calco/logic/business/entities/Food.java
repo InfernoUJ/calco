@@ -1,6 +1,7 @@
 package com.example.calco.logic.business.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class Food implements Serializable {
     protected long id;
@@ -55,4 +56,16 @@ public abstract class Food implements Serializable {
         this.imageName = imageName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Food food = (Food) o;
+        return id == food.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, this.getClass());
+    }
 }

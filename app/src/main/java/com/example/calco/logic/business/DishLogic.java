@@ -133,7 +133,8 @@ public class DishLogic {
 
         List<PHistoryOfDishes> pHistory = db.historyOfDishesDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
         List<HistoryOfDishes> history = pHistory.stream().map(DishLogic::getHistoryOfDish).collect(Collectors.toList());
-        return history;
+        List<HistoryOfDishes> unitedHistory = FoodLogic.uniteSameFood(history);
+        return unitedHistory;
     }
 
     public static HistoryOfDishes getHistoryOfDish(PHistoryOfDishes pHistory) {

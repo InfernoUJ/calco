@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public abstract class HistoryOfFood {
     protected long id;
-
     public long getId() {
         return id;
     }
@@ -19,6 +18,10 @@ public abstract class HistoryOfFood {
 
     public int getMilligrams() {
         return milligrams;
+    }
+
+    public void setMilligrams(int milligrams) {
+        this.milligrams = milligrams;
     }
 
     protected Food food;

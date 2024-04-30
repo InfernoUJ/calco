@@ -3,6 +3,7 @@ package com.example.calco.logic.business;
 import com.example.calco.logic.business.entities.Food;
 import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
+import com.example.calco.logic.business.entities.HistoryOfFood;
 import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Limit;
 import com.example.calco.logic.business.entities.LimitType;
@@ -10,7 +11,12 @@ import com.example.calco.logic.business.entities.LimitsLogic;
 import com.example.calco.ui.charts.pie.PieChartsPercents;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class FoodLogic {
@@ -51,5 +57,45 @@ public class FoodLogic {
             default:
                 throw new IllegalArgumentException("Unknown component: " + component);
         }
+    }
+
+    public static <T extends HistoryOfFood> List<T> uniteSameFood(List<T> history) {
+        BiFunction<HistoryOfFood, HistoryOfFood, Boolean> sameFood = (h1, h2) -> h1.getFood().equals(h2.getFood()) && h1.getDate().equals(h2.getDate());
+        class HistoryOfFoodWithHash {
+            T history;
+            HistoryOfFoodWithHash(T history) {
+                this.history = history;
+            }
+
+            public void mergeWith(T other) {
+                history.setMilligrams(history.getMilligrams() + other.getMilligrams());
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                HistoryOfFoodWithHash that = (HistoryOfFoodWithHash) o;
+                return Objects.equals(history.getFood(), that.history.getFood()) && Objects.equals(history.getDate(), that.history.getDate());
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(history.getFood(), history.getDate());
+            }
+        }
+
+        List<HistoryOfFoodWithHash> united = new ArrayList<>();
+        for (T h : history) {
+            int uniqueFoodIdx;
+            if ((uniqueFoodIdx = united.indexOf(new HistoryOfFoodWithHash(h))) >= 0) {
+                united.get(uniqueFoodIdx).mergeWith(h);
+            }
+            else {
+                united.add(new HistoryOfFoodWithHash(h));
+            }
+        }
+
+        return united.stream().map(h -> h.history).collect(Collectors.toList());
     }
 }
