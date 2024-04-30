@@ -79,8 +79,8 @@ public class FoodTableFragment extends Fragment {
 //        }
 //    }
 
-    public void replaceProducts(LocalDate date, Resources resources, String packageName) {
-        foodModel.updateFoodTable(date, resources, packageName);
+    public void replaceProducts(LocalDate startDate, LocalDate endDate, Resources resources, String packageName) {
+        foodModel.updateFoodTable(startDate, endDate, resources, packageName);
     }
 
 //    private void removeAllProductRecords() {

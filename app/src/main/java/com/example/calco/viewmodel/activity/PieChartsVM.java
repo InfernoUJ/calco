@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class PieChartsVM extends ViewModel {
     private MutableLiveData<PieChartsPercents> percents = new MutableLiveData<>(new PieChartsPercents());
 
-    public void updatePercents(LocalDate date) {
-        percents.setValue(FoodLogic.calculateGoalCompletion(date));
+    public void updatePercents(LocalDate startDate, LocalDate endDate) {
+        percents.setValue(FoodLogic.calculateGoalCompletion(startDate, endDate));
     }
 
     public LiveData<PieChartsPercents> getPercents() {

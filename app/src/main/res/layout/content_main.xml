@@ -29,26 +29,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/chooseDateBtn"
+        app:layout_constraintBottom_toTopOf="@+id/startDateTextView"
         tools:layout="@layout/fragment_ccfp_pie_chart_group" />
 
     <Button
-        android:id="@+id/chooseDateBtn"
+        android:id="@+id/startDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dateTextView"
+        app:layout_constraintEnd_toStartOf="@+id/endDateTextView"
         app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        android:text="Pick date"/>
+        android:text="DD/MM/YYYY"/>
 
-    <TextView
-        android:id="@+id/dateTextView"
+    <Button
+        android:id="@+id/endDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintStart_toEndOf="@+id/chooseDateBtn"
+        android:clickable="true"
+        app:layout_constraintStart_toEndOf="@+id/startDateTextView"
         app:layout_constraintEnd_toStartOf="@+id/addProductBtn"
         app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
@@ -58,7 +60,7 @@
         android:id="@+id/addProductBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/dateTextView"
+        app:layout_constraintStart_toEndOf="@+id/endDateTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ccfp_pie_chart_group_fragment"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
@@ -70,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/chooseDateBtn"
+        app:layout_constraintTop_toBottomOf="@+id/startDateTextView"
         app:layout_constraintBottom_toTopOf="@+id/food_table_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" >

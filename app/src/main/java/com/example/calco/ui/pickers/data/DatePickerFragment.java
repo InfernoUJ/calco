@@ -14,11 +14,22 @@ public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     public interface DatePickerListener {
-        void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day);
+        void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day, DateType type);
         void onDialogNegativeClick(DatePickerFragment dialog);
     }
 
+    public enum DateType {
+        START_DATE,
+        END_DATE
+    }
+
     DatePickerFragment.DatePickerListener listener;
+    private final DateType dateType;
+
+    public DatePickerFragment(DateType dateType) {
+        super();
+        this.dateType = dateType;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -51,7 +62,7 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         System.out.println("Date set: " + year + "/" + month + "/" + dayOfMonth);
-        listener.onDialogPositiveClick(DatePickerFragment.this, year, month+1, dayOfMonth);
+        listener.onDialogPositiveClick(DatePickerFragment.this, year, month+1, dayOfMonth, dateType);
     }
 
 }

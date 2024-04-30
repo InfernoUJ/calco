@@ -76,14 +76,28 @@ public class ProductLogic {
     public static List<HistoryOfProducts> getDayHistory(LocalDate day) {
         LocalDate nextDay = day.plusDays(1);
         long thisDayMillis = DateTimeConverter.timeToUtcMillis(day.atStartOfDay());
-        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay());
+        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay()) - 1;
 
-        AppDataBase db = AppDataBase.getInstance();
-
-        List<PHistoryOfProducts> pHistory = db.historyOfProductsDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
-        List<HistoryOfProducts> history = pHistory.stream().map(ProductLogic::getHistoryOfProduct).collect(Collectors.toList());
+        List<HistoryOfProducts> history = getHistoryForPeriod(thisDayMillis, nextDayMillis);
         List<HistoryOfProducts> unitedHistory = FoodLogic.uniteSameFood(history);
         return unitedHistory;
+    }
+
+    public static List<HistoryOfProducts> getHistoryForPeriod(LocalDate startDate, LocalDate endDate) {
+        LocalDate dayAfterEnd = endDate.plusDays(1);
+        long startMillis = DateTimeConverter.timeToUtcMillis(startDate.atStartOfDay());
+        long endMillis = DateTimeConverter.timeToUtcMillis(dayAfterEnd.atStartOfDay()) - 1;
+
+        List<HistoryOfProducts> history = getHistoryForPeriod(startMillis, endMillis);
+        List<HistoryOfProducts> unitedHistory = FoodLogic.uniteSameFood(history);
+        return unitedHistory;
+    }
+
+    private static List<HistoryOfProducts> getHistoryForPeriod(long startMillis, long endMillis) {
+        AppDataBase db = AppDataBase.getInstance();
+        List<PHistoryOfProducts> pHistory = db.historyOfProductsDao().getHistoryInDateDiapason(startMillis, endMillis);
+        List<HistoryOfProducts> history = pHistory.stream().map(ProductLogic::getHistoryOfProduct).collect(Collectors.toList());
+        return history;
     }
 
     public static HistoryOfProducts getHistoryOfProduct(PHistoryOfProducts pHistory) {

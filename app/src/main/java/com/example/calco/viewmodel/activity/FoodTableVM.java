@@ -25,9 +25,9 @@ public class FoodTableVM extends ViewModel {
     private List<FoodImpactRecordData> foodRecords = new ArrayList<>();
     private FoodComponent currentSort = FoodComponent.CALORIES;
     private final FoodForPeriodAdapter adapter = new FoodForPeriodAdapter();
-    public void updateFoodTable(LocalDate date, Resources resources, String packageName) {
-        List<HistoryOfProducts> historyOfProducts = ProductLogic.getDayHistory(date);
-        List<HistoryOfDishes> historyOfDishes = DishLogic.getDayHistory(date);
+    public void updateFoodTable(LocalDate startDate, LocalDate endDate, Resources resources, String packageName) {
+        List<HistoryOfProducts> historyOfProducts = ProductLogic.getHistoryForPeriod(startDate, endDate);
+        List<HistoryOfDishes> historyOfDishes = DishLogic.getHistoryForPeriod(startDate, endDate);
         List<FoodImpactRecordData> foodImpactRecordData = LogicToUiConverter.getProductImpactRecordData(historyOfProducts, historyOfDishes, resources, packageName, currentSort);
         foodImpactRecordData.sort((o1, o2) -> o2.getPercentage().compareTo(o1.getPercentage()));
         foodRecords = foodImpactRecordData;
@@ -40,8 +40,8 @@ public class FoodTableVM extends ViewModel {
         return adapter;
     }
     
-    public void sortFoodBy(FoodComponent components, LocalDate date, Resources resources, String packageName) {
+    public void sortFoodBy(FoodComponent components, LocalDate startDate, LocalDate endDate, Resources resources, String packageName) {
         currentSort = components;
-        updateFoodTable(date, resources, packageName);
+        updateFoodTable(startDate, endDate, resources, packageName);
     }
 }

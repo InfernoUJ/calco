@@ -21,12 +21,6 @@ import com.example.calco.viewmodel.activity.FoodTableVM;
 import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
 import com.example.calco.logic.business.entities.FoodComponent;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,7 +28,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calco.databinding.ActivityMainBinding;
@@ -93,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         setHandlers();
 
-        setDateToField(LocalDate.now());
+        setEndDateToField(LocalDate.now());
+        setStartDateToField(LocalDate.now());
 
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -132,9 +126,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void setDateChoosingHandlers() {
-        View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.chooseDateBtn);
+        View chooseDateButton = binding.appBarMain.getRoot().findViewById(R.id.endDateTextView);
         chooseDateButton.setOnClickListener(view -> {
-            DatePickerFragment newFragment = new DatePickerFragment();
+            DatePickerFragment newFragment = new DatePickerFragment(DatePickerFragment.DateType.END_DATE);
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        });
+
+        View previousDateButton = binding.appBarMain.getRoot().findViewById(R.id.startDateTextView);
+        previousDateButton.setOnClickListener(view -> {
+            DatePickerFragment newFragment = new DatePickerFragment(DatePickerFragment.DateType.START_DATE);
             newFragment.show(getSupportFragmentManager(), "datePicker");
         });
     }
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         addProductBtn.setOnClickListener(view -> {
             Intent addProductactivityIntent = new Intent(this, AddFoodActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("date", getDate());
+            bundle.putString("date", getEndDate());
             addProductactivityIntent.putExtras(bundle);
             startActivity(addProductactivityIntent);
         });
@@ -171,26 +171,33 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             ((RadioButton)findViewById(id)).setOnCheckedChangeListener((view, isChecked) -> {
                 if (isChecked) {
                     FoodComponent component = FoodComponent.values()[radioButtonsIds.indexOf(id)];
-                    foodTableModel.sortFoodBy(component, getLocalDate(), getResources(), getPackageName());
+                    foodTableModel.sortFoodBy(component, getStartLocalDate(), getEndLocalDate(), getResources(), getPackageName());
                 }
             });
         }
     }
 
     @Override
-    public void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day) {
+    public void onDialogPositiveClick(DatePickerFragment dialog, int year, int month, int day, DatePickerFragment.DateType type) {
         LocalDate chosenDate = LocalDate.of(year, month, day);
-        setDateToField(chosenDate);
+        switch (type) {
+            case START_DATE:
+                setStartDateToField(chosenDate);
+                break;
+            case END_DATE:
+                setEndDateToField(chosenDate);
+                break;
+        }
         updateFoodTable();
         updatePieCharts();
     }
 
     private void updateFoodTable() {
-        productTable.replaceProducts(getLocalDate(), getResources(), getPackageName());
+        productTable.replaceProducts(getStartLocalDate(), getEndLocalDate(), getResources(), getPackageName());
     }
 
     private void updatePieCharts() {
-        pieChartsModel.updatePercents(getLocalDate());
+        pieChartsModel.updatePercents(getStartLocalDate(), getEndLocalDate());
         updateHomeWidget();
     }
 
@@ -199,16 +206,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     }
 
-    private void setDateToField(LocalDate date) {
-        ((TextView)binding.appBarMain.getRoot().findViewById(R.id.dateTextView)).setText(date.format(DateTimeFormatter.ofPattern(dateFormat)));
+    private void setStartDateToField(LocalDate date) {
+        ((TextView)binding.appBarMain.getRoot().findViewById(R.id.startDateTextView)).setText(date.format(DateTimeFormatter.ofPattern(dateFormat)));
     }
 
-    private String getDate() {
-        return ((TextView)binding.appBarMain.getRoot().findViewById(R.id.dateTextView)).getText().toString();
+    private void setEndDateToField(LocalDate date) {
+        ((TextView)binding.appBarMain.getRoot().findViewById(R.id.endDateTextView)).setText(date.format(DateTimeFormatter.ofPattern(dateFormat)));
     }
 
-    private LocalDate getLocalDate() {
-        return LocalDate.parse(getDate(), DateTimeFormatter.ofPattern(MainActivity.dateFormat));
+    private String getEndDate() {
+        return ((TextView)binding.appBarMain.getRoot().findViewById(R.id.endDateTextView)).getText().toString();
+    }
+
+    private String getStartDate() {
+        return ((TextView)binding.appBarMain.getRoot().findViewById(R.id.startDateTextView)).getText().toString();
+    }
+
+    private LocalDate getEndLocalDate() {
+        return LocalDate.parse(getEndDate(), DateTimeFormatter.ofPattern(MainActivity.dateFormat));
+    }
+
+    private LocalDate getStartLocalDate() {
+        return LocalDate.parse(getStartDate(), DateTimeFormatter.ofPattern(MainActivity.dateFormat));
     }
 
     @Override

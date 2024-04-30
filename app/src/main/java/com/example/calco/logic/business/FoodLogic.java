@@ -20,10 +20,10 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class FoodLogic {
-    public static PieChartsPercents calculateGoalCompletion(LocalDate date) {
+    public static PieChartsPercents calculateGoalCompletion(LocalDate startDate, LocalDate endDate) {
         List<HistoryOfFood> food = new ArrayList<>();
-        food.addAll(ProductLogic.getDayHistory(date));
-        food.addAll(DishLogic.getDayHistory(date));
+        food.addAll(ProductLogic.getHistoryForPeriod(startDate, endDate));
+        food.addAll(DishLogic.getHistoryForPeriod(startDate, endDate));
         Limit limit = LimitsLogic.getLimit(LimitType.DAILY);
 
         return new PieChartsPercents(calculateCalories(food), calculateCarbs(food), calculateFats(food), calculateProteins(food), limit);

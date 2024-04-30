@@ -4,6 +4,7 @@ import com.example.calco.logic.business.entities.Dish;
 import com.example.calco.logic.business.entities.DishComponent;
 import com.example.calco.logic.business.entities.Food;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
+import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.dao.PDishComponent;
@@ -12,6 +13,7 @@ import com.example.calco.logic.persistent.entities.DishImages;
 import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
+import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.logic.persistent.entities.ProductImages;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
@@ -26,16 +28,16 @@ import java.util.stream.Stream;
 
 public class DishLogic {
 
-    public static void persistNewDish(String dishName, List<Map.Entry<Food, Integer>> products) {
+    public static void persistNewDish(String dishName, Map<Food, Integer> products) {
         if (products.isEmpty()) {
             return;
         }
         // todo change to factory/strategy pattern
-        if (!(products.get(0).getKey() instanceof Product)) {
+        if (!(products.keySet().toArray()[0] instanceof Product)) {
             throw new IllegalArgumentException("Only products can be persisted as dishes' components.");
         }
         List<Map.Entry<Product, Integer>> products2 = new ArrayList<>();
-        for (Map.Entry<Food, Integer> entry: products) {
+        for (Map.Entry<Food, Integer> entry: products.entrySet()) {
             products2.add(Map.entry((Product)entry.getKey(), entry.getValue()));
         }
         long dishId = persistDish(dishName);
@@ -127,14 +129,29 @@ public class DishLogic {
     public static List<HistoryOfDishes> getDayHistory(LocalDate day) {
         LocalDate nextDay = day.plusDays(1);
         long thisDayMillis = DateTimeConverter.timeToUtcMillis(day.atStartOfDay());
-        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay());
+        long nextDayMillis = DateTimeConverter.timeToUtcMillis(nextDay.atStartOfDay()) - 1;
 
-        AppDataBase db = AppDataBase.getInstance();
-
-        List<PHistoryOfDishes> pHistory = db.historyOfDishesDao().getHistoryInDateDiapason(thisDayMillis, nextDayMillis-1);
-        List<HistoryOfDishes> history = pHistory.stream().map(DishLogic::getHistoryOfDish).collect(Collectors.toList());
+        List<HistoryOfDishes> history = getHistoryForPeriod(thisDayMillis, nextDayMillis);
         List<HistoryOfDishes> unitedHistory = FoodLogic.uniteSameFood(history);
         return unitedHistory;
+    }
+
+    public static List<HistoryOfDishes> getHistoryForPeriod(LocalDate startDate, LocalDate endDate) {
+        LocalDate dayAfterEnd = endDate.plusDays(1);
+        long startMillis = DateTimeConverter.timeToUtcMillis(startDate.atStartOfDay());
+        long endMillis = DateTimeConverter.timeToUtcMillis(dayAfterEnd.atStartOfDay()) - 1;
+
+        List<HistoryOfDishes> history = getHistoryForPeriod(startMillis, endMillis);
+        List<HistoryOfDishes> unitedHistory = FoodLogic.uniteSameFood(history);
+        return unitedHistory;
+    }
+
+    private static List<HistoryOfDishes> getHistoryForPeriod(long startMillis, long endMillis) {
+        AppDataBase db = AppDataBase.getInstance();
+
+        List<PHistoryOfDishes> pHistory = db.historyOfDishesDao().getHistoryInDateDiapason(startMillis, endMillis);
+        List<HistoryOfDishes> history = pHistory.stream().map(DishLogic::getHistoryOfDish).collect(Collectors.toList());
+        return history;
     }
 
     public static HistoryOfDishes getHistoryOfDish(PHistoryOfDishes pHistory) {
