@@ -52,7 +52,7 @@ public class LogicToUiConverter {
         List<HistoryOfFood> food = new ArrayList<>(products);
         food.addAll(dishes);
         List<Map.Entry<HistoryOfFood, Integer>> foodWithPercents = PercentConvertor.getPercentImpact(food,
-                foodHistory -> (int)(foodHistory.getMilligrams()*FoodLogic.getComponentPercentage(foodHistory.getFood(), sortComponent)));
+                foodHistory -> FoodLogic.getComponentAbsolute(foodHistory, sortComponent));
 
         List<FoodImpactRecordData> allRecords = foodWithPercents.stream().map(entry -> {
             HistoryOfFood history = entry.getKey();

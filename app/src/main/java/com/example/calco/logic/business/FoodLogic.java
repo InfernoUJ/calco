@@ -21,39 +21,40 @@ import java.util.stream.Collectors;
 
 public class FoodLogic {
     public static PieChartsPercents calculateGoalCompletion(LocalDate date) {
-        List<Food> food = ProductLogic.getDayHistory(date).stream().map(HistoryOfProducts::getProduct).collect(Collectors.toList());
-        food.addAll(DishLogic.getDayHistory(date).stream().map(HistoryOfDishes::getDish).collect(Collectors.toList()));
+        List<HistoryOfFood> food = new ArrayList<>();
+        food.addAll(ProductLogic.getDayHistory(date));
+        food.addAll(DishLogic.getDayHistory(date));
         Limit limit = LimitsLogic.getLimit(LimitType.DAILY);
 
         return new PieChartsPercents(calculateCalories(food), calculateCarbs(food), calculateFats(food), calculateProteins(food), limit);
     }
 
-    private static int calculateCalories(List<Food> food) {
-        return food.stream().mapToInt(Food::getCalories).sum();
+    private static int calculateCalories(List<HistoryOfFood> food) {
+        return food.stream().mapToInt(history -> (int)(history.getFood().getCalories()/100f*history.getMilligrams()/1000f)).sum();
     }
 
-    private static int calculateCarbs(List<Food> food) {
-        return food.stream().mapToInt(Food::getCarbs).sum();
+    private static int calculateCarbs(List<HistoryOfFood> food) {
+        return food.stream().mapToInt(history -> (int)(history.getFood().getCarbs()/100f*history.getMilligrams()/1000f)).sum();
     }
 
-    private static int calculateFats(List<Food> food) {
-        return food.stream().mapToInt(Food::getFats).sum();
+    private static int calculateFats(List<HistoryOfFood> food) {
+        return food.stream().mapToInt(history -> (int)(history.getFood().getFats()/100f*history.getMilligrams()/1000f)).sum();
     }
 
-    private static int calculateProteins(List<Food> food) {
-        return food.stream().mapToInt(Food::getProteins).sum();
+    private static int calculateProteins(List<HistoryOfFood> food) {
+        return food.stream().mapToInt(history -> (int)(history.getFood().getProteins()/100f*history.getMilligrams()/1000f)).sum();
     }
 
-    public static float getComponentPercentage(Food food, FoodComponent component) {
+    public static Integer getComponentAbsolute(HistoryOfFood food, FoodComponent component) {
         switch (component) {
             case CALORIES:
-                return food.getCalories()/100_000f;
+                return calculateCalories(List.of(food));
             case CARBS:
-                return food.getCarbs()/100_000f;
+                return calculateCarbs(List.of(food));
             case FATS:
-                return food.getFats()/100_000f;
+                return calculateFats(List.of(food));
             case PROTEINS:
-                return food.getProteins()/100_000f;
+                return calculateProteins(List.of(food));
             default:
                 throw new IllegalArgumentException("Unknown component: " + component);
         }

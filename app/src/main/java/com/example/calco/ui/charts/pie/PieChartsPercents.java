@@ -8,16 +8,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PieChartsPercents implements Serializable {
+    private static final int MAX_PERCENTAGE = 100;
     public int caloriesPercent;
     public int carbsPercent;
     public int fatsPercent;
     public int proteinsPercent;
 
     public PieChartsPercents(int caloriesPercent, int carbsPercent, int fatsPercent, int proteinsPercent) {
-        this.caloriesPercent = caloriesPercent;
-        this.carbsPercent = carbsPercent;
-        this.fatsPercent = fatsPercent;
-        this.proteinsPercent = proteinsPercent;
+        this.caloriesPercent = Math.min(caloriesPercent, MAX_PERCENTAGE);
+        this.carbsPercent = Math.min(carbsPercent, MAX_PERCENTAGE);
+        this.fatsPercent = Math.min(fatsPercent, MAX_PERCENTAGE);
+        this.proteinsPercent = Math.min(proteinsPercent, MAX_PERCENTAGE);
     }
 
     public PieChartsPercents(int calories, int carbs, int fats, int proteins, Limit limit) {
