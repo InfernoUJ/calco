@@ -79,43 +79,6 @@ public class CreateDishActivity extends AppCompatActivity {
         return ((EditText) findViewById(R.id.dishName)).getText().toString();
     }
 
-//    private void addProductsToTable(List<FoodWithCCFPData> product) {
-//        // todo can make null-termination it in querry method ?
-//        //  or create my own annotation for query methods
-//        if (product == null) {
-//            return;
-//        }
-//        LinearLayout lastProductsTable = (LinearLayout) findViewById(R.id.dishProductsLayout);
-//        lastProductsTable.removeAllViews();
-//        product.forEach(p -> {
-//            View productRow = createFoodRecord(p);
-//            lastProductsTable.addView(productRow);
-//        });
-//    }
-//
-//    private View createFoodRecord(FoodWithCCFPData product) {
-//        View productRow = getLayoutInflater().inflate(R.layout.component_of_dish,null);
-//
-//        ImageView productImage = productRow.findViewById(R.id.component_image);
-//        TextView productName = productRow.findViewById(R.id.component_name);
-//        TextView productCalories = productRow.findViewById(R.id.component_calories);
-//        TextView productCarbs = productRow.findViewById(R.id.component_carbs);
-//        TextView productFats = productRow.findViewById(R.id.component_fats);
-//        TextView productProteins = productRow.findViewById(R.id.component_proteins);
-//
-//        if (product.getImage() != null) {
-//            productImage.setImageBitmap(product.getImage());
-//        } else {
-//            productImage.setImageResource(product.getDefaultImageId());
-//        }
-//        productName.setText(product.getName());
-//        productCalories.setText(product.getCalories());
-//        productCarbs.setText(product.getCarbs());
-//        productFats.setText(product.getFats());
-//        productProteins.setText(product.getProteins());
-//
-//        return productRow;
-//    }
 
     // todo maybe refactor - remove parsing logic from here
     private List<Map.Entry<Integer, Integer>> determineChosenProducts() {
