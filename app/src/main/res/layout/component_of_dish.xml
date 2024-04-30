@@ -1,81 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dish_component_table_record"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 
 <!--    todo refactor unite with component_table_record-->
-    <ImageView
-        android:id="@+id/component_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
-
-    <TextView
-        android:id="@+id/component_name"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="10dp"
-        android:layout_alignBottom="@id/component_image"
-        android:layout_toEndOf="@id/component_image" />
-
     <TableLayout
         android:id="@+id/component_ccfp_table"
-        android:layout_width="270dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/component_name"
-        android:layout_alignBottom="@id/component_image">
-        <TableRow>
+        android:layout_gravity="center" >
+        <TableRow
+            android:background="@drawable/table_record_odd_bg">
+            <ImageView
+                android:id="@+id/component_image"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="60dp" />
             <TextView
                 android:text="Calories"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Carbs"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Fats"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
             <TextView
                 android:text="Proteins"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@drawable/table_record_even_bg"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/component_name"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
             <TextView
                 android:id="@+id/component_calories"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/component_carbs"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/component_fats"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0g"/>
             <TextView
                 android:id="@+id/component_proteins"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0g"/>
+            <EditText
+                android:id="@+id/amount_in_g"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="0 g"/>
         </TableRow>
     </TableLayout>
 
     <!-- Todo refactor units -->
-    <EditText
-        android:id="@+id/amount_in_g"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/component_ccfp_table"
-        android:layout_alignBottom="@id/component_image"
-        android:layout_alignTop="@id/component_image"
-        android:hint="0 g"/>
 
 
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

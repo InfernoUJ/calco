@@ -10,18 +10,21 @@ import com.example.calco.logic.business.DishLogic;
 import com.example.calco.logic.business.entities.Food;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.business.ProductLogic;
+import com.example.calco.viewmodel.activity.adapters.CreateDishTableAdapter;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CreateDishVM extends ViewModel {
-    MutableLiveData<List<FoodWithCCFPData>> products = new MutableLiveData<>();
+    List<FoodWithCCFPData> products = new ArrayList<>();
 
-    public LiveData<List<FoodWithCCFPData>> getProducts() {
+    public List<FoodWithCCFPData> getProducts() {
         return products;
     }
+    private final CreateDishTableAdapter adapter = new CreateDishTableAdapter();
 
     public void updateProductList(Resources resources, String packageName) {
         List<Product> newProducts = ProductLogic.getLastUsedProducts();
@@ -29,16 +32,20 @@ public class CreateDishVM extends ViewModel {
                 .map(product -> LogicToUiConverter.getFoodWithCCFPData(product, resources, packageName))
                 .collect(Collectors.toList());
 
-        products.setValue(uiProducts);
+        products = uiProducts;
+        adapter.replaceFoodList(products);
+    }
+
+    public CreateDishTableAdapter getAdapter() {
+        return adapter;
     }
 
     public void createDish(String dishName, List<Map.Entry<Integer, Integer>> chosenProducts) {
-        List<FoodWithCCFPData> allProducts = products.getValue();
-        if (allProducts == null) {
+        if (products == null) {
             return;
         }
         List<Map.Entry<Food, Integer>> products = chosenProducts.stream()
-                .map(entry -> Map.entry(allProducts.get(entry.getKey()).getFood(), entry.getValue()))
+                .map(entry -> Map.entry(this.products.get(entry.getKey()).getFood(), entry.getValue()))
                 .collect(Collectors.toList());
 
         DishLogic.persistNewDish(dishName, products);

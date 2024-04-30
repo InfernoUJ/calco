@@ -135,30 +135,6 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
         // do nothing
     }
 
-    private View createFoodRecord(FoodWithCCFPData food) {
-        View productRow = getLayoutInflater().inflate(R.layout.last_food_table_record,null);
-
-        ImageView productImage = productRow.findViewById(R.id.last_food_image);
-        TextView productName = productRow.findViewById(R.id.last_food_name);
-        TextView productCalories = productRow.findViewById(R.id.last_food_calories);
-        TextView productCarbs = productRow.findViewById(R.id.last_food_carbs);
-        TextView productFats = productRow.findViewById(R.id.last_food_fats);
-        TextView productProteins = productRow.findViewById(R.id.last_food_proteins);
-
-        if (food.getImage() != null) {
-            productImage.setImageBitmap(food.getImage());
-        } else {
-            productImage.setImageResource(food.getDefaultImageId());
-        }
-        productName.setText(food.getName());
-        productCalories.setText(food.getCalories());
-        productCarbs.setText(food.getCarbs());
-        productFats.setText(food.getFats());
-        productProteins.setText(food.getProteins());
-
-        return productRow;
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         System.out.println("onQueryTextSubmit: " + query);

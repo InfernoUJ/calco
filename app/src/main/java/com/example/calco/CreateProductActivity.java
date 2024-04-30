@@ -11,9 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.viewmodel.activity.CreateProductVM;
-import com.example.calco.viewmodel.activity.state.CreateProductUiState;
 
 public class CreateProductActivity extends AppCompatActivity {
 

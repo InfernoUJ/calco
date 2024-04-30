@@ -19,22 +19,16 @@
         android:hint="Enter dish name" />
 
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dishProductsScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dishName"
         app:layout_constraintBottom_toTopOf="@+id/createDishBtn"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/dishProductsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/createDishBtn"
