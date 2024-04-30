@@ -14,12 +14,14 @@ import com.example.calco.viewmodel.activity.adapters.CreateDishTableAdapter;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CreateDishVM extends ViewModel {
     List<FoodWithCCFPData> products = new ArrayList<>();
+    Map<FoodWithCCFPData, Integer> productsMass = new HashMap<>();
 
     public List<FoodWithCCFPData> getProducts() {
         return products;
@@ -37,17 +39,17 @@ public class CreateDishVM extends ViewModel {
     }
 
     public CreateDishTableAdapter getAdapter() {
+        adapter.setMassSaver(productsMass::put);
         return adapter;
     }
 
-    public void createDish(String dishName, List<Map.Entry<Integer, Integer>> chosenProducts) {
+    public void createDish(String dishName) {
         if (products == null) {
             return;
         }
-        List<Map.Entry<Food, Integer>> products = chosenProducts.stream()
-                .map(entry -> Map.entry(this.products.get(entry.getKey()).getFood(), entry.getValue()))
-                .collect(Collectors.toList());
+        Map<Food, Integer> foodWithMass = productsMass.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().getFood(), Map.Entry::getValue));
 
-        DishLogic.persistNewDish(dishName, products);
+        DishLogic.persistNewDish(dishName, foodWithMass);
     }
 }

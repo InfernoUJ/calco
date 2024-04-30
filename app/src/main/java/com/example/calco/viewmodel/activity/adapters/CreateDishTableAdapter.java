@@ -1,5 +1,7 @@
 package com.example.calco.viewmodel.activity.adapters;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calco.R;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
+import com.google.android.material.internal.TextWatcherAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTableAdapter.CreateDishTableHolder> {
     static class CreateDishTableHolder extends RecyclerView.ViewHolder {
@@ -40,6 +45,7 @@ public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTable
     }
 
     private List<FoodWithCCFPData> foodList = new ArrayList<>();
+    private BiConsumer<FoodWithCCFPData, Integer> massSaver;
 
     @NonNull
     @Override
@@ -62,6 +68,27 @@ public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTable
         holder.carbs.setText(food.getCarbs());
         holder.fats.setText(food.getFats());
         holder.proteins.setText(food.getProteins());
+        holder.mass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    int mass = Integer.parseInt(s.toString());
+                    massSaver.accept(food, mass);
+                } catch (NumberFormatException e) {
+                    // todo
+                }
+            }
+        });
     }
 
     @Override
@@ -74,5 +101,9 @@ public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTable
         this.foodList.clear();
         this.foodList.addAll(foodList);
         notifyDataSetChanged();
+    }
+
+    public void setMassSaver(BiConsumer<FoodWithCCFPData, Integer> massSaver) {
+        this.massSaver = massSaver;
     }
 }
