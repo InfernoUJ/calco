@@ -1,7 +1,11 @@
 package com.example.calco;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.notifications.ReminderManager;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
 import com.example.calco.ui.dialogs.SetLimitsDialog;
 import com.example.calco.ui.dialogs.WayToChooseImageDialog;
@@ -22,6 +27,7 @@ import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
 import com.example.calco.logic.business.entities.FoodComponent;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -101,6 +107,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setPieChartsHandler();
         setCaloriesLimitHandler();
         setRadioButtonsFilters();
+        setNotificationChannels();
+    }
+
+    private void setNotificationChannels() {
+        NotificationChannel channel = new NotificationChannel("10001", "Calco", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(channel);
+        ReminderManager.makeNewReminder(this);
     }
 
     private void setDateChoosingHandlers() {
