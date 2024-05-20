@@ -182,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         LocalDate chosenDate = LocalDate.of(year, month, day);
         switch (type) {
             case START_DATE:
+                // set the same date for creating less misunderstandings
                 setStartDateToField(chosenDate);
+                setEndDateToField(chosenDate);
                 break;
             case END_DATE:
                 setEndDateToField(chosenDate);
