@@ -1,9 +1,16 @@
 package com.example.calco.notifications;
 
+import static androidx.core.app.ActivityCompat.requestPermissions;
+
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.List;
@@ -19,8 +26,11 @@ public class ReminderManager {
         PendingIntent intent = createPendingIntent(context);
         Calendar calendar = createCalendar(nextHour);
 
-        if (alarmManager.canScheduleExactAlarms()) {
-            alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), intent), intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), intent), intent);
+                System.out.println("Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
+            }
         }
     }
 
@@ -29,8 +39,14 @@ public class ReminderManager {
     }
 
     private static int findNextHour(int previousHour) {
-        int nexIndex = (hours.lastIndexOf(previousHour) + 1) >= hours.size() ? 0 : hours.lastIndexOf(previousHour) + 1;
-        return hours.get(nexIndex);
+        int newIndex = 0;
+        while (newIndex < hours.size() && hours.get(newIndex) <= previousHour) {
+            newIndex++;
+        }
+        if (newIndex == hours.size()) {
+            newIndex = 0;
+        }
+        return hours.get(newIndex);
     }
 
     private static PendingIntent createPendingIntent(Context context) {

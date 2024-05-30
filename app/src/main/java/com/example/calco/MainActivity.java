@@ -1,5 +1,6 @@
 package com.example.calco;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,7 +8,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.Menu;
 import android.widget.RadioButton;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.notifications.NotificationSender;
 import com.example.calco.notifications.ReminderManager;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
 import com.example.calco.ui.dialogs.SetLimitsDialog;
@@ -27,6 +31,8 @@ import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
 import com.example.calco.logic.business.entities.FoodComponent;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         productTable = (FoodTableFragment) getSupportFragmentManager().findFragmentById(R.id.food_table_fragment);
 
+        askForPermissions();
         setHandlers();
 
         setEndDateToField(LocalDate.now());
@@ -110,10 +117,45 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setNotificationChannels();
     }
 
+    private void askForPermissions() {
+        askCameraPermission();
+        askStoragePermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            askNotificationPermission();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            askAlarmPermission();
+        }
+    }
+
+    private void askCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
+        }
+    }
+
+    private void askStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    private void askNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    public void askAlarmPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 1);
+        }
+    }
     private void setNotificationChannels() {
-        NotificationChannel channel = new NotificationChannel("10001", "Calco", NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.createNotificationChannel(channel);
+        NotificationChannel channel = new NotificationChannel(NotificationSender.CHANNEL_ID, "Calco", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManagerCompat.from(this).createNotificationChannel(channel);
         ReminderManager.makeNewReminder(this);
     }
 
