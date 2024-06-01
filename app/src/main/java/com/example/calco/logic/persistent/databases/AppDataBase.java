@@ -53,4 +53,28 @@ public abstract class AppDataBase extends RoomDatabase {
 
     public abstract DishImagesDao dishImagesDao();
 
+    public <T> BaseDao<T> baseDao(Class<T> clazz) {
+        if (clazz.equals(PProduct.class)) {
+            return (BaseDao<T>) productDao();
+        } else if (clazz.equals(PDish.class)) {
+            return (BaseDao<T>) dishDao();
+        } else if (clazz.equals(PHistoryOfProducts.class)) {
+            return (BaseDao<T>) historyOfProductsDao();
+        } else if (clazz.equals(PHistoryOfDishes.class)) {
+            return (BaseDao<T>) historyOfDishesDao();
+        } else if (clazz.equals(ProductsInDishes.class)) {
+            return (BaseDao<T>) productsInDishesDao();
+        } else if (clazz.equals(PLimit.class)) {
+            return (BaseDao<T>) limitDao();
+        } else if (clazz.equals(Image.class)) {
+            return (BaseDao<T>) imageDao();
+        } else if (clazz.equals(ProductImages.class)) {
+            return (BaseDao<T>) productImagesDao();
+        } else if (clazz.equals(DishImages.class)) {
+            return (BaseDao<T>) dishImagesDao();
+        } else {
+            throw new IllegalArgumentException("Unknown entity class: " + clazz);
+        }
+    }
+
 }
