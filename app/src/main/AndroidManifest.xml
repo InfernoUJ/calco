@@ -3,12 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Calco"
         tools:targetApi="31">
+        <activity
+            android:name=".DataActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".ui.widget.PieChartsWidget"
             android:exported="false">
@@ -31,14 +33,13 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/pie_charts_widget_info" />
         </receiver>
-
-        <receiver android:name=".notifications.NotificationSender"
+        <receiver
+            android:name=".notifications.NotificationSender"
             android:enabled="true" />
-
-        <receiver android:name=".notifications.NotificationsRestarter"
+        <receiver
+            android:name=".notifications.NotificationsRestarter"
             android:enabled="true"
-            android:exported="false" >
-
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

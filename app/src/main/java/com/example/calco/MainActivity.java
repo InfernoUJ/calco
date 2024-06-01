@@ -1,22 +1,34 @@
 package com.example.calco;
 
 import android.Manifest;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.example.calco.databinding.ActivityMainBinding;
+import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.logic.business.entities.LimitType;
+import com.example.calco.logic.files.JsonFilesCreator;
+import com.example.calco.logic.files.JsonZipCreator;
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.notifications.NotificationSender;
 import com.example.calco.notifications.ReminderManager;
@@ -29,27 +41,13 @@ import com.example.calco.ui.widget.PieChartsWidget;
 import com.example.calco.viewmodel.activity.FoodTableVM;
 import com.example.calco.viewmodel.activity.LimitsVM;
 import com.example.calco.viewmodel.activity.PieChartsVM;
-import com.example.calco.logic.business.entities.FoodComponent;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.calco.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener,
-        SetLimitsDialog.SetLimitsDialogListener, WayToChooseImageDialog.WayToChooseImageDialogListener{
+        SetLimitsDialog.SetLimitsDialogListener, WayToChooseImageDialog.WayToChooseImageDialogListener {
     public static final String dateFormat = "yyyy-MM-dd";
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -84,6 +82,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setEndDateToField(LocalDate.now());
         setStartDateToField(LocalDate.now());
 
+//        // this is mail icon action
+//        DrawerLayout drawer = binding.drawerLayout;
+//        NavigationView navigationView = binding.navView;
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+//                .setOpenableLayout(drawer)
+//                .build();
+//
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
+
+        JsonZipCreator.createZip(getApplicationContext(),JsonFilesCreator.createJsonFiles());
     }
 
     @Override
