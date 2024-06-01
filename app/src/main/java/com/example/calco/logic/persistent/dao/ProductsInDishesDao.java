@@ -11,7 +11,7 @@ import com.example.calco.logic.persistent.entities.ProductsInDishes;
 import java.util.List;
 
 @Dao
-public interface ProductsInDishesDao {
+public interface ProductsInDishesDao extends BaseDao<ProductsInDishes> {
     @Query("SELECT product_id, percent_content " +
             "FROM ProductsInDishes " +
             "WHERE dish_id = :dishId ")
@@ -21,4 +21,8 @@ public interface ProductsInDishesDao {
 
     @Delete
     void delete(ProductsInDishes dish);
+
+    @Override
+    @Query("SELECT * FROM ProductsInDishes")
+    List<ProductsInDishes> getAll();
 }

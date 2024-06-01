@@ -12,7 +12,7 @@ import com.example.calco.logic.persistent.entities.PProduct;
 import java.util.List;
 
 @Dao
-public interface ProductDao {
+public interface ProductDao extends BaseDao<PProduct> {
     @Query("SELECT * FROM PProduct " +
             "WHERE name LIKE :name ")
     List<PProduct> findByName(String name);
@@ -42,4 +42,7 @@ public interface ProductDao {
     @Update
     int updateProduct(PProduct product);
 
+    @Override
+    @Query("SELECT * FROM PProduct")
+    List<PProduct> getAll();
 }

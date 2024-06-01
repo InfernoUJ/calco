@@ -12,7 +12,7 @@ import com.example.calco.logic.persistent.entities.PDish;
 import java.util.List;
 
 @Dao
-public interface ImageDao {
+public interface ImageDao extends BaseDao<Image> {
     @Query("SELECT * FROM Image " +
             "WHERE uid = :uid " )
     Image findById(long uid);
@@ -26,4 +26,8 @@ public interface ImageDao {
 
     @Delete
     void delete(Image dish);
+
+    @Override
+    @Query("SELECT * FROM Image")
+    List<Image> getAll();
 }

@@ -13,7 +13,7 @@ import com.example.calco.logic.persistent.entities.PProduct;
 import java.util.List;
 
 @Dao
-public interface DishDao {
+public interface DishDao extends BaseDao<PDish> {
     @Query("SELECT * FROM PDish " +
             "WHERE name LIKE :name ")
     List<PDish> findByName(String name);
@@ -34,4 +34,8 @@ public interface DishDao {
 
     @Update
     int updateDish(PDish dish);
+
+    @Override
+    @Query("SELECT * FROM PDish")
+    List<PDish> getAll();
 }

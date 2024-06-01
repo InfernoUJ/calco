@@ -11,7 +11,7 @@ import com.example.calco.logic.persistent.entities.PProduct;
 import java.util.List;
 
 @Dao
-public interface LimitDao {
+public interface LimitDao extends BaseDao<PLimit> {
     @Query("SELECT * FROM PLimit " +
             "WHERE type = :type " +
             "ORDER BY uid DESC ")
@@ -24,4 +24,8 @@ public interface LimitDao {
 
     @Insert
     Long insert(PLimit limits);
+
+    @Override
+    @Query("SELECT * FROM PLimit")
+    List<PLimit> getAll();
 }

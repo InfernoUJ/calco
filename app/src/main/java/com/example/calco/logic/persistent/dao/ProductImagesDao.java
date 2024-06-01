@@ -13,7 +13,7 @@ import com.example.calco.logic.persistent.entities.ProductImages;
 import java.util.List;
 
 @Dao
-public interface ProductImagesDao {
+public interface ProductImagesDao extends BaseDao<ProductImages> {
     @Insert
     List<Long> insertAll(ProductImages... productImages);
 
@@ -25,4 +25,8 @@ public interface ProductImagesDao {
             "SET image_id = :imageId " +
             "WHERE product_id = :productId")
     int update(long imageId, long productId);
+
+    @Override
+    @Query("SELECT * FROM ProductImages")
+    List<ProductImages> getAll();
 }
