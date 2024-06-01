@@ -3,7 +3,6 @@ package com.example.calco.logic.business.entities;
 import java.util.List;
 
 public class Dish extends Food {
-    public static final String DEFAULT_IMAGE = "question_mark";
     private List<DishComponent> components;
 
     public Dish(long id, String name, List<DishComponent> components, String imageName) {
