@@ -3,6 +3,7 @@ package com.example.calco.logic.files;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.zip.ZipEntry;
@@ -24,10 +26,13 @@ public class JsonZipCreator {
     private static final String NAME = "calco_history_";
     private static final String JSON_EXTENSION = ".json";
     private static final String ZIP_EXTENSION = ".zip";
-    public static void createZip(Context context, JsonFile... jsonFiles) {
+    public static String createZip(Context context, JsonFile... jsonFiles) {
         Uri zipUri = createZipFileUri(context);
+        System.out.println("ZipUri: "+zipUri+" "+zipUri.getPath());
 
         fillZip(zipUri, context, jsonFiles);
+
+        return getRealPathFromURI(context, zipUri);
     }
 
     private static String getZipName() {
@@ -52,7 +57,7 @@ public class JsonZipCreator {
 
                 for (JsonFile jsonFile : jsonFiles) {
                     zos.putNextEntry(new ZipEntry(jsonFile.getName() + JSON_EXTENSION));
-                    zos.write(jsonFile.getJsonElement().toString().getBytes());
+                    zos.write(jsonFile.getJsonElement().toString().getBytes(StandardCharsets.UTF_8));
                     zos.closeEntry();
                 }
 
@@ -61,5 +66,28 @@ public class JsonZipCreator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getRealPathFromURI(Context context, Uri uri) {
+        String[] projection = { MediaStore.MediaColumns.DATA };
+        Cursor cursor = null;
+        String filePath = null;
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            if (cursor != null) {
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                if (cursor.moveToFirst()) {
+                    filePath = cursor.getString(columnIndex);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return filePath;
     }
 }
