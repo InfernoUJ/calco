@@ -14,8 +14,6 @@ import java.util.List;
 
 @Dao
 public interface DishImagesDao extends BaseDao<DishImages> {
-    @Insert
-    List<Long> insertAll(DishImages... dishImages);
 
     @Query("SELECT * FROM DishImages " +
             "WHERE dish_id = :dish_id")

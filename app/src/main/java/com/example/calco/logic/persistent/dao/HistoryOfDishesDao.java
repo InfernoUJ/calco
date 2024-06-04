@@ -20,9 +20,6 @@ public interface HistoryOfDishesDao extends BaseDao<PHistoryOfDishes>{
             "WHERE utc_date_time BETWEEN :dateStart AND :dateEnd ")
     List<PHistoryOfDishes> getHistoryInDateDiapason(long dateStart, long dateEnd);
 
-    @Insert
-    List<Long> insertAll(PHistoryOfDishes... history);
-
     @Override
     @Query("SELECT * FROM PHistoryOfDishes")
     List<PHistoryOfDishes> getAll();

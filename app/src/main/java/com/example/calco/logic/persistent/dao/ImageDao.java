@@ -21,9 +21,6 @@ public interface ImageDao extends BaseDao<Image> {
             "WHERE name = :path " )
     List<Image> getImageByPath(String path);
 
-    @Insert
-    List<Long> insertAll(Image... dishes);
-
     @Delete
     void delete(Image dish);
 

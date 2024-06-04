@@ -29,9 +29,6 @@ public interface ProductDao extends BaseDao<PProduct> {
             "AND proteins = :proteins ")
     List<PProduct> findByAll(String name, int calories, int carbs, int fats, int proteins);
 
-    @Insert
-    List<Long> insertAll(PProduct... users);
-
     @Delete
     void delete(PProduct user);
 

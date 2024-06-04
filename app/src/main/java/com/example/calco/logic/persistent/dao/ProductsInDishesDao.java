@@ -16,8 +16,6 @@ public interface ProductsInDishesDao extends BaseDao<ProductsInDishes> {
             "FROM ProductsInDishes " +
             "WHERE dish_id = :dishId ")
     List<PDishComponent> getComponents(long dishId);
-    @Insert
-    List<Long> insertAll(ProductsInDishes... dishes);
 
     @Delete
     void delete(ProductsInDishes dish);

@@ -22,9 +22,6 @@ public interface DishDao extends BaseDao<PDish> {
             "WHERE uid = :uid " )
     PDish findById(long uid);
 
-    @Insert
-    List<Long> insertAll(PDish... dishes);
-
     @Delete
     void delete(PDish dish);
 

@@ -14,8 +14,6 @@ import java.util.List;
 
 @Dao
 public interface ProductImagesDao extends BaseDao<ProductImages> {
-    @Insert
-    List<Long> insertAll(ProductImages... productImages);
 
     @Query("SELECT * FROM ProductImages " +
             "WHERE product_id = :productId")
