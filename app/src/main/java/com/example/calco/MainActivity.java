@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -29,7 +32,9 @@ import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.files.JsonFilesCreator;
 import com.example.calco.logic.files.JsonZipCreator;
+import com.example.calco.logic.files.JsonZipReader;
 import com.example.calco.logic.persistent.databases.AppDataBase;
+import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.notifications.NotificationSender;
 import com.example.calco.notifications.ReminderManager;
 import com.example.calco.ui.charts.pie.CCFPPieChartGroupFragment;
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     public static final String dateFormat = "yyyy-MM-dd";
 
     private AppBarConfiguration mAppBarConfiguration;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private ActivityMainBinding binding;
 
     private FoodTableVM foodTableModel;
@@ -82,21 +88,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setEndDateToField(LocalDate.now());
         setStartDateToField(LocalDate.now());
 
-//        // this is mail icon action
-//        DrawerLayout drawer = binding.drawerLayout;
-//        NavigationView navigationView = binding.navView;
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-//                .setOpenableLayout(drawer)
-//                .build();
-//
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
-
-        JsonZipCreator.createZip(getApplicationContext(),JsonFilesCreator.createJsonFiles());
+//        String path = JsonZipCreator.createZip(getApplicationContext(), JsonFilesCreator.createJsonFiles());
+//        System.out.println("Path: "+path);
+//        List<PProduct> products = JsonZipReader.deserialize(PProduct.class,  path);
+//        System.out.println("Products: "+products);
+//        for(PProduct product : products) {
+//            System.out.println("Product: "+product.uid);
+//        }
+//        System.out.println("===");
+//        for(PProduct product : AppDataBase.getInstance().productDao().getAll()) {
+//            System.out.println("Product: "+product.uid);
+//        }
     }
 
     @Override
@@ -111,6 +113,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("Item selected: "+ item);
+        Intent intent = new Intent(this, DataActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     @Override

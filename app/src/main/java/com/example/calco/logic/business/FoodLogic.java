@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-public class FoodLogic {
+public class    FoodLogic {
     public static PieChartsPercents calculateGoalCompletion(LocalDate startDate, LocalDate endDate) {
         List<HistoryOfFood> food = new ArrayList<>();
         food.addAll(ProductLogic.getHistoryForPeriod(startDate, endDate));

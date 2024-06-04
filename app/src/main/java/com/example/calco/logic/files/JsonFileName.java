@@ -46,6 +46,7 @@ public enum JsonFileName {
         }
     }
 
+    @Override
     public String toString() {
         return name;
     }
