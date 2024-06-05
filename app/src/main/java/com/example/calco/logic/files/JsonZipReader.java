@@ -120,7 +120,7 @@ public class JsonZipReader {
     }
 
     private static void addHistoryOfDishes(ZipFile zipFile, Map<Long, Long> dishesIds) {
-        List<PHistoryOfDishes> dishHistory = deserialize(PHistoryOfDishes.class, zipFile);;
+        List<PHistoryOfDishes> dishHistory = deserialize(PHistoryOfDishes.class, zipFile);
         AppDataBase db = AppDataBase.getInstance();
 
         dishHistory.forEach(history -> {history.dishId = dishesIds.get(history.dishId);
