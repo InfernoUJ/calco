@@ -102,8 +102,10 @@ public class JsonZipReader {
         AppDataBase db = AppDataBase.getInstance();
 
         for (PDish dish : dishes) {
-            long uid = db.dishDao().insertAll(dish).get(0);
-            dishesIds.put(dish.uid, uid);
+            long previousUid = dish.uid;
+            dish.uid = 0;
+            long newUid = db.dishDao().insertAll(dish).get(0);
+            dishesIds.put(previousUid, newUid);
         }
 
         return dishesIds;
@@ -113,6 +115,7 @@ public class JsonZipReader {
         List<PLimit> limits = deserialize(PLimit.class, zipFile);
         AppDataBase db = AppDataBase.getInstance();
 
+        limits.forEach(limit -> limit.uid = 0);
         db.limitDao().insertAll(limits.toArray(new PLimit[0]));
     }
 
@@ -120,7 +123,8 @@ public class JsonZipReader {
         List<PHistoryOfDishes> dishHistory = deserialize(PHistoryOfDishes.class, zipFile);;
         AppDataBase db = AppDataBase.getInstance();
 
-        dishHistory.forEach(history -> history.dishId = dishesIds.get(history.dishId));
+        dishHistory.forEach(history -> {history.dishId = dishesIds.get(history.dishId);
+                                        history.uid = 0;});
         db.historyOfDishesDao().insertAll(dishHistory.toArray(new PHistoryOfDishes[0]));
     }
 
@@ -128,7 +132,8 @@ public class JsonZipReader {
         List<PHistoryOfProducts> productHistory = deserialize(PHistoryOfProducts.class, zipFile);
         AppDataBase db = AppDataBase.getInstance();
 
-        productHistory.forEach(history -> history.productId = productIds.get(history.productId));
+        productHistory.forEach(history -> {history.productId = productIds.get(history.productId);
+                                            history.uid = 0;});
         db.historyOfProductsDao().insertAll(productHistory.toArray(new PHistoryOfProducts[0]));
     }
 
