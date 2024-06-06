@@ -4,6 +4,8 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +35,7 @@ import com.example.calco.ui.dialogs.BluetoothTransferDialog;
 import com.example.calco.viewmodel.activity.BluetoothVM;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class BluetoothActivity extends AppCompatActivity implements BluetoothTransferDialog.BluetoothTransferDialogListener {
 
@@ -59,6 +62,8 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private static final int REQUEST_FINE_LOC = 47;
     private static final int REQUEST_COARSE_LOC = 48;
     private static final int REQUEST_LOCATION = 49;
+    private static final UUID mUUID = UUID.fromString("36bba861-2ba2-4672-8368-055801cf78ad");
+    private static String SDP_SERVICE_NAME = "Calco";
 
     private BroadcastReceiver bluetoothDeviceSearcher = new BroadcastReceiver() {
         @Override
@@ -191,10 +196,12 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void askForLocation() {
         if(!isLocationEnabled()) {
             System.out.println("Location is disabled");
+            Toast.makeText(getApplicationContext(), "Location is disabled", Toast.LENGTH_LONG).show();
             Intent enableLocIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(enableLocIntent, REQUEST_LOCATION);
         }
         else {
+            Toast.makeText(getApplicationContext(), "Location is enabled", Toast.LENGTH_LONG).show();
             locationEnabled = true;
         }
         setBtOk();
@@ -361,11 +368,110 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     @Override
     public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
+        bluetoothAdapter.cancelDiscovery();
+        ServerThread serverThread = new ServerThread();
+        serverThread.start();
     }
 
     // I want to import from another device - i am a client
     @Override
     public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
+        bluetoothAdapter.cancelDiscovery();
+        ClientThread clientThread = new ClientThread(dialog.getDevice());
+        clientThread.start();
+    }
+
+    class ServerThread extends Thread {
+        public final BluetoothServerSocket serverSocket;
+
+        public ServerThread() {
+            BluetoothServerSocket tmp = null;
+            try {
+                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(SDP_SERVICE_NAME, mUUID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            serverSocket = tmp;
+            System.out.println("Server thread created");
+            Toast.makeText(getApplicationContext(), "Server thread created", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void run() {
+            BluetoothSocket socket = null;
+            while (true) {
+                try {
+                    socket = serverSocket.accept();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
+
+                if (socket != null) {
+                    // todo
+                    System.out.println("Server thread connected");
+                    Toast.makeText(getApplicationContext(), "Server thread connected", Toast.LENGTH_LONG).show();
+                    try {
+                        serverSocket.close();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void cancel() {
+            try {
+                serverSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class ClientThread extends Thread {
+        public final BluetoothSocket socket;
+        public final BluetoothDevice device;
+
+        public ClientThread(BluetoothDevice device) {
+            BluetoothSocket tmp = null;
+            this.device = device;
+            try {
+                tmp = device.createRfcommSocketToServiceRecord(mUUID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            socket = tmp;
+            System.out.println("Client thread created");
+            Toast.makeText(getApplicationContext(), "Client thread created", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void run() {
+            try {
+                socket.connect();
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    socket.close();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+            System.out.println("Client thread connected");
+            Toast.makeText(getApplicationContext(), "Client thread connected", Toast.LENGTH_LONG).show();
+            // todo do stuff
+        }
+
+        public void cancel() {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
