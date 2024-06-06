@@ -1,5 +1,6 @@
 package com.example.calco;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -8,8 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -34,14 +37,27 @@ public class BluetoothActivity extends AppCompatActivity {
     private BluetoothVM bluetoothVM;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothManager bluetoothManager;
+    private boolean btBt = false;
     private boolean btEnabled = false;
+    private boolean btScan = false;
+    private boolean btConn = false;
+    private boolean btAdv = false;
+    private boolean fineLoc = false;
+    private boolean coarseLoc = false;
+    private boolean btOk = false;
 
+    private static final int REQUEST_BLUETOOTH_BT = 42;
     private static final int REQUEST_ENABLE_BT = 43;
     private static final int REQUEST_CONNECT_BT = 44;
+    private static final int REQUEST_SCAN_BT = 45;
+    private static final int REQUEST_ADV_BT = 46;
+    private static final int REQUEST_FINE_LOC = 47;
+    private static final int REQUEST_COARSE_LOC = 48;
 
     private BroadcastReceiver bluetoothDeviceSearcher = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            System.out.println("Bluetooth device found");
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -69,28 +85,73 @@ public class BluetoothActivity extends AppCompatActivity {
         askForPermission();
 
 
-        if (btEnabled) {
+        if (btOk) {
             setUp();
+            setHandlers();
             addAlreadyPairedDevices();
         }
     }
 
     private void askForPermission() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("Bluetooth connect is not granted");
-            requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_ENABLE_BT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Bluetooth connect is not granted");
+                requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_CONNECT_BT);
+            }
+            else{
+                btConn = true;
+            }
+            System.out.println("Bluetooth connect is granted");
+
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Bluetooth scan is not granted");
+                requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_SCAN}, REQUEST_SCAN_BT);
+            }
+            else {
+                btScan = true;
+            }
+            System.out.println("Bluetooth scan is granted");
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Bluetooth advertise is not granted");
+                requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_ADVERTISE}, REQUEST_ADV_BT);
+            }
+            else {
+                btAdv = true;
+            }
+            System.out.println("Bluetooth advertise is granted");
         }
-        System.out.println("Bluetooth connect is granted");
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("Fine location is not granted");
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOC);
+        }
+        else {
+            fineLoc = true;
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("Coarse location is not granted");
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_COARSE_LOC);
+        }
+        else {
+            coarseLoc = true;
+        }
 
         if (!bluetoothAdapter.isEnabled()) {
             System.out.println("Bluetooth is not enabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            if(!btEnabled) {
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
-        btEnabled = true;
-        System.out.println("Bluetooth is enabled");
+        else {
+            btEnabled = true;
+        }
+
+        updateBtOk();
+
+        System.out.println("Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ")");
+        System.out.println("Bluetooth is ok? " + btOk);
     }
 
     @Override
@@ -99,6 +160,7 @@ public class BluetoothActivity extends AppCompatActivity {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
                 btEnabled = true;
+                updateBtOk();
             }
             System.out.println("Bluetooth enable granted: " + btEnabled);
         }
@@ -107,17 +169,85 @@ public class BluetoothActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_SCAN_BT) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                btScan = true;
+                updateBtOk();
+            }
+            System.out.println("Bluetooth scan granted: " + btScan);
+        }
         if (requestCode == REQUEST_CONNECT_BT) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                btEnabled = true;
+                btConn = true;
+                updateBtOk();
             }
-            System.out.println("Bluetooth connect granted: " + btEnabled);
+            System.out.println("Bluetooth connect granted: " + btConn);
         }
+        if (requestCode == REQUEST_ADV_BT) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                btAdv = true;
+                updateBtOk();
+            }
+            System.out.println("Bluetooth advertise granted: " + btAdv);
+        }
+        if (requestCode == REQUEST_FINE_LOC) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fineLoc = true;
+                updateBtOk();
+            }
+            System.out.println("Fine location granted: " + fineLoc);
+        }
+        if (requestCode == REQUEST_COARSE_LOC) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                coarseLoc = true;
+                updateBtOk();
+            }
+            System.out.println("Coarse location granted: " + coarseLoc);
+        }
+    }
+
+    private void updateBtOk() {
+        btOk = btEnabled && btScan && btConn && btAdv && fineLoc && coarseLoc;
+        System.out.println("[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ")");
+        System.out.println("[UPD] Bluetooth is ok? " + btOk);
     }
 
     private void setUp() {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(bluetoothDeviceSearcher, filter);
+    }
+
+    private void setHandlers() {
+        setDiscoveryStartHandler();
+        setDiscoveryFinishHandler();
+    }
+
+    private void setDiscoveryStartHandler() {
+        Button button = findViewById(R.id.startDiscoveryBtn);
+        if (btOk) {
+            button.setOnClickListener(v -> {
+                System.out.println("state: "+bluetoothAdapter.getState());
+                boolean res = bluetoothAdapter.startDiscovery();
+                System.out.println("Discovery started: " + res);
+            });
+        }
+    }
+
+    private void setDiscoveryFinishHandler() {
+        Button button = findViewById(R.id.finishDiscoveryBtn);
+        if (btOk) {
+            button.setOnClickListener(v -> {
+                boolean res = bluetoothAdapter.cancelDiscovery();
+                System.out.println("Discovery finished: " + res);
+            });
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(bluetoothDeviceSearcher);
     }
 
     private void addAlreadyPairedDevices() {

@@ -13,6 +13,8 @@ import com.example.calco.R;
 import com.example.calco.ui.products.table.FoodImpactRecordData;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -54,7 +56,7 @@ public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevic
         return deviceList.size();
     }
 
-    public void replaceDeviceList(List<BluetoothDevice> bluetoothDevices) {
+    public void replaceDeviceList(Collection<BluetoothDevice> bluetoothDevices) {
         this.deviceList.clear();
         this.deviceList.addAll(bluetoothDevices);
         notifyDataSetChanged();
