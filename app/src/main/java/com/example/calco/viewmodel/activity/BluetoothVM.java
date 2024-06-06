@@ -20,6 +20,11 @@ public class BluetoothVM extends ViewModel {
         devices.add(device);
         adapter.replaceDeviceList(devices);
     }
+    public void removeDevice(BluetoothDevice device) {
+        devices.remove(device);
+        adapter.replaceDeviceList(devices);
+    }
+
     public BluetoothDevicesAdapter getAdapter(Consumer<View> dialogHandlerForDeviceSelection) {
         adapter.setDialogHandlerForDeviceSelection(dialogHandlerForDeviceSelection);
         return adapter;
