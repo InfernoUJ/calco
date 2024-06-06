@@ -36,9 +36,10 @@ public class NotificationSender extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
+        ReminderManager.makeNewReminder(context, LocalDateTime.now().getHour());
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("No permission");
-            ReminderManager.makeNewReminder(context, LocalDateTime.now().getHour());
             return;
         }
 
