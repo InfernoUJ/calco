@@ -34,8 +34,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.calco.ui.dialogs.BluetoothTransferDialog;
 import com.example.calco.viewmodel.activity.BluetoothVM;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class BluetoothActivity extends AppCompatActivity implements BluetoothTransferDialog.BluetoothTransferDialogListener {
 
@@ -369,8 +374,22 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
         bluetoothAdapter.cancelDiscovery();
-        ServerThread serverThread = new ServerThread();
-        serverThread.start();
+        ServerConnectThread serverConnectThread = new ServerConnectThread();
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        BluetoothSocket establishedSocket = null;
+        try {
+            establishedSocket = executor.submit(serverConnectThread).get();
+        } catch (Exception e) {
+            executor.shutdown();
+            e.printStackTrace();
+            return;
+        }
+
+        ServerWorkingThread serverWorkingThread = new ServerWorkingThread(establishedSocket);
+        executor.submit(serverWorkingThread);
+        executor.shutdown();
+
     }
 
     // I want to import from another device - i am a client
@@ -378,14 +397,28 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
         bluetoothAdapter.cancelDiscovery();
-        ClientThread clientThread = new ClientThread(dialog.getDevice());
-        clientThread.start();
+        ClientConnectThread clientConnectThread = new ClientConnectThread(dialog.getDevice());
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        BluetoothSocket establishedSocket = null;
+        try {
+            establishedSocket = executor.submit(clientConnectThread).get();
+        } catch (Exception e) {
+            executor.shutdown();
+            e.printStackTrace();
+            return;
+        }
+
+        ClientWorkingThread clientWorkingThread = new ClientWorkingThread(establishedSocket);
+        executor.submit(clientWorkingThread);
+        executor.shutdown();
+
     }
 
-    class ServerThread extends Thread {
+    class ServerConnectThread implements Callable<BluetoothSocket> {
         public final BluetoothServerSocket serverSocket;
 
-        public ServerThread() {
+        public ServerConnectThread() {
             BluetoothServerSocket tmp = null;
             try {
                 tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(SDP_SERVICE_NAME, mUUID);
@@ -394,11 +427,11 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             }
             serverSocket = tmp;
             System.out.println("Server thread created");
-            Toast.makeText(getApplicationContext(), "Server thread created", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Server thread created", Toast.LENGTH_LONG).show();
         }
 
         @Override
-        public void run() {
+        public BluetoothSocket call() {
             BluetoothSocket socket = null;
             while (true) {
                 try {
@@ -411,32 +444,25 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 if (socket != null) {
                     // todo
                     System.out.println("Server thread connected");
-                    Toast.makeText(getApplicationContext(), "Server thread connected", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Server thread connected", Toast.LENGTH_LONG).show();
                     try {
                         serverSocket.close();
                     }
                     catch (Exception e) {
                         e.printStackTrace();
                     }
-                    break;
+                    return socket;
                 }
             }
-        }
-
-        public void cancel() {
-            try {
-                serverSocket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return null;
         }
     }
 
-    class ClientThread extends Thread {
+    class ClientConnectThread implements Callable<BluetoothSocket> {
         public final BluetoothSocket socket;
         public final BluetoothDevice device;
 
-        public ClientThread(BluetoothDevice device) {
+        public ClientConnectThread(BluetoothDevice device) {
             BluetoothSocket tmp = null;
             this.device = device;
             try {
@@ -446,11 +472,11 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             }
             socket = tmp;
             System.out.println("Client thread created");
-            Toast.makeText(getApplicationContext(), "Client thread created", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Client thread created", Toast.LENGTH_LONG).show();
         }
 
         @Override
-        public void run() {
+        public BluetoothSocket call() {
             try {
                 socket.connect();
             } catch (Exception e) {
@@ -462,13 +488,41 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 }
             }
             System.out.println("Client thread connected");
-            Toast.makeText(getApplicationContext(), "Client thread connected", Toast.LENGTH_LONG).show();
-            // todo do stuff
+//            Toast.makeText(getApplicationContext(), "Client thread connected", Toast.LENGTH_LONG).show();
+            return socket;
+        }
+    }
+
+    class ServerWorkingThread implements Runnable {
+        private final BluetoothSocket socket;
+
+        public ServerWorkingThread(BluetoothSocket socket) {
+            this.socket = socket;
         }
 
-        public void cancel() {
+        @Override
+        public void run() {
             try {
-                socket.close();
+                OutputStream os = socket.getOutputStream();
+                System.out.println("Server thread working");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class ClientWorkingThread implements Runnable {
+        private final BluetoothSocket socket;
+
+        public ClientWorkingThread(BluetoothSocket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                InputStream is = socket.getInputStream();
+                System.out.println("Client thread working");
             } catch (Exception e) {
                 e.printStackTrace();
             }
