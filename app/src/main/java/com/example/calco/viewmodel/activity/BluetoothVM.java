@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class BluetoothVM extends ViewModel {
@@ -25,7 +26,7 @@ public class BluetoothVM extends ViewModel {
         adapter.replaceDeviceList(devices);
     }
 
-    public BluetoothDevicesAdapter getAdapter(Consumer<View> dialogHandlerForDeviceSelection) {
+    public BluetoothDevicesAdapter getAdapter(BiConsumer<View, BluetoothDevice> dialogHandlerForDeviceSelection) {
         adapter.setDialogHandlerForDeviceSelection(dialogHandlerForDeviceSelection);
         return adapter;
     }

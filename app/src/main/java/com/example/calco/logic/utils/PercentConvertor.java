@@ -61,7 +61,7 @@ public class PercentConvertor {
     }
 
     public static <T> List<Map.Entry<T, Integer>> getPercentImpact(List<T> entities, Function<T, Integer> absoluteImpactResolver) {
-        List<Map.Entry<T, Integer>> absoluteImpacts = entities.stream().map(entity -> Map.entry(entity, absoluteImpactResolver.apply(entity))).toList();
+        List<Map.Entry<T, Integer>> absoluteImpacts = entities.stream().map(entity -> Map.entry(entity, absoluteImpactResolver.apply(entity))).collect(Collectors.toList());
         return getPercentImpact(absoluteImpacts);
     }
 }

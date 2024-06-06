@@ -16,15 +16,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevicesAdapter.BluetoothDeviceHolder> {
 
-    private Consumer<View> dialogHandlerForDeviceSelection;
+    private BiConsumer<View, BluetoothDevice> dialogHandlerForDeviceSelection;
     static class BluetoothDeviceHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView mac;
         View view;
+        BluetoothDevice device;
         public BluetoothDeviceHolder(View itemView) {
             super(itemView);
             view = itemView;
@@ -45,10 +47,11 @@ public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevic
 
     @Override
     public void onBindViewHolder(@NonNull BluetoothDeviceHolder holder, int position) {
-        BluetoothDevice device = deviceList.get(position);
-        holder.view.setOnClickListener(v -> dialogHandlerForDeviceSelection.accept(v));
-        holder.name.setText(device.getName());
-        holder.mac.setText(device.getAddress());
+        BluetoothDevice mdevice = deviceList.get(position);
+        holder.device = mdevice;
+        holder.view.setOnClickListener(v -> dialogHandlerForDeviceSelection.accept(v, holder.device));
+        holder.name.setText(holder.device.getName());
+        holder.mac.setText(holder.device.getAddress());
     }
 
     @Override
@@ -62,7 +65,7 @@ public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevic
         notifyDataSetChanged();
     }
 
-    public void setDialogHandlerForDeviceSelection(Consumer<View> dialogHandlerForDeviceSelection) {
+    public void setDialogHandlerForDeviceSelection(BiConsumer<View, BluetoothDevice> dialogHandlerForDeviceSelection) {
         this.dialogHandlerForDeviceSelection = dialogHandlerForDeviceSelection;
     }
 }

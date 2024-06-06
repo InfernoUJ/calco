@@ -24,19 +24,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.calco.ui.dialogs.BluetoothTransferDialog;
 import com.example.calco.viewmodel.activity.BluetoothVM;
 
 import java.util.Set;
 
-public class BluetoothActivity extends AppCompatActivity {
+public class BluetoothActivity extends AppCompatActivity implements BluetoothTransferDialog.BluetoothTransferDialogListener {
 
     private BluetoothVM bluetoothVM;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothManager bluetoothManager;
+    private boolean btBt = false;
+    private boolean btAdmin = false;
     private boolean btEnabled = false;
     private boolean btScan = false;
     private boolean btConn = false;
@@ -46,6 +50,8 @@ public class BluetoothActivity extends AppCompatActivity {
     private boolean btOk = false;
     private boolean locationEnabled = false;
 
+    private static final int REQUEST_BLUETOOTH_BT = 41;
+    private static final int REQUEST_ADMIN_BT = 42;
     private static final int REQUEST_ENABLE_BT = 43;
     private static final int REQUEST_CONNECT_BT = 44;
     private static final int REQUEST_SCAN_BT = 45;
@@ -100,6 +106,25 @@ public class BluetoothActivity extends AppCompatActivity {
     }
 
     private void askForPermission() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Bluetooth is not granted");
+                requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH}, REQUEST_BLUETOOTH_BT);
+            }
+            else {
+                btBt = true;
+            }
+            System.out.println("Bluetooth is granted");
+
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Bluetooth admin is not granted");
+                requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_ADMIN}, REQUEST_ADMIN_BT);
+            }
+            else {
+                btAdmin = true;
+            }
+            System.out.println("Bluetooth admin is granted");
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 System.out.println("Bluetooth connect is not granted");
@@ -156,8 +181,10 @@ public class BluetoothActivity extends AppCompatActivity {
 
         setBtOk();
 
+        System.out.println("SDK ver: "+Build.VERSION.SDK_INT);
         System.out.println("Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
-                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled + ")");
+                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
+                ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
         System.out.println("Bluetooth is ok? " + btOk);
     }
 
@@ -244,15 +271,24 @@ public class BluetoothActivity extends AppCompatActivity {
     }
 
     private boolean setBtOk() {
-        btOk = btEnabled && btScan && btConn && btAdv && fineLoc && coarseLoc && locationEnabled;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            btOk = btEnabled && btScan && btConn && btAdv && fineLoc && coarseLoc && locationEnabled;
+            return btOk;
+        }
+        btOk = btEnabled && btBt && btAdmin && fineLoc && coarseLoc && locationEnabled;
         return btOk;
     }
     private boolean updateBtOk() {
         askForPermission();
         askForLocation();
         setBtOk();
+        System.out.println("SDK ver: "+Build.VERSION.SDK_INT);
         System.out.println("[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
-                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled + ")");
+                + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
+                ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
+        Toast.makeText(getApplicationContext(), "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+                        + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
+                        ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")", Toast.LENGTH_LONG).show();
         System.out.println("[UPD] Bluetooth is ok? " + btOk);
         return btOk;
     }
@@ -314,10 +350,22 @@ public class BluetoothActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void setDialogHandlerForDeviceSelection(View view) {
-//        view.setOnClickListener(v -> {
-//            DialogFragment dialog = new WayToChooseImageDialog(food);
-//            dialog.show(getParentFragmentManager(), "wayToChooseImageDialog");
-//        });
+    private void setDialogHandlerForDeviceSelection(View view, BluetoothDevice device) {
+        view.setOnClickListener(v -> {
+            DialogFragment dialog = new BluetoothTransferDialog(device);
+            dialog.show(getSupportFragmentManager(), "serverOrClientDialog");
+        });
+    }
+
+    // I want to export to another device - i am a server
+    @Override
+    public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
+        Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
+    }
+
+    // I want to import from another device - i am a client
+    @Override
+    public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
+        Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
     }
 }
