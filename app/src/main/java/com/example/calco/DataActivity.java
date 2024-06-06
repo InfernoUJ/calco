@@ -49,6 +49,7 @@ public class DataActivity extends AppCompatActivity {
     private void setHandlers() {
         setExportButtonHandler();
         setImportButtonHandler();
+        setBTButtonHandler();
     }
 
     private void setExportButtonHandler() {
@@ -70,6 +71,14 @@ public class DataActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.setType("application/zip");
             startActivityForResult(intent, OPEN_FILE_CODE);
+        });
+    }
+
+    private void setBTButtonHandler() {
+        Button importButton = findViewById(R.id.btTransfer);
+        importButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BluetoothActivity.class);
+            startActivity(intent);
         });
     }
 
