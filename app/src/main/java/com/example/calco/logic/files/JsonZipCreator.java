@@ -3,18 +3,12 @@ package com.example.calco.logic.files;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.widget.Toast;
-
-import com.google.gson.JsonElement;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -30,11 +24,6 @@ public class JsonZipCreator {
     private static final String ZIP_EXTENSION = ".zip";
     public static Uri createZip(Context context, JsonFile... jsonFiles) {
         Uri zipUri = createZipFileUri(context);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         // for api lv; 28 uri is null
         //System.out.println( "ZipUri: "+zipUri+" "+zipUri.getPath());
 
@@ -89,28 +78,5 @@ public class JsonZipCreator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static String getRealPathFromURI(Context context, Uri uri) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = null;
-        String filePath = null;
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, null, null, null);
-            if (cursor != null) {
-                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-                if (cursor.moveToFirst()) {
-                    filePath = cursor.getString(columnIndex);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return filePath;
     }
 }

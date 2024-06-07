@@ -47,8 +47,7 @@ public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevic
 
     @Override
     public void onBindViewHolder(@NonNull BluetoothDeviceHolder holder, int position) {
-        BluetoothDevice mdevice = deviceList.get(position);
-        holder.device = mdevice;
+        holder.device = deviceList.get(position);
         holder.view.setOnClickListener(v -> dialogHandlerForDeviceSelection.accept(v, holder.device));
         holder.name.setText(holder.device.getName());
         holder.mac.setText(holder.device.getAddress());

@@ -301,10 +301,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         System.out.println( "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                 + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                 ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
-        /*Toast.makeText(getApplicationContext(), "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
-                        + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
-                        ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")", Toast.LENGTH_LONG).show();
-         */
         System.out.println( "[UPD] Bluetooth is ok? " + btOk);
         return btOk;
     }

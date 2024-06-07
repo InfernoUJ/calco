@@ -52,9 +52,6 @@ public class ProductLogic {
         List<PProduct> lastProducts = db.historyOfProductsDao().getLastUsedProducts();
         List<PProduct> productsAlphabetical = db.productDao().getProductsAlphabetical();
 
-        // todo can make null-termination it in querry method ?
-        //  or create my own annotation for query methods
-
         List<Product> allProducts = Stream.concat(lastProducts.stream(), productsAlphabetical.stream()).
                 distinct().map(ProductLogic::getProduct).collect(Collectors.toList());
 

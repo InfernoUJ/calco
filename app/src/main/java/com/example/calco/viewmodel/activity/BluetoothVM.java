@@ -38,8 +38,4 @@ public class BluetoothVM extends ViewModel {
         return adapter;
     }
 
-    public OutputStream getHistory(Context context) {
-        Uri zipUri = JsonZipCreator.createZip(context, JsonFilesCreator.createJsonFiles());
-        return null;
-    }
 }
