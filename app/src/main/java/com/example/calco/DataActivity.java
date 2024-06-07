@@ -158,14 +158,12 @@ public class DataActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 writeExt = true;
                 updatePermission();
-            } else {
             }
         }
         if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 readExt = true;
                 updatePermission();
-            } else {
             }
         }
     }
