@@ -56,7 +56,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("calco", new Boolean(AppDataBase.getInstance() == null).toString());
+        System.out.println( new Boolean(AppDataBase.getInstance() == null).toString());
         model.updateLastUsedFood(getResources(), getPackageName());
     }
 
@@ -125,7 +125,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     @Override
     public void onDialogPositiveClick(MassInputDialog dialog) {
         // User touched the dialog's positive button
-        Log.d("calco", "Mass: " + dialog.getMass() + " time form bundle: " + getIntent().getExtras().getString("date"));
+        System.out.println( "Mass: " + dialog.getMass() + " time form bundle: " + getIntent().getExtras().getString("date"));
 
         model.addFoodToHistory(dialog.getIndex(), dialog.getMass(), dialog.getProduct(), getIntent().getExtras().getString("date"));
     }
@@ -138,14 +138,14 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.d("calco", "onQueryTextSubmit: " + query);
+        System.out.println( "onQueryTextSubmit: " + query);
         searchModel.searchFood(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d("calco", "onQueryTextChange: " + newText);
+        System.out.println( "onQueryTextChange: " + newText);
         searchModel.searchFood(newText);
         return false;
     }

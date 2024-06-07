@@ -32,13 +32,13 @@ public class SearchVM extends ViewModel {
                 adapter.replaceProducts(response.body().getProducts());
             }
             else {
-                Log.d("calco", "Error: " + response.errorBody());
+                System.out.println( "Error: " + response.errorBody());
             }
         }
 
         @Override
         public void onFailure(Call<WebDishes> call, Throwable throwable) {
-            Log.d("calco", "Error: " + throwable.getMessage());
+            System.out.println( "Error: " + throwable.getMessage());
         }
     }
 

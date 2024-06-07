@@ -40,12 +40,12 @@ public class NotificationSender extends BroadcastReceiver {
         ReminderManager.makeNewReminder(context, LocalDateTime.now().getHour());
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("calco", "No permission");
+            System.out.println( "No permission");
             return;
         }
 
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notificationBuilder.build());
-        Log.d("calco", "Notification sent");
+        System.out.println( "Notification sent");
     }
 
     protected PendingIntent createNotificationIntent(Context context) {

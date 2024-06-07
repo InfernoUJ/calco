@@ -25,7 +25,7 @@ public class ProductLogic {
         PProduct pProduct = getPProduct(product);
         AppDataBase db = AppDataBase.getInstance();
         long uid = db.productDao().insertAll(pProduct).get(0);
-        Log.d("calco", "Product persisted: " + product.getName());
+        System.out.println( "Product persisted: " + product.getName());
         return uid;
     }
 

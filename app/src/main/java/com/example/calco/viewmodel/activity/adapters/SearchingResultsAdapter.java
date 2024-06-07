@@ -72,7 +72,7 @@ public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResul
     }
 
     public void replaceProducts(List<WebProduct> newProducts) {
-        Log.d("calco", "Replacing products " + newProducts);
+        System.out.println( "Replacing products " + newProducts);
         products.clear();
         products.addAll(newProducts);
         notifyDataSetChanged();

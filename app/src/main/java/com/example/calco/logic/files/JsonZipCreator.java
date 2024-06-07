@@ -32,7 +32,7 @@ public class JsonZipCreator {
         Toast.makeText(context, "Creating zip file 0", Toast.LENGTH_SHORT).show();
         Uri zipUri = createZipFileUri(context);
         Toast.makeText(context, "Creating zip file 10" + zipUri, Toast.LENGTH_SHORT).show();
-//        Log.d("calco", "ZipUri: "+zipUri+" "+zipUri.getPath());
+//        System.out.println( "ZipUri: "+zipUri+" "+zipUri.getPath());
 
         fillZip(zipUri, context, jsonFiles);
 

@@ -98,7 +98,7 @@ public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTable
     }
 
     public void replaceFoodList(List<FoodWithCCFPData> foodList) {
-        Log.d("calco", "Replacing recent food " + foodList);
+        System.out.println( "Replacing recent food " + foodList);
         this.foodList.clear();
         this.foodList.addAll(foodList);
         notifyDataSetChanged();

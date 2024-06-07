@@ -91,15 +91,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setStartDateToField(LocalDate.now());
 
 //        String path = JsonZipCreator.createZip(getApplicationContext(), JsonFilesCreator.createJsonFiles());
-//        Log.d("calco", "Path: "+path);
+//        System.out.println( "Path: "+path);
 //        List<PProduct> products = JsonZipReader.deserialize(PProduct.class,  path);
-//        Log.d("calco", "Products: "+products);
+//        System.out.println( "Products: "+products);
 //        for(PProduct product : products) {
-//            Log.d("calco", "Product: "+product.uid);
+//            System.out.println( "Product: "+product.uid);
 //        }
-//        Log.d("calco", "===");
+//        System.out.println( "===");
 //        for(PProduct product : AppDataBase.getInstance().productDao().getAll()) {
-//            Log.d("calco", "Product: "+product.uid);
+//            System.out.println( "Product: "+product.uid);
 //        }
     }
 
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("calco", "Item selected: "+ item);
+        System.out.println( "Item selected: "+ item);
         Intent intent = new Intent(this, DataActivity.class);
         startActivity(intent);
         return true;
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public void onSetLimitsDialogPositiveClick(DialogFragment dialog, LimitType type, String calories, String carbs, String fats, String proteins) {
-        Log.d("calco", "Calories: " + calories + " Carbs: " + carbs + " Fats: " + fats + " Proteins: " + proteins);
+        System.out.println( "Calories: " + calories + " Carbs: " + carbs + " Fats: " + fats + " Proteins: " + proteins);
         limitsModel.setLimit(type, calories, carbs, fats, proteins);
         updatePieCharts();
     }

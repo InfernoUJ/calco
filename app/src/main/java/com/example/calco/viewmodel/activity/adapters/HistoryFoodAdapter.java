@@ -72,7 +72,7 @@ public class HistoryFoodAdapter extends RecyclerView.Adapter<HistoryFoodAdapter.
     }
 
     public void replaceFoodList(List<FoodWithCCFPData> foodList) {
-        Log.d("calco", "Replacing recent food " + foodList);
+        System.out.println( "Replacing recent food " + foodList);
         this.foodList.clear();
         this.foodList.addAll(foodList);
         notifyDataSetChanged();

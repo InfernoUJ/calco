@@ -83,7 +83,7 @@ public class JsonZipReader {
             addHistoryOfDishes(zipFile, dishesIds);
             addLimits(zipFile);
             addProductsInDishes(zipFile, productIds, dishesIds);
-            Log.d("calco", "History imported");
+            System.out.println( "History imported");
         });
     }
 

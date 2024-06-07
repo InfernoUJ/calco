@@ -30,7 +30,7 @@ public class ReminderManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), intent), intent);
-                Log.d("calco", "Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
+                System.out.println( "Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
             }
         }
     }

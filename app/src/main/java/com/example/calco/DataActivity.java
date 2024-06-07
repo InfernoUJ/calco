@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -148,7 +147,7 @@ public class DataActivity extends AppCompatActivity {
         if (requestCode == OPEN_FILE_CODE && resultCode == RESULT_OK && data != null) {
             Uri zipUri = data.getData();
             String zipPath = zipUri.getPath();
-            Log.d("calco", "Data file uri: "+zipUri+" "+zipPath);
+            System.out.println( "Data file uri: "+zipUri+" "+zipPath);
 
             boolean result = importHistory(zipUri);
             if (result) {
@@ -199,7 +198,7 @@ public class DataActivity extends AppCompatActivity {
 
     private boolean importHistory(Uri zipUri) {
         try {
-            Log.d("calco", "Importing history from: "+zipUri);
+            System.out.println( "Importing history from: "+zipUri);
             JsonZipReader.addHistory(getApplicationContext(), zipUri);
             return true;
         }

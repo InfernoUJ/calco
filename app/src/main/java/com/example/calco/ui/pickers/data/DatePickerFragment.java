@@ -62,7 +62,7 @@ public class DatePickerFragment extends DialogFragment
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Log.d("calco", "Date set: " + year + "/" + month + "/" + dayOfMonth);
+        System.out.println( "Date set: " + year + "/" + month + "/" + dayOfMonth);
         listener.onDialogPositiveClick(DatePickerFragment.this, year, month+1, dayOfMonth, dateType);
     }
 

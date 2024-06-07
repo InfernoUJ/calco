@@ -70,7 +70,7 @@ public class FoodTableFragment extends Fragment {
 //
 //        binding.foodTableLinearLayout.addView(productRow);
 //
-//        Log.d("calco", "Id: " + binding.foodTableLinearLayout.getId() + " Child count: " + binding.foodTableLinearLayout.getChildCount());
+//        System.out.println( "Id: " + binding.foodTableLinearLayout.getId() + " Child count: " + binding.foodTableLinearLayout.getChildCount());
 //    }
 //
 //    public void addProducts(List<FoodImpactRecordData> foodImpactRecordDataList) {

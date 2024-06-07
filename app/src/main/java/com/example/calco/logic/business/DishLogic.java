@@ -50,7 +50,7 @@ public class DishLogic {
         PDish pDish = createPDish(name);
         AppDataBase db = AppDataBase.getInstance();
         Long id = db.dishDao().insertAll(pDish).get(0);
-        Log.d("calco", "Dish persisted: " + name + " id: "+ id);
+        System.out.println( "Dish persisted: " + name + " id: "+ id);
         return id;
     }
 
