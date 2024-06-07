@@ -49,44 +49,10 @@ public class FoodTableFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-//    public void addProduct(FoodImpactRecordData foodImpactRecordData) {
-////        View productRow = getLayoutInflater().inflate(R.layout.product_table_record, binding.productTableLinearLayout, false);
-//        View productRow = getLayoutInflater().inflate(R.layout.product_table_record,null);
-//
-//        ImageView productImage = productRow.findViewById(R.id.product_image);
-//
-//        TextView productName = productRow.findViewById(R.id.product_name);
-//        TextView productPercentImpact = productRow.findViewById(R.id.product_percent);
-//        TextView productAbsoluteImpact = productRow.findViewById(R.id.product_absolute);
-//
-//        if (foodImpactRecordData.getImage() != null) {
-//            productImage.setImageBitmap(foodImpactRecordData.getImage());
-//        } else {
-//            productImage.setImageResource(foodImpactRecordData.getDefaultImageId());
-//        }
-//        productName.setText(foodImpactRecordData.getName());
-//        productPercentImpact.setText(getPercentageOfRecordAsString(foodImpactRecordData));
-//        productAbsoluteImpact.setText(foodImpactRecordData.getAbsoluteValue().toString());
-//
-//        binding.foodTableLinearLayout.addView(productRow);
-//
-//        System.out.println( "Id: " + binding.foodTableLinearLayout.getId() + " Child count: " + binding.foodTableLinearLayout.getChildCount());
-//    }
-//
-//    public void addProducts(List<FoodImpactRecordData> foodImpactRecordDataList) {
-//        for (FoodImpactRecordData foodImpactRecordData : foodImpactRecordDataList) {
-//            addProduct(foodImpactRecordData);
-//        }
-//    }
-
     public void replaceProducts(LocalDate startDate, LocalDate endDate, Resources resources, String packageName) {
         foodModel.updateFoodTable(startDate, endDate, resources, packageName);
     }
-
-//    private void removeAllProductRecords() {
-//        binding.foodTableLinearLayout.removeAllViews();
-//    }
-
+    
     private void setDialogHandlerForImageSelection(View view, FoodImpactRecordData food) {
         view.setOnClickListener(v -> {
             DialogFragment dialog = new WayToChooseImageDialog(food);

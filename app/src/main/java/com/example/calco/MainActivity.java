@@ -93,18 +93,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         setEndDateToField(LocalDate.now());
         setStartDateToField(LocalDate.now());
-
-//        String path = JsonZipCreator.createZip(getApplicationContext(), JsonFilesCreator.createJsonFiles());
-//        System.out.println( "Path: "+path);
-//        List<PProduct> products = JsonZipReader.deserialize(PProduct.class,  path);
-//        System.out.println( "Products: "+products);
-//        for(PProduct product : products) {
-//            System.out.println( "Product: "+product.uid);
-//        }
-//        System.out.println( "===");
-//        for(PProduct product : AppDataBase.getInstance().productDao().getAll()) {
-//            System.out.println( "Product: "+product.uid);
-//        }
     }
 
     @Override
