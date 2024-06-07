@@ -39,7 +39,6 @@ public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResul
 
         public void setData(WebProduct productInfo) {
             this.productInfo = productInfo;
-            // VERY IMPORTANT
             dialogHandlerForSearchingRow.accept(view, productInfo);
             name.setText(productInfo.getName());
             calories.setText(String.valueOf(productInfo.getCalories()));

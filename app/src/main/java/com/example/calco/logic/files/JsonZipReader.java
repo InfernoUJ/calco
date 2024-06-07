@@ -57,7 +57,7 @@ public class JsonZipReader {
     private static byte[] toByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
-        byte[] data = new byte[16384]; // Adjust if necessary
+        byte[] data = new byte[16384];
 
         while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
             buffer.write(data, 0, nRead);
@@ -97,7 +97,6 @@ public class JsonZipReader {
         return new ZipFile(outputFile);
     }
 
-    // currently not handling images
     private static Map<Long, Long> addProducts(ZipFile zipFile) {
         List<PProduct> products = deserialize(PProduct.class, zipFile);
         Map<Long, Long> productIds = new HashMap<>();

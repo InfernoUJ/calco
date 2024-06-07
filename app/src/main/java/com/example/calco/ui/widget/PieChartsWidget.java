@@ -81,32 +81,25 @@ public class PieChartsWidget extends AppWidgetProvider {
     }
 
     private Bitmap createPieChartBitmap(int width, int height, float segmentPercentage, int segmentColor, Resources resources) {
-        // Create a bitmap and canvas to draw on it.
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
-        // Define the paint for drawing the pie chart
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
 
-        // Calculate the center and radius of the circle
         int cx = width / 2;
         int cy = height / 2;
         int radius = Math.min(cx, cy);
 
-        // Define the bounding box for the circle
         RectF oval = new RectF(cx - radius, cy - radius, cx + radius, cy + radius);
 
-        // Define the angles based on the percentage
-        float startAngle = -90; // 12 o'clock
+        float startAngle = -90;
         float sweepAngle = segmentPercentage * 360;
 
-        // Draw the segment color
         paint.setColor(resources.getColor(segmentColor));
         canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
 
-        // Draw the remaining part of the pie chart
         paint.setColor(resources.getColor(bgColor));
         canvas.drawArc(oval, startAngle + sweepAngle, 360 - sweepAngle, true, paint);
 

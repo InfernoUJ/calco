@@ -46,7 +46,6 @@ public class CCFPPieChartGroupFragment extends Fragment {
     }
 
     private void setupPieChart(PieChart pieChart, PieData pieData) {
-        // todo
         pieChart.setData(pieData);
         pieChart.setTransparentCircleAlpha(0);
         pieChart.setDrawEntryLabels(false);
@@ -56,6 +55,5 @@ public class CCFPPieChartGroupFragment extends Fragment {
         pieChart.getLegend().setEnabled(false);
         pieChart.setRotationEnabled(false);
         pieChart.setTouchEnabled(false);
-//        pieChart.animate();
     }
 }

@@ -200,12 +200,10 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void askForLocation() {
         if(!isLocationEnabled()) {
             System.out.println( "Location is disabled");
-            //Toast.makeText(getApplicationContext(), "Location is disabled", Toast.LENGTH_LONG).show();
             Intent enableLocIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(enableLocIntent, REQUEST_LOCATION);
         }
         else {
-            //Toast.makeText(getApplicationContext(), "Location is enabled", Toast.LENGTH_LONG).show();
             locationEnabled = true;
         }
         setBtOk();
@@ -333,7 +331,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         Button button = findViewById(R.id.startDiscoveryBtn);
 
         button.setOnClickListener(v -> {
-            //Toast.makeText(this, "Start discovery", Toast.LENGTH_SHORT).show();
             if (updateBtOk()) {
                 System.out.println( "state: " + bluetoothAdapter.getState());
                 boolean res = bluetoothAdapter.startDiscovery();
@@ -387,7 +384,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     // I want to export to another device - i am a server
     @Override
     public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
-        //Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
         System.out.println("Server");
         bluetoothAdapter.cancelDiscovery();
 
@@ -425,7 +421,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     // I want to import from another device - i am a client
     @Override
     public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
-        //Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
         System.out.println("Client");
         bluetoothAdapter.cancelDiscovery();
 
@@ -471,7 +466,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             }
             serverSocket = tmp;
             System.out.println( "Server thread created");
-//            Toast.makeText(getApplicationContext(), "Server thread created", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -486,9 +480,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 }
 
                 if (socket != null) {
-                    // todo
                     System.out.println( "Server thread connected");
-//                    Toast.makeText(getApplicationContext(), "Server thread connected", Toast.LENGTH_LONG).show();
                     try {
                         serverSocket.close();
                     }
@@ -524,7 +516,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             }
             socket = tmp;
             System.out.println( "Client thread created");
-//            Toast.makeText(getApplicationContext(), "Client thread created", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -540,7 +531,6 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 }
             }
             System.out.println( "Client thread connected");
-//            Toast.makeText(getApplicationContext(), "Client thread connected", Toast.LENGTH_LONG).show();
             return socket;
         }
     }

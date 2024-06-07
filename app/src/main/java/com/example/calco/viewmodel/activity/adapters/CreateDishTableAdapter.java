@@ -86,7 +86,6 @@ public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTable
                     int mass = Integer.parseInt(s.toString());
                     massSaver.accept(food, mass);
                 } catch (NumberFormatException e) {
-                    // todo
                 }
             }
         });

@@ -36,7 +36,6 @@ public class AddFoodVM extends ViewModel {
         Stream<FoodWithCCFPData> uiDishes = newDishes.stream()
                 .map(dish -> LogicToUiConverter.getFoodWithCCFPData(dish, resources, packageName));
 
-        // todo order from history by last used
         products = Stream.concat(uiProducts, uiDishes).collect(Collectors.toList());
 
         adapter.replaceFoodList(products);

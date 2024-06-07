@@ -29,15 +29,14 @@ public class JsonZipCreator {
     private static final String JSON_EXTENSION = ".json";
     private static final String ZIP_EXTENSION = ".zip";
     public static Uri createZip(Context context, JsonFile... jsonFiles) {
-        //Toast.makeText(context, "Creating zip file 0", Toast.LENGTH_SHORT).show();
         Uri zipUri = createZipFileUri(context);
-        //Toast.makeText(context, "Creating zip file 10" + zipUri, Toast.LENGTH_SHORT).show();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-//        System.out.println( "ZipUri: "+zipUri+" "+zipUri.getPath());
+        // for api lv; 28 uri is null
+        //System.out.println( "ZipUri: "+zipUri+" "+zipUri.getPath());
 
         fillZip(zipUri, context, jsonFiles);
 
@@ -49,7 +48,6 @@ public class JsonZipCreator {
     }
 
     private static Uri createZipFileUri(Context context) {
-        //Toast.makeText(context, "Creating zip file", Toast.LENGTH_LONG).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ContentResolver resolver = context.getContentResolver();
             ContentValues contentValues = new ContentValues();
@@ -59,12 +57,10 @@ public class JsonZipCreator {
             return resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
         }
 
-        //Toast.makeText(context, "Android version is too old", Toast.LENGTH_LONG).show();
         File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File file = new File(downloadsDirectory, getZipName());
         if (!file.exists()) {
             try {
-                //Toast.makeText(context, "Creating zip file 2", Toast.LENGTH_SHORT).show();
                 boolean created = file.createNewFile();
                 if (created) {
                     return Uri.fromFile(file);

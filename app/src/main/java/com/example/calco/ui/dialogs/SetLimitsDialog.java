@@ -33,8 +33,6 @@ public class SetLimitsDialog extends DialogFragment {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface.
         try {
-            // Instantiate the NoticeDialogListener so you can send events to
-            // the host.
             listener = (SetLimitsDialog.SetLimitsDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface. Throw exception.
@@ -87,7 +85,7 @@ public class SetLimitsDialog extends DialogFragment {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(16, 16, 16, 16); // Example margin values
+        params.setMargins(16, 16, 16, 16);
         massInput.setLayoutParams(params);
         massInput.setHint(hintText);
         massInput.setInputType(InputType.TYPE_CLASS_NUMBER);

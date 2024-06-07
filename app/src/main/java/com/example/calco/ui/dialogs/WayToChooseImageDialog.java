@@ -36,8 +36,6 @@ public class WayToChooseImageDialog extends DialogFragment {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface.
         try {
-            // Instantiate the NoticeDialogListener so you can send events to
-            // the host.
             listener = (WayToChooseImageDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface. Throw exception.

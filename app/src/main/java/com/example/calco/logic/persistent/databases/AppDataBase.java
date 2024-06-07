@@ -20,9 +20,7 @@ public abstract class AppDataBase extends RoomDatabase {
     public static AppDataBase createInstance(Context ctx) {
         if (dataBaseInstance == null) {
             synchronized (AppDataBase.class) {
-                // TODO find way to avoid allowMainThreadQueries
                 dataBaseInstance = Room.databaseBuilder(ctx, AppDataBase.class, dataBaseName)
-//                        .fallbackToDestructiveMigration()
                         .allowMainThreadQueries().build();
             }
         }

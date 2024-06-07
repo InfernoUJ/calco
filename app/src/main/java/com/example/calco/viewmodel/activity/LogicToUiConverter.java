@@ -44,7 +44,6 @@ public class LogicToUiConverter {
         String fatsString = String.valueOf(dish.getFats()/1000f) + " g";
         String proteinsString = String.valueOf(dish.getProteins()/1000f) + " g";
 
-//        return new DishWithCCFPData(dish, dish.getName(), resId, caloriesString, carbsString, fatsString, proteinsString);
         return ImageTwoTypesFactory.createImageTwoTypes(DishWithCCFPData.class, resources, packageName, dish, dish.getName(), caloriesString, carbsString, fatsString, proteinsString);
     }
 
