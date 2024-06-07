@@ -1,12 +1,17 @@
 package com.example.calco.viewmodel.activity;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.calco.logic.files.JsonFilesCreator;
+import com.example.calco.logic.files.JsonZipCreator;
 import com.example.calco.viewmodel.activity.adapters.BluetoothDevicesAdapter;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,5 +34,10 @@ public class BluetoothVM extends ViewModel {
     public BluetoothDevicesAdapter getAdapter(BiConsumer<View, BluetoothDevice> dialogHandlerForDeviceSelection) {
         adapter.setDialogHandlerForDeviceSelection(dialogHandlerForDeviceSelection);
         return adapter;
+    }
+
+    public OutputStream getHistory(Context context) {
+        Uri zipUri = JsonZipCreator.createZip(context, JsonFilesCreator.createJsonFiles());
+        return null;
     }
 }

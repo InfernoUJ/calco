@@ -2,6 +2,7 @@ package com.example.calco;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,7 +56,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println(AppDataBase.getInstance() == null);
+        Log.d("calco", new Boolean(AppDataBase.getInstance() == null).toString());
         model.updateLastUsedFood(getResources(), getPackageName());
     }
 
@@ -124,7 +125,7 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
     @Override
     public void onDialogPositiveClick(MassInputDialog dialog) {
         // User touched the dialog's positive button
-        System.out.println("Mass: " + dialog.getMass() + " time form bundle: " + getIntent().getExtras().getString("date"));
+        Log.d("calco", "Mass: " + dialog.getMass() + " time form bundle: " + getIntent().getExtras().getString("date"));
 
         model.addFoodToHistory(dialog.getIndex(), dialog.getMass(), dialog.getProduct(), getIntent().getExtras().getString("date"));
     }
@@ -137,14 +138,14 @@ public class AddFoodActivity extends AppCompatActivity implements MassInputDialo
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        System.out.println("onQueryTextSubmit: " + query);
+        Log.d("calco", "onQueryTextSubmit: " + query);
         searchModel.searchFood(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        System.out.println("onQueryTextChange: " + newText);
+        Log.d("calco", "onQueryTextChange: " + newText);
         searchModel.searchFood(newText);
         return false;
     }

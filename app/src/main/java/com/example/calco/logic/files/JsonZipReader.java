@@ -4,6 +4,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PDish;
@@ -15,6 +16,7 @@ import com.example.calco.logic.persistent.entities.ProductsInDishes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +42,9 @@ public class JsonZipReader {
                 ZipEntry entry = entries.nextElement();
                 String nameWithoutExtension = entry.getName().replace(".json", "");
                 if (nameWithoutExtension.equals(JsonFileName.getName(clazz))) {
-                    return new Gson().fromJson(new String(zipFile.getInputStream(entry).readAllBytes(), StandardCharsets.UTF_8), listClass);
+                    InputStream inputStream = zipFile.getInputStream(entry);
+                    byte[] bytes = toByteArray(inputStream);
+                    return new Gson().fromJson(new String(bytes, StandardCharsets.UTF_8), listClass);
                 }
             }
         } catch (Exception e) {
@@ -48,6 +52,19 @@ public class JsonZipReader {
         }
 
         return Collections.emptyList();
+    }
+
+    private static byte[] toByteArray(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[16384]; // Adjust if necessary
+
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+
+        buffer.flush();
+        return buffer.toByteArray();
     }
 
     public static void addHistory(Context context, Uri zipUri) {
@@ -66,7 +83,7 @@ public class JsonZipReader {
             addHistoryOfDishes(zipFile, dishesIds);
             addLimits(zipFile);
             addProductsInDishes(zipFile, productIds, dishesIds);
-            System.out.println("History imported");
+            Log.d("calco", "History imported");
         });
     }
 

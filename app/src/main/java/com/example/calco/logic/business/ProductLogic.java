@@ -1,5 +1,7 @@
 package com.example.calco.logic.business;
 
+import android.util.Log;
+
 import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
@@ -23,7 +25,7 @@ public class ProductLogic {
         PProduct pProduct = getPProduct(product);
         AppDataBase db = AppDataBase.getInstance();
         long uid = db.productDao().insertAll(pProduct).get(0);
-        System.out.println("Product persisted: " + product.getName());
+        Log.d("calco", "Product persisted: " + product.getName());
         return uid;
     }
 

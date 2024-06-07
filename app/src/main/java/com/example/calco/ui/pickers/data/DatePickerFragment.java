@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -61,7 +62,7 @@ public class DatePickerFragment extends DialogFragment
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        System.out.println("Date set: " + year + "/" + month + "/" + dayOfMonth);
+        Log.d("calco", "Date set: " + year + "/" + month + "/" + dayOfMonth);
         listener.onDialogPositiveClick(DatePickerFragment.this, year, month+1, dayOfMonth, dateType);
     }
 

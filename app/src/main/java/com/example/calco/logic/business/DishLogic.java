@@ -1,5 +1,7 @@
 package com.example.calco.logic.business;
 
+import android.util.Log;
+
 import com.example.calco.logic.business.entities.Dish;
 import com.example.calco.logic.business.entities.DishComponent;
 import com.example.calco.logic.business.entities.Food;
@@ -48,7 +50,7 @@ public class DishLogic {
         PDish pDish = createPDish(name);
         AppDataBase db = AppDataBase.getInstance();
         Long id = db.dishDao().insertAll(pDish).get(0);
-        System.out.println("Dish persisted: " + name + " id: "+ id);
+        Log.d("calco", "Dish persisted: " + name + " id: "+ id);
         return id;
     }
 

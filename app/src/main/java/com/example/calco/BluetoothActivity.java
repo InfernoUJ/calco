@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -76,13 +77,13 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                System.out.println("Bluetooth device found: " + device.getName() + " " + device.getAddress());
+                Log.d("calco", "Bluetooth device found: " + device.getName() + " " + device.getAddress());
                 bluetoothVM.addDevice(device);
             }
 
             if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                System.out.println("Discovery finished");
+                Log.d("calco", "Discovery finished");
                 bluetoothVM.removeDevice(device);
             }
         }
@@ -118,54 +119,54 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void askForPermission() {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Bluetooth is not granted");
+                Log.d("calco", "Bluetooth is not granted");
                 requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH}, REQUEST_BLUETOOTH_BT);
             }
             else {
                 btBt = true;
             }
-            System.out.println("Bluetooth is granted");
+            Log.d("calco", "Bluetooth is granted");
 
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Bluetooth admin is not granted");
+                Log.d("calco", "Bluetooth admin is not granted");
                 requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_ADMIN}, REQUEST_ADMIN_BT);
             }
             else {
                 btAdmin = true;
             }
-            System.out.println("Bluetooth admin is granted");
+            Log.d("calco", "Bluetooth admin is granted");
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Bluetooth connect is not granted");
+                Log.d("calco", "Bluetooth connect is not granted");
                 requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_CONNECT_BT);
             }
             else{
                 btConn = true;
             }
-            System.out.println("Bluetooth connect is granted");
+            Log.d("calco", "Bluetooth connect is granted");
 
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Bluetooth scan is not granted");
+                Log.d("calco", "Bluetooth scan is not granted");
                 requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_SCAN}, REQUEST_SCAN_BT);
             }
             else {
                 btScan = true;
             }
-            System.out.println("Bluetooth scan is granted");
+            Log.d("calco", "Bluetooth scan is granted");
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Bluetooth advertise is not granted");
+                Log.d("calco", "Bluetooth advertise is not granted");
                 requestPermissions(new String[]{android.Manifest.permission.BLUETOOTH_ADVERTISE}, REQUEST_ADV_BT);
             }
             else {
                 btAdv = true;
             }
-            System.out.println("Bluetooth advertise is granted");
+            Log.d("calco", "Bluetooth advertise is granted");
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("Fine location is not granted");
+            Log.d("calco", "Fine location is not granted");
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOC);
         }
         else {
@@ -173,7 +174,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("Coarse location is not granted");
+            Log.d("calco", "Coarse location is not granted");
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_COARSE_LOC);
         }
         else {
@@ -181,7 +182,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         }
 
         if (!bluetoothAdapter.isEnabled()) {
-            System.out.println("Bluetooth is not enabled");
+            Log.d("calco", "Bluetooth is not enabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
@@ -191,16 +192,16 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
 
         setBtOk();
 
-        System.out.println("SDK ver: "+Build.VERSION.SDK_INT);
-        System.out.println("Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+        Log.d("calco", "SDK ver: "+Build.VERSION.SDK_INT);
+        Log.d("calco", "Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                 + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                 ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
-        System.out.println("Bluetooth is ok? " + btOk);
+        Log.d("calco", "Bluetooth is ok? " + btOk);
     }
 
     private void askForLocation() {
         if(!isLocationEnabled()) {
-            System.out.println("Location is disabled");
+            Log.d("calco", "Location is disabled");
             Toast.makeText(getApplicationContext(), "Location is disabled", Toast.LENGTH_LONG).show();
             Intent enableLocIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(enableLocIntent, REQUEST_LOCATION);
@@ -225,17 +226,17 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 btEnabled = true;
                 setBtOk();
             }
-            System.out.println("Bluetooth enable granted: " + btEnabled);
+            Log.d("calco", "Bluetooth enable granted: " + btEnabled);
         }
 
         if (requestCode == REQUEST_LOCATION) {
             if (isLocationEnabled()) {
-                System.out.println("Location is enabled");
+                Log.d("calco", "Location is enabled");
                 locationEnabled = true;
                 setBtOk();
             }
             else {
-                System.out.println("Location is still disabled");
+                Log.d("calco", "Location is still disabled");
                 locationEnabled = false;
                 setBtOk();
             }
@@ -250,35 +251,35 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 btScan = true;
                 setBtOk();
             }
-            System.out.println("Bluetooth scan granted: " + btScan);
+            Log.d("calco", "Bluetooth scan granted: " + btScan);
         }
         if (requestCode == REQUEST_CONNECT_BT) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 btConn = true;
                 setBtOk();
             }
-            System.out.println("Bluetooth connect granted: " + btConn);
+            Log.d("calco", "Bluetooth connect granted: " + btConn);
         }
         if (requestCode == REQUEST_ADV_BT) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 btAdv = true;
                 setBtOk();
             }
-            System.out.println("Bluetooth advertise granted: " + btAdv);
+            Log.d("calco", "Bluetooth advertise granted: " + btAdv);
         }
         if (requestCode == REQUEST_FINE_LOC) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 fineLoc = true;
                 setBtOk();
             }
-            System.out.println("Fine location granted: " + fineLoc);
+            Log.d("calco", "Fine location granted: " + fineLoc);
         }
         if (requestCode == REQUEST_COARSE_LOC) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 coarseLoc = true;
                 setBtOk();
             }
-            System.out.println("Coarse location granted: " + coarseLoc);
+            Log.d("calco", "Coarse location granted: " + coarseLoc);
         }
     }
 
@@ -294,14 +295,14 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         askForPermission();
         askForLocation();
         setBtOk();
-        System.out.println("SDK ver: "+Build.VERSION.SDK_INT);
-        System.out.println("[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+        Log.d("calco", "SDK ver: "+Build.VERSION.SDK_INT);
+        Log.d("calco", "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                 + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                 ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
         Toast.makeText(getApplicationContext(), "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                         + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                         ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")", Toast.LENGTH_LONG).show();
-        System.out.println("[UPD] Bluetooth is ok? " + btOk);
+        Log.d("calco", "[UPD] Bluetooth is ok? " + btOk);
         return btOk;
     }
 
@@ -320,9 +321,9 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
 
             button.setOnClickListener(v -> {
                 if (updateBtOk()) {
-                    System.out.println("state: " + bluetoothAdapter.getState());
+                    Log.d("calco", "state: " + bluetoothAdapter.getState());
                     boolean res = bluetoothAdapter.startDiscovery();
-                    System.out.println("Discovery started: " + res);
+                    Log.d("calco", "Discovery started: " + res);
                 }
                 else {
                     Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
@@ -335,7 +336,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             button.setOnClickListener(v -> {
                 if (updateBtOk()) {
                     boolean res = bluetoothAdapter.cancelDiscovery();
-                    System.out.println("Discovery finished: " + res);
+                    Log.d("calco", "Discovery finished: " + res);
                 }
                 else {
                     Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
@@ -426,7 +427,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 e.printStackTrace();
             }
             serverSocket = tmp;
-            System.out.println("Server thread created");
+            Log.d("calco", "Server thread created");
 //            Toast.makeText(getApplicationContext(), "Server thread created", Toast.LENGTH_LONG).show();
         }
 
@@ -443,7 +444,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
 
                 if (socket != null) {
                     // todo
-                    System.out.println("Server thread connected");
+                    Log.d("calco", "Server thread connected");
 //                    Toast.makeText(getApplicationContext(), "Server thread connected", Toast.LENGTH_LONG).show();
                     try {
                         serverSocket.close();
@@ -471,7 +472,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 e.printStackTrace();
             }
             socket = tmp;
-            System.out.println("Client thread created");
+            Log.d("calco", "Client thread created");
 //            Toast.makeText(getApplicationContext(), "Client thread created", Toast.LENGTH_LONG).show();
         }
 
@@ -487,7 +488,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                     e1.printStackTrace();
                 }
             }
-            System.out.println("Client thread connected");
+            Log.d("calco", "Client thread connected");
 //            Toast.makeText(getApplicationContext(), "Client thread connected", Toast.LENGTH_LONG).show();
             return socket;
         }
@@ -504,7 +505,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         public void run() {
             try {
                 OutputStream os = socket.getOutputStream();
-                System.out.println("Server thread working");
+                Log.d("calco", "Server thread working");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -522,7 +523,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         public void run() {
             try {
                 InputStream is = socket.getInputStream();
-                System.out.println("Client thread working");
+                Log.d("calco", "Client thread working");
             } catch (Exception e) {
                 e.printStackTrace();
             }

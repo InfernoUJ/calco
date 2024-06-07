@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
@@ -29,7 +30,7 @@ public class ReminderManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), intent), intent);
-                System.out.println("Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
+                Log.d("calco", "Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.calco.viewmodel.activity.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class HistoryFoodAdapter extends RecyclerView.Adapter<HistoryFoodAdapter.
     }
 
     public void replaceFoodList(List<FoodWithCCFPData> foodList) {
-        System.out.println("Replacing recent food " + foodList);
+        Log.d("calco", "Replacing recent food " + foodList);
         this.foodList.clear();
         this.foodList.addAll(foodList);
         notifyDataSetChanged();

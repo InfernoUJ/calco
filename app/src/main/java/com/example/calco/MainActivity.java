@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,15 +91,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setStartDateToField(LocalDate.now());
 
 //        String path = JsonZipCreator.createZip(getApplicationContext(), JsonFilesCreator.createJsonFiles());
-//        System.out.println("Path: "+path);
+//        Log.d("calco", "Path: "+path);
 //        List<PProduct> products = JsonZipReader.deserialize(PProduct.class,  path);
-//        System.out.println("Products: "+products);
+//        Log.d("calco", "Products: "+products);
 //        for(PProduct product : products) {
-//            System.out.println("Product: "+product.uid);
+//            Log.d("calco", "Product: "+product.uid);
 //        }
-//        System.out.println("===");
+//        Log.d("calco", "===");
 //        for(PProduct product : AppDataBase.getInstance().productDao().getAll()) {
-//            System.out.println("Product: "+product.uid);
+//            Log.d("calco", "Product: "+product.uid);
 //        }
     }
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println("Item selected: "+ item);
+        Log.d("calco", "Item selected: "+ item);
         Intent intent = new Intent(this, DataActivity.class);
         startActivity(intent);
         return true;
@@ -292,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public void onSetLimitsDialogPositiveClick(DialogFragment dialog, LimitType type, String calories, String carbs, String fats, String proteins) {
-        System.out.println("Calories: " + calories + " Carbs: " + carbs + " Fats: " + fats + " Proteins: " + proteins);
+        Log.d("calco", "Calories: " + calories + " Carbs: " + carbs + " Fats: " + fats + " Proteins: " + proteins);
         limitsModel.setLimit(type, calories, carbs, fats, proteins);
         updatePieCharts();
     }

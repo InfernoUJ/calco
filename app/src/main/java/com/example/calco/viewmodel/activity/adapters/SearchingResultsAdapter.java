@@ -1,5 +1,6 @@
 package com.example.calco.viewmodel.activity.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class SearchingResultsAdapter extends RecyclerView.Adapter<SearchingResul
     }
 
     public void replaceProducts(List<WebProduct> newProducts) {
-        System.out.println("Replacing products " + newProducts);
+        Log.d("calco", "Replacing products " + newProducts);
         products.clear();
         products.addAll(newProducts);
         notifyDataSetChanged();

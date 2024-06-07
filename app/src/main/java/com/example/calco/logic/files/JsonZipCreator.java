@@ -5,8 +5,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 
@@ -26,13 +28,15 @@ public class JsonZipCreator {
     private static final String NAME = "calco_history_";
     private static final String JSON_EXTENSION = ".json";
     private static final String ZIP_EXTENSION = ".zip";
-    public static String createZip(Context context, JsonFile... jsonFiles) {
+    public static Uri createZip(Context context, JsonFile... jsonFiles) {
+        Toast.makeText(context, "Creating zip file 0", Toast.LENGTH_SHORT).show();
         Uri zipUri = createZipFileUri(context);
-        System.out.println("ZipUri: "+zipUri+" "+zipUri.getPath());
+        Toast.makeText(context, "Creating zip file 10" + zipUri, Toast.LENGTH_SHORT).show();
+//        Log.d("calco", "ZipUri: "+zipUri+" "+zipUri.getPath());
 
         fillZip(zipUri, context, jsonFiles);
 
-        return getRealPathFromURI(context, zipUri);
+        return zipUri;
     }
 
     private static String getZipName() {
@@ -40,13 +44,25 @@ public class JsonZipCreator {
     }
 
     private static Uri createZipFileUri(Context context) {
+        Toast.makeText(context, "Creating zip file1", Toast.LENGTH_SHORT).show();
         ContentResolver resolver = context.getContentResolver();
+        Toast.makeText(context, "Creating zip file2", Toast.LENGTH_SHORT).show();
         ContentValues contentValues = new ContentValues();
+        Toast.makeText(context, "Creating zip file3", Toast.LENGTH_SHORT).show();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, getZipName());
+        Toast.makeText(context, "Creating zip file4", Toast.LENGTH_SHORT).show();
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/zip");
-        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
 
-        return resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+        Toast.makeText(context, "Creating zip file", Toast.LENGTH_LONG).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+            return resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+        }
+        Toast.makeText(context, "Android version is too old", Toast.LENGTH_LONG).show();
+        File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File file = new File(downloadsDirectory, getZipName());
+        contentValues.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
+        return resolver.insert(MediaStore.Files.getContentUri("external"), contentValues);
     }
 
     private static void fillZip(Uri zipUri, Context context, JsonFile... jsonFiles) {

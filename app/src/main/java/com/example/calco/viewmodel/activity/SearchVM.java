@@ -1,5 +1,6 @@
 package com.example.calco.viewmodel.activity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.ViewModel;
@@ -31,13 +32,13 @@ public class SearchVM extends ViewModel {
                 adapter.replaceProducts(response.body().getProducts());
             }
             else {
-                System.out.println("Error: " + response.errorBody());
+                Log.d("calco", "Error: " + response.errorBody());
             }
         }
 
         @Override
         public void onFailure(Call<WebDishes> call, Throwable throwable) {
-            System.out.println("Error: " + throwable.getMessage());
+            Log.d("calco", "Error: " + throwable.getMessage());
         }
     }
 

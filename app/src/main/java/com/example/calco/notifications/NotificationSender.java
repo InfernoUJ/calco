@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -39,12 +40,12 @@ public class NotificationSender extends BroadcastReceiver {
         ReminderManager.makeNewReminder(context, LocalDateTime.now().getHour());
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("No permission");
+            Log.d("calco", "No permission");
             return;
         }
 
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notificationBuilder.build());
-        System.out.println("Notification sent");
+        Log.d("calco", "Notification sent");
     }
 
     protected PendingIntent createNotificationIntent(Context context) {
