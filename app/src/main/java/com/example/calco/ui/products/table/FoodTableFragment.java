@@ -1,17 +1,11 @@
 package com.example.calco.ui.products.table;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -20,14 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calco.R;
-import com.example.calco.TakingPictureActivity;
 import com.example.calco.databinding.FragmentFoodTableBinding;
 import com.example.calco.ui.dialogs.WayToChooseImageDialog;
 import com.example.calco.viewmodel.activity.FoodTableVM;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 public class FoodTableFragment extends Fragment {
     private FragmentFoodTableBinding binding;

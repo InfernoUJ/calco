@@ -1,7 +1,5 @@
 package com.example.calco.logic.business;
 
-import android.util.Log;
-
 import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
@@ -10,7 +8,6 @@ import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
 import com.example.calco.logic.persistent.entities.ProductImages;
-import com.example.calco.network.entities.WebProduct;
 
 import java.time.LocalDate;
 import java.util.List;

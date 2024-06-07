@@ -1,10 +1,7 @@
 package com.example.calco.logic.business;
 
-import com.example.calco.logic.business.entities.Food;
 import com.example.calco.logic.business.entities.FoodComponent;
-import com.example.calco.logic.business.entities.HistoryOfDishes;
 import com.example.calco.logic.business.entities.HistoryOfFood;
-import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Limit;
 import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.business.entities.LimitsLogic;
@@ -12,10 +9,8 @@ import com.example.calco.ui.charts.pie.PieChartsPercents;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 

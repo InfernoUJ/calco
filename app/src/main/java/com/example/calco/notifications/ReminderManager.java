@@ -1,17 +1,10 @@
 package com.example.calco.notifications;
 
-import static androidx.core.app.ActivityCompat.requestPermissions;
-
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.List;

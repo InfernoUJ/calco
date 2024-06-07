@@ -2,8 +2,6 @@ package com.example.calco.viewmodel.activity;
 
 import android.content.res.Resources;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.logic.business.DishLogic;

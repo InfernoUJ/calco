@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;

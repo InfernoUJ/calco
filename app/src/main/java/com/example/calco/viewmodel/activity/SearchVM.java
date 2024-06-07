@@ -1,6 +1,5 @@
 package com.example.calco.viewmodel.activity;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.ViewModel;

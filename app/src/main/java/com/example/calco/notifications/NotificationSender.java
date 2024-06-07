@@ -1,13 +1,11 @@
 package com.example.calco.notifications;
 
 import android.Manifest;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -16,7 +14,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.calco.MainActivity;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 public class NotificationSender extends BroadcastReceiver {
     public static final String CHANNEL_ID = "10001";

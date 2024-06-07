@@ -3,8 +3,6 @@ package com.example.calco.viewmodel.activity;
 import android.content.res.Resources;
 import android.view.View;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.logic.business.DishLogic;
@@ -14,7 +12,6 @@ import com.example.calco.logic.business.ProductLogic;
 import com.example.calco.ui.products.table.FoodImpactRecordData;
 import com.example.calco.logic.business.entities.FoodComponent;
 import com.example.calco.viewmodel.activity.adapters.FoodForPeriodAdapter;
-import com.example.calco.viewmodel.activity.adapters.HistoryFoodAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

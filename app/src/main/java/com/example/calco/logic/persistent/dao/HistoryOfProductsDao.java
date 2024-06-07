@@ -1,7 +1,6 @@
 package com.example.calco.logic.persistent.dao;
 
 import androidx.room.Dao;
-import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.calco.logic.persistent.entities.PHistoryOfProducts;

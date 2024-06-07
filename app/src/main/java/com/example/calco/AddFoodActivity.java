@@ -2,12 +2,8 @@ package com.example.calco;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +20,6 @@ import com.example.calco.network.entities.WebProduct;
 import com.example.calco.ui.dialogs.MassInputDialog;
 import com.example.calco.viewmodel.activity.AddFoodVM;
 import com.example.calco.viewmodel.activity.SearchVM;
-import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
-
-import java.util.List;
 
 public class AddFoodActivity extends AppCompatActivity implements MassInputDialog.MassInputDialogListener,
         SearchView.OnQueryTextListener {

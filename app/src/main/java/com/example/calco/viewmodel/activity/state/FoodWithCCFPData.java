@@ -1,7 +1,5 @@
 package com.example.calco.viewmodel.activity.state;
 
-import android.graphics.Bitmap;
-
 import com.example.calco.logic.business.entities.Food;
 
 public abstract class FoodWithCCFPData extends ImageTwoTypesImpl {

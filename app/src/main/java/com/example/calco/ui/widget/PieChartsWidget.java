@@ -7,22 +7,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
 import com.example.calco.R;
-import com.example.calco.ui.charts.pie.PieChartsPercents;
-import com.example.calco.ui.products.table.FoodImpactRecordData;
 
-import java.net.Inet4Address;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;

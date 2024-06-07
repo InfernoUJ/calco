@@ -1,8 +1,5 @@
 package com.example.calco.viewmodel.activity;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.logic.business.ImageLogic;

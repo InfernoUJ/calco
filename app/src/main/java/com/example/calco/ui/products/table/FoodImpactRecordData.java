@@ -1,7 +1,5 @@
 package com.example.calco.ui.products.table;
 
-import android.graphics.Bitmap;
-
 import com.example.calco.logic.business.entities.Food;
 import com.example.calco.viewmodel.activity.state.ImageTwoTypesImpl;
 

@@ -7,11 +7,9 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.Nullable;
 
 import com.example.calco.logic.business.ImageLogic;
-import com.example.calco.logic.business.entities.Food;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Objects;
 
 public abstract class ImageTwoTypesImpl implements ImageTwoTypes{
     protected Integer defaultImageId;

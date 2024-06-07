@@ -1,7 +1,5 @@
 package com.example.calco.logic.business.entities;
 
-import androidx.annotation.Nullable;
-
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PLimit;
 

@@ -5,7 +5,6 @@ import com.example.calco.logic.business.entities.Limit;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class PieChartsPercents implements Serializable {
     private static final int MAX_PERCENTAGE = 100;

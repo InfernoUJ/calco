@@ -4,7 +4,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.calco.logic.persistent.databases.AppDataBase;
 import com.example.calco.logic.persistent.entities.PDish;

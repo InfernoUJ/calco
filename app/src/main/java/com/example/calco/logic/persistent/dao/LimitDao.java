@@ -4,9 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.calco.logic.business.entities.LimitType;
 import com.example.calco.logic.persistent.entities.PLimit;
-import com.example.calco.logic.persistent.entities.PProduct;
 
 import java.util.List;
 

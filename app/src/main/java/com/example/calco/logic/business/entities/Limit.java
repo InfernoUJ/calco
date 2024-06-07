@@ -1,8 +1,5 @@
 package com.example.calco.logic.business.entities;
 
-import androidx.room.ColumnInfo;
-import androidx.room.PrimaryKey;
-
 public class Limit {
     private static final int DEFAULT_CALORIES_PER_DAY = 2000_000;
     private static final int DEFAULT_CARBS_PER_DAY = 250_000;

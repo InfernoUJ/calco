@@ -1,12 +1,9 @@
 package com.example.calco.logic.business;
 
-import android.util.Log;
-
 import com.example.calco.logic.business.entities.Dish;
 import com.example.calco.logic.business.entities.DishComponent;
 import com.example.calco.logic.business.entities.Food;
 import com.example.calco.logic.business.entities.HistoryOfDishes;
-import com.example.calco.logic.business.entities.HistoryOfProducts;
 import com.example.calco.logic.business.entities.Product;
 import com.example.calco.logic.persistent.converters.DateTimeConverter;
 import com.example.calco.logic.persistent.dao.PDishComponent;
@@ -15,9 +12,7 @@ import com.example.calco.logic.persistent.entities.DishImages;
 import com.example.calco.logic.persistent.entities.Image;
 import com.example.calco.logic.persistent.entities.PHistoryOfDishes;
 import com.example.calco.logic.persistent.entities.PDish;
-import com.example.calco.logic.persistent.entities.PHistoryOfProducts;
 import com.example.calco.logic.persistent.entities.PProduct;
-import com.example.calco.logic.persistent.entities.ProductImages;
 import com.example.calco.logic.persistent.entities.ProductsInDishes;
 import com.example.calco.logic.utils.PercentConvertor;
 

@@ -3,7 +3,6 @@ package com.example.calco.viewmodel.activity;
 import android.content.res.Resources;
 import android.view.View;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.calco.MainActivity;

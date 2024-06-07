@@ -2,7 +2,6 @@ package com.example.calco.viewmodel.activity.adapters;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calco.R;
 import com.example.calco.viewmodel.activity.state.FoodWithCCFPData;
-import com.google.android.material.internal.TextWatcherAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class CreateDishTableAdapter extends RecyclerView.Adapter<CreateDishTableAdapter.CreateDishTableHolder> {
