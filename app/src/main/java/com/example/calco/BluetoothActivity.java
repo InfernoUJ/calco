@@ -406,7 +406,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                     e.printStackTrace();
                     return;
                 }
-//                serverConnectThread.cancel();
+                serverConnectThread.cancel();
 
                 ServerWorkingThread serverWorkingThread = new ServerWorkingThread(establishedSocket);
                 try {
@@ -534,7 +534,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
-                    socket.close();
+                    socket.connect();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
