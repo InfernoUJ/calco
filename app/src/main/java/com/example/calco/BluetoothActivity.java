@@ -200,12 +200,12 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void askForLocation() {
         if(!isLocationEnabled()) {
             System.out.println( "Location is disabled");
-            Toast.makeText(getApplicationContext(), "Location is disabled", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Location is disabled", Toast.LENGTH_LONG).show();
             Intent enableLocIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(enableLocIntent, REQUEST_LOCATION);
         }
         else {
-            Toast.makeText(getApplicationContext(), "Location is enabled", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Location is enabled", Toast.LENGTH_LONG).show();
             locationEnabled = true;
         }
         setBtOk();
@@ -303,9 +303,10 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         System.out.println( "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                 + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                 ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")");
-        Toast.makeText(getApplicationContext(), "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
+        /*Toast.makeText(getApplicationContext(), "[UPD] Bluetooth is enabled? (" + btEnabled + ") scan? (" + btScan + ") connect? (" + btConn + ") advertise? (" + btAdv
                         + ") fine location? (" + fineLoc + ") coarse location? (" + coarseLoc + ") location? (" + locationEnabled +
                         ") bluetooth? (" + btBt + ") admin? (" + btAdmin + ")", Toast.LENGTH_LONG).show();
+         */
         System.out.println( "[UPD] Bluetooth is ok? " + btOk);
         return btOk;
     }
@@ -332,7 +333,7 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         Button button = findViewById(R.id.startDiscoveryBtn);
 
         button.setOnClickListener(v -> {
-            Toast.makeText(this, "Start discovery", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Start discovery", Toast.LENGTH_SHORT).show();
             if (updateBtOk()) {
                 System.out.println( "state: " + bluetoothAdapter.getState());
                 boolean res = bluetoothAdapter.startDiscovery();
@@ -386,7 +387,8 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     // I want to export to another device - i am a server
     @Override
     public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
-        Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
+        System.out.println("Server");
         bluetoothAdapter.cancelDiscovery();
 
         ExecutorService mExecutor = Executors.newFixedThreadPool(1);
@@ -423,7 +425,8 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     // I want to import from another device - i am a client
     @Override
     public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
-        Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
+        System.out.println("Client");
         bluetoothAdapter.cancelDiscovery();
 
         ExecutorService mExecutor = Executors.newFixedThreadPool(1);

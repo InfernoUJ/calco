@@ -51,7 +51,7 @@ public class TakingPictureActivity extends AppCompatActivity {
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Image saving went wrong", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Image saving went wrong", Toast.LENGTH_SHORT).show();
         } finally {
             try {
                 fos.close();
