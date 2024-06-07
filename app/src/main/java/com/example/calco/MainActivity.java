@@ -1,6 +1,7 @@
 package com.example.calco;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -141,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         setPieChartsHandler();
         setCaloriesLimitHandler();
         setRadioButtonsFilters();
-        setNotificationChannels();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setNotificationChannels();
+        }
     }
 
     private void askForPermissions() {
@@ -176,8 +180,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     public void askAlarmPermission() {
-        if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, REQUEST_ALARM);
+        AlarmManager manager = getSystemService(AlarmManager.class);
+        if (!manager.canScheduleExactAlarms()) {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+            startActivity(intent);
         }
     }
 
@@ -185,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_ALARM) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) == android.content.pm.PackageManager.PERMISSION_GRANTED ) {
                 System.out.println( "Alarm permission granted");
             }
             else {

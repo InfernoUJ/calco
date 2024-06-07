@@ -101,7 +101,7 @@ public class DataActivity extends AppCompatActivity {
     private void setExportButtonHandler() {
         Button exportButton = findViewById(R.id.exportDataBtn);
         exportButton.setOnClickListener(v -> {
-            if (getPermission()) {
+            if (updatePermission()) {
                 Toast.makeText(getApplicationContext(), "Btn clicked", Toast.LENGTH_LONG).show();
                 boolean result = storeHistory();
                 if (result) {
@@ -119,7 +119,7 @@ public class DataActivity extends AppCompatActivity {
     private void setImportButtonHandler() {
         Button importButton = findViewById(R.id.importDataBtn);
         importButton.setOnClickListener(v -> {
-            if (!getPermission()) {
+            if (!updatePermission()) {
                 Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -132,7 +132,7 @@ public class DataActivity extends AppCompatActivity {
     private void setBTButtonHandler() {
         Button importButton = findViewById(R.id.btTransfer);
         importButton.setOnClickListener(v -> {
-            if (!getPermission()) {
+            if (!updatePermission()) {
                 Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_LONG).show();
                 return;
             }

@@ -313,6 +313,14 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void setUp() {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(bluetoothDeviceSearcher, filter);
+
+        enableDiscoverability();
+    }
+
+    private void enableDiscoverability() {
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        startActivity(discoverableIntent);
     }
 
     private void setHandlers() {
