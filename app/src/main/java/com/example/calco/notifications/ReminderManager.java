@@ -21,6 +21,7 @@ public class ReminderManager {
     private static final Integer minutes = 0;
     private static final int reminderId = 1;
     public static void makeNewReminder(Context context, int previousHour) {
+        System.out.println( "Making new reminder");
         int nextHour = findNextHour(previousHour);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -31,6 +32,9 @@ public class ReminderManager {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), intent), intent);
                 System.out.println( "Alarm set for " + calendar.get(Calendar.DAY_OF_MONTH) + "; "+ nextHour + ":00");
+            }
+            else {
+                System.out.println( "Can't set exact alarm");
             }
         }
     }

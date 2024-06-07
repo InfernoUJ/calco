@@ -23,8 +23,10 @@ public class BluetoothVM extends ViewModel {
     private Set<BluetoothDevice> devices = new HashSet<>();
     private final BluetoothDevicesAdapter adapter = new BluetoothDevicesAdapter();
     public void addDevice(BluetoothDevice device) {
-        devices.add(device);
-        adapter.replaceDeviceList(devices);
+        if (device.getName() != null) {
+            devices.add(device);
+            adapter.replaceDeviceList(devices);
+        }
     }
     public void removeDevice(BluetoothDevice device) {
         devices.remove(device);

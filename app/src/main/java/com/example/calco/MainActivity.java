@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +57,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.DatePickerListener,
         SetLimitsDialog.SetLimitsDialogListener, WayToChooseImageDialog.WayToChooseImageDialogListener {
     public static final String dateFormat = "yyyy-MM-dd";
+    public static final int REQUEST_ALARM = 7;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -175,7 +177,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     @RequiresApi(api = Build.VERSION_CODES.S)
     public void askAlarmPermission() {
         if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 1);
+            requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, REQUEST_ALARM);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_ALARM) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                System.out.println( "Alarm permission granted");
+            }
+            else {
+                System.out.println( "Alarm permission not granted");
+            }
         }
     }
     private void setNotificationChannels() {

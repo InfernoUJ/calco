@@ -40,6 +40,7 @@ import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -108,12 +109,9 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
         askForPermission();
         askForLocation();
 
-
-        if (btOk) {
-            setUp();
-            setHandlers();
-            addAlreadyPairedDevices();
-        }
+        setHandlers();
+        setUp();
+        addAlreadyPairedDevices();
     }
 
     private void askForPermission() {
@@ -286,9 +284,15 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private boolean setBtOk() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             btOk = btEnabled && btScan && btConn && btAdv && fineLoc && coarseLoc && locationEnabled;
+            if (btOk) {
+                addAlreadyPairedDevices();
+            }
             return btOk;
         }
         btOk = btEnabled && btBt && btAdmin && fineLoc && coarseLoc && locationEnabled;
+        if (btOk) {
+            addAlreadyPairedDevices();
+        }
         return btOk;
     }
     private boolean updateBtOk() {
@@ -319,29 +323,30 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     private void setDiscoveryStartHandler() {
         Button button = findViewById(R.id.startDiscoveryBtn);
 
-            button.setOnClickListener(v -> {
-                if (updateBtOk()) {
-                    System.out.println( "state: " + bluetoothAdapter.getState());
-                    boolean res = bluetoothAdapter.startDiscovery();
-                    System.out.println( "Discovery started: " + res);
-                }
-                else {
-                    Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
-                }
-            });
+        button.setOnClickListener(v -> {
+            Toast.makeText(this, "Start discovery", Toast.LENGTH_SHORT).show();
+            if (updateBtOk()) {
+                System.out.println( "state: " + bluetoothAdapter.getState());
+                boolean res = bluetoothAdapter.startDiscovery();
+                System.out.println( "Discovery started: " + res);
+            }
+            else {
+                Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setDiscoveryFinishHandler() {
         Button button = findViewById(R.id.finishDiscoveryBtn);
-            button.setOnClickListener(v -> {
-                if (updateBtOk()) {
-                    boolean res = bluetoothAdapter.cancelDiscovery();
-                    System.out.println( "Discovery finished: " + res);
-                }
-                else {
-                    Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
-                }
-            });
+        button.setOnClickListener(v -> {
+            if (updateBtOk()) {
+                boolean res = bluetoothAdapter.cancelDiscovery();
+                System.out.println( "Discovery finished: " + res);
+            }
+            else {
+                Toast.makeText(this, "Please allow all services", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -375,22 +380,36 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     public void onDialogPositiveClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Server", Toast.LENGTH_SHORT).show();
         bluetoothAdapter.cancelDiscovery();
-        ServerConnectThread serverConnectThread = new ServerConnectThread();
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        BluetoothSocket establishedSocket = null;
-        try {
-            establishedSocket = executor.submit(serverConnectThread).get();
-        } catch (Exception e) {
-            executor.shutdown();
-            e.printStackTrace();
-            return;
-        }
+        ExecutorService mExecutor = Executors.newFixedThreadPool(1);
+        mExecutor.submit(new Runnable() {
+            @Override
+            public void run() {
+                ServerConnectThread serverConnectThread = new ServerConnectThread();
 
-        ServerWorkingThread serverWorkingThread = new ServerWorkingThread(establishedSocket);
-        executor.submit(serverWorkingThread);
-        executor.shutdown();
+                ExecutorService executor = Executors.newFixedThreadPool(2);
+                BluetoothSocket establishedSocket = null;
+                try {
+                    establishedSocket = executor.submit(serverConnectThread).get();
+                } catch (Exception e) {
+                    executor.shutdown();
+                    e.printStackTrace();
+                    return;
+                }
+//                serverConnectThread.cancel();
 
+                ServerWorkingThread serverWorkingThread = new ServerWorkingThread(establishedSocket);
+                try {
+                    executor.submit(serverWorkingThread).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                serverWorkingThread.cancel();
+                executor.shutdown();
+            }
+        });
+
+        mExecutor.shutdown();
     }
 
     // I want to import from another device - i am a client
@@ -398,22 +417,35 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
     public void onDialogNegativeClick(BluetoothTransferDialog dialog) {
         Toast.makeText(this, "Client", Toast.LENGTH_SHORT).show();
         bluetoothAdapter.cancelDiscovery();
-        ClientConnectThread clientConnectThread = new ClientConnectThread(dialog.getDevice());
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        BluetoothSocket establishedSocket = null;
-        try {
-            establishedSocket = executor.submit(clientConnectThread).get();
-        } catch (Exception e) {
-            executor.shutdown();
-            e.printStackTrace();
-            return;
-        }
+        ExecutorService mExecutor = Executors.newFixedThreadPool(1);
+        mExecutor.submit(new Runnable() {
+            @Override
+            public void run() {
+                ClientConnectThread clientConnectThread = new ClientConnectThread(dialog.getDevice());
 
-        ClientWorkingThread clientWorkingThread = new ClientWorkingThread(establishedSocket);
-        executor.submit(clientWorkingThread);
-        executor.shutdown();
+                ExecutorService executor = Executors.newFixedThreadPool(2);
+                BluetoothSocket establishedSocket = null;
+                try {
+                    establishedSocket = executor.submit(clientConnectThread).get();
+                } catch (Exception e) {
+                    executor.shutdown();
+                    e.printStackTrace();
+                    return;
+                }
 
+                ClientWorkingThread clientWorkingThread = new ClientWorkingThread(establishedSocket);
+                try {
+                    executor.submit(clientWorkingThread).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                clientWorkingThread.cancel();
+                executor.shutdown();
+            }
+        });
+
+        mExecutor.shutdown();
     }
 
     class ServerConnectThread implements Callable<BluetoothSocket> {
@@ -456,6 +488,14 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 }
             }
             return null;
+        }
+
+        public void cancel() {
+            try {
+                serverSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -510,6 +550,14 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
                 e.printStackTrace();
             }
         }
+
+        public void cancel() {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     class ClientWorkingThread implements Runnable {
@@ -524,6 +572,15 @@ public class BluetoothActivity extends AppCompatActivity implements BluetoothTra
             try {
                 InputStream is = socket.getInputStream();
                 System.out.println( "Client thread working");
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void cancel() {
+            try {
+                socket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
